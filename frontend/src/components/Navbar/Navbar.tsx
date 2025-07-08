@@ -1,5 +1,5 @@
 // Navbar.tsx
-import { useGlobalProps } from "../GlobalContext";
+import { useGlobalProps } from "../../GlobalContext";
 import { useMediaQuery } from "react-responsive";
 
 import { NavLink } from "react-router-dom";

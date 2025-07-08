@@ -1,5 +1,5 @@
 
-import { useGlobalProps } from "../GlobalContext";
+import { useGlobalProps } from "../../GlobalContext";
 
 const SwichBtn = () => {
   const {isDarkMode, toggleDarkMode} = useGlobalProps()

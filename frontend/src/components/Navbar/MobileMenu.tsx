@@ -1,5 +1,5 @@
 import React from "react";
-import { useGlobalProps } from "../GlobalContext";
+import { useGlobalProps } from "../../GlobalContext";
 import { navLinks } from "../../constants";
 import { NavLink } from "react-router-dom";
 

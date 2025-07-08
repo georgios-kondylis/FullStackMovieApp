@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { GlobalProvider } from "./components/GlobalContext.tsx";
+import { GlobalProvider } from "./GlobalContext.tsx";
 import "./index.css";
 import App from "./App.tsx";
 
