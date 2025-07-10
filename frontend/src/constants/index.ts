@@ -7,3 +7,10 @@ export const navLinks = [
   { title: 'Portfolio', href: '/portfolio' },
   { title: 'Contact', href: '/contact' },
 ]
+// Local fallback images for the hero section Bg
+export const fallbackImages = [
+  '/movieImgs/avengers.jpg',
+  '/movieImgs/spiderman3.jpg',
+  '/movieImgs/redNotice.jpg',
+  '/movieImgs/lotr.jpg',
+];

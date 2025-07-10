@@ -1,11 +1,18 @@
 export type GlobalContextType = {
-  isDarkMode: boolean;
-  toggleDarkMode: () => void;
+  isDarkMode?: boolean;
+  toggleDarkMode?: () => void;
 
-  isMobileMenuOpen: boolean;
-  toggleMobileMenu: () => void;
-  customBG: string
-
+  isMobileMenuOpen?: boolean;
+  toggleMobileMenu?: () => void;
+  query: string;
+  setQuery?: React.Dispatch<React.SetStateAction<string>>;
+  customStyles?: {
+    mainBg: string;
+    mainTxtHover: string;
+    Bg_Txt: string;
+    btnColor: string;
+    btnColor2: string;
+  }
 };
 
 export type Movie = {

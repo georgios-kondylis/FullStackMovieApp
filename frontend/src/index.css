@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { box-sizing: border-box; }
 html, body {
+  margin: 0; padding: 0;
   width: 100%;
   scroll-behavior: smooth;
   overflow-x: hidden;
@@ -9,21 +10,26 @@ html, body {
 
 .MAX_W {@apply max-w-[1480px]}
 .mainPX {@apply px-[20px]}
+.mainMX {@apply mx-[20px]}
 
 .transition1 { @apply transition-all duration-300 ease-in-out;}
 .transition2 { @apply transition-all duration-500 ease-in-out}
+.navIcon {@apply px-[6px] py-[5px] cursor-pointer}
+.txtShadowBlack {text-shadow: 0 0 15px #00000090}
+.navShadowBlack {box-shadow: 0 5px 10px #00000063}
 
 @layer components {
+  section {}
   main {
     @apply w-full overflow-x-hidden;
   }
 
-  nav {
+  /* nav {
     @apply sticky h-[50px] z-50 w-full flex items-center justify-center shadow-[0_2px_4px_#00000030]
     ;
 
     h1 { @apply text-3xl -mb-2;}
     
 
-  }
+  } */
 }

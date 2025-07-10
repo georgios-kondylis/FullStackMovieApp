@@ -1,3 +1,4 @@
+// api.ts
 import type { MovieDetails } from "../constants/types";
 
 export const TMDB_CONFIG = {
@@ -12,19 +13,18 @@ export const TMDB_CONFIG = {
 export const fetchMovies = async ({query} : {query: string}) =>{
   const endpoint = query
       ? `${TMDB_CONFIG.BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
-      : `${TMDB_CONFIG.BASE_URL}/discover/movie?sort_by=popularity.desc`;
+      : `${TMDB_CONFIG.BASE_URL}/discover/movie?sort_by=popularity.desc`; // if there is no query aka search then fetch the popular ones
 
   const response = await fetch(endpoint, {
       method: 'GET',
       headers: TMDB_CONFIG.headers,
   })
-  if (!response.ok) {
-      // @ts-ignore
-      throw new Error('Failed to fetch movies', response.statusText);
-  }
+
   const data = await response.json();
-  return data.results;
+  return data.results; // TMDB returns a full response object, but we only need the 'results' array which contains the movies
 }
+
+
 
 export const fetchMovieDetails = async (movieId: string): Promise<MovieDetails> => {
   try {
@@ -32,7 +32,6 @@ export const fetchMovieDetails = async (movieId: string): Promise<MovieDetails> 
           method: 'GET',
           headers: TMDB_CONFIG.headers,
       })
-      if (!response.ok) throw new Error('Failed to fetch movie details')
       const data = await response.json();
       return data;
   } catch (err) {
@@ -40,3 +39,17 @@ export const fetchMovieDetails = async (movieId: string): Promise<MovieDetails> 
       throw err;
   }
 }
+
+
+
+
+
+
+// fetchMovies deleted
+// if (!response.ok) {
+//     // @ts-ignore
+//     throw new Error('Failed to fetch movies', response.statusText);
+// }
+
+// fetchMovieDetails deleted
+// if (!response.ok) throw new Error('Failed to fetch movie details')
