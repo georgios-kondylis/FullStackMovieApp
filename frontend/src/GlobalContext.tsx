@@ -12,6 +12,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
 
   const [query, setQuery] = useState("");
+  
   // ------------ CUSTOM STYLES ------------
   const customStyles = {
     mainBg: isDarkMode? 'bg-[#17161a]' : 'bg-[#ededed]',
