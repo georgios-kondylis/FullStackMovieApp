@@ -1,10 +1,11 @@
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar/Navbar'
-import { Home, About } from './components/exports'
+import { Home, About, Loader } from './components/exports'
 
 const App = () => {
   return (
     <>
+     <Loader />
       <Navbar />
       <Routes>
         <Route path="/" element={<Home/>} />

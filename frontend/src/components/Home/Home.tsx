@@ -1,63 +1,64 @@
+import { useEffect, useState } from "react";
 import useFetch from "../../services/useFetch";
 import { fetchMovies } from "../../services/api";
-import { useEffect, useState } from "react";
 import type { Movie } from "../../constants/types";
 import { useGlobalProps } from "../../GlobalContext";
-import { HomeMovieInfo, HomeMovieCard } from "../exports";
-import Loader from "../ui/Loader";
+import { HomeMovieInfo, HomeMovieCard, } from "../exports";
 
 const Home = () => {
-  const { data: popularMovies, loading, refetch, } = useFetch(() => fetchMovies({ query }), false);
-  const { query, setQuery, customStyles } = useGlobalProps();
-  const [showLoader, setShowLoader] = useState(true);
+  const { data: popularMovies, refetch } = useFetch(() => fetchMovies({ query }), false);
+  const { query } = useGlobalProps();
 
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [fallbackIndex, setFallbackIndex] = useState<number>(0);
+  const [bgUrl, setBgUrl] = useState<string>("");
 
-  const firstFive = popularMovies?.slice(0, 10) || []; // Get the first 10 movies
-
-  const fallbackMovie = firstFive[fallbackIndex];
+  const firstTen = popularMovies?.slice(0, 10) || [];
+  const fallbackMovie = firstTen[fallbackIndex];
   const currentMovie = selectedMovie || fallbackMovie;
 
-  const currentBackdrop = currentMovie?.backdrop_path
-    ? `https://image.tmdb.org/t/p/original${currentMovie.backdrop_path}`
-    : "";
+  // Update background image and preload it
+  useEffect(() => {
+    if (!currentMovie?.backdrop_path) return;
 
-  // Rotate fallback background every 8 seconds (if no movie is selected)
+    const img = new Image();
+    const url = `https://image.tmdb.org/t/p/original${currentMovie.backdrop_path}`;
+    img.src = url;
+    img.onload = () => setBgUrl(url); // Only set once it's loaded
+  }, [currentMovie]);
+
+  // Rotate fallback movie every 8s
   useEffect(() => {
     if (!popularMovies || selectedMovie) return;
 
-    const rotate = () => {
-      const randomIndex = Math.floor(Math.random() * firstFive.length);
-      setFallbackIndex(randomIndex);
+    const update = () => {
+      const random = Math.floor(Math.random() * firstTen.length);
+      setFallbackIndex(random);
     };
 
-    rotate(); // immediately set one
-    const interval = setInterval(rotate, 8000);
-
+    update();
+    const interval = setInterval(update, 8000);
     return () => clearInterval(interval);
   }, [popularMovies, selectedMovie]);
 
+  // Refetch when query changes
   useEffect(() => {
-    const delay = setTimeout(() => {
-      refetch();
-    }, 500);
-    return () => clearTimeout(delay);
+    const timer = setTimeout(refetch, 200);
+    return () => clearTimeout(timer);
   }, [query]);
 
   return (
-    <section className="pt-[100px] min-h-screen bg-cover bg-center md:bg-left bg-no-repeat transition1 flex justify-center mainPX"
-      style={{  backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0) 90%), url(${currentBackdrop})`,}}
+    <section className="pt-[100px] min-h-screen bg-cover bg-center xl:bg-left bg-no-repeat transition1 flex justify-center mainPX"
+      style={{ backgroundImage: bgUrl
+          ? `linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0) 90%), url(${bgUrl})`
+          : undefined, backgroundColor: "#000",
+      }}
     >
-      <Loader />
+
       <main className="content-container mt-[320px] xl:mt-[400px] MAX_W">
         {currentMovie && <HomeMovieInfo currentMovie={currentMovie} />}
+        <h1 className="text-white txtShadowBlack text-[40px] mt-[80px]">Popular Movies</h1>
 
-        <h1 className="text-white txtShadowBlack text-[40px] mt-[80px]">
-          Popular Movies
-        </h1>
-
-        {/* Movie Cards */}
         {popularMovies && (
           <div className="flex gap-4 overflow-x-auto py-6 scrollbar-hide">
             {popularMovies.map((movie: Movie) => (
