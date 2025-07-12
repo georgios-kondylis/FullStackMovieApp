@@ -31,7 +31,7 @@ const Navbar = () => {
       <div className="w-full flex justify-between items-center px-4 my-3 py-1 mainMX MAX_W 
               border border-[#71717183] rounded-xl backdrop-blur-[8px] navShadowBlack"
       >
-        <div className="flex items-center gap-[8px]">
+        <div id="LOGO" className="flex items-center gap-[8px]">
            <img src="/icons/logo.png" className="w-[35px] md:w-[50px] rounded-full" alt="" />
            <img src="/icons/logoWordWhite.png" className="w-[120px] md:w-[150px] rounded-full" alt="" />
         </div>

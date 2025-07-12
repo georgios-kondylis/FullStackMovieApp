@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import type { Movie } from "../../constants/types";
 import { useGlobalProps } from "../../GlobalContext";
 import { HomeMovieInfo, HomeMovieCard } from "../exports";
+import Loader from "../ui/Loader";
 
 const Home = () => {
   const { data: popularMovies, loading, refetch, } = useFetch(() => fetchMovies({ query }), false);
-
   const { query, setQuery, customStyles } = useGlobalProps();
+  const [showLoader, setShowLoader] = useState(true);
 
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [fallbackIndex, setFallbackIndex] = useState<number>(0);
@@ -48,6 +49,7 @@ const Home = () => {
     <section className="pt-[100px] min-h-screen bg-cover bg-center md:bg-left bg-no-repeat transition1 flex justify-center mainPX"
       style={{  backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0) 90%), url(${currentBackdrop})`,}}
     >
+      <Loader />
       <main className="content-container mt-[320px] xl:mt-[400px] MAX_W">
         {currentMovie && <HomeMovieInfo currentMovie={currentMovie} />}
 
