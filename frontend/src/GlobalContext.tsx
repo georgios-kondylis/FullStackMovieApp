@@ -15,12 +15,12 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   
   // ------------ CUSTOM STYLES ------------
   const customStyles = {
-    mainBg: isDarkMode? 'bg-[#17161a]' : '',
-   // mainTxtHover: isDarkMode? 'text-[#c9c9c9] hover:text-[#ffffff]' : 'text-[#000000] hover:text-[#00000080]',
+    mainBg: isDarkMode? 'bg-[#17161a]' : 'bg-[#ededed]',
+    basicDynamicTxt: isDarkMode? 'text-[#fff]' : 'text-[#000000]',
     mainTxtHover: 'text-[#d6d6d6] hover:text-[#ffffff]',
     Bg_Txt: isDarkMode? 'bg-[#030A1B] text-[#ededed]' : 'bg-[#ededed] text-[#17161a]', 
     btnColor: 'bg-[#c92443] text-[#ededed]',
-    btnColor2: 'bg-[##145de3] text-[#ededed]', 
+    btnColor2: 'bg-[#145de3] text-[#ededed]', 
   }
   // ------------ CUSTOM STYLES ------------
   return (

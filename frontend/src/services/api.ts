@@ -24,6 +24,20 @@ export const fetchMovies = async ({query} : {query: string}) =>{
   return data.results; // TMDB returns a full response object, but we only need the 'results' array which contains the movies
 }
 
+export const fetchMoviesByCategory = async ({ genreId }: { genreId?: number }) => {
+  const endpoint = genreId
+    ? `${TMDB_CONFIG.BASE_URL}/discover/movie?with_genres=${genreId}&sort_by=popularity.desc&page=1`
+    : `${TMDB_CONFIG.BASE_URL}/discover/movie?sort_by=popularity.desc&page=2`; // fallback to popular
+
+  const response = await fetch(endpoint, {
+    method: "GET",
+    headers: TMDB_CONFIG.headers,
+  });
+
+  const data = await response.json();
+  return data.results;
+};
+
 
 
 export const fetchMovieDetails = async (movieId: string): Promise<MovieDetails> => {

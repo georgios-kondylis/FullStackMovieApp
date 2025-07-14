@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
 import useFetch from "../../services/useFetch";
-import { fetchMovies } from "../../services/api";
+import { fetchMovies, fetchMoviesByCategory } from "../../services/api";
 import type { Movie } from "../../constants/types";
 import { useGlobalProps } from "../../GlobalContext";
 import { HomeMovieInfo, HomeMovieCard, } from "../exports";
+import { movieCategories } from "../../constants";
 
 const Home = () => {
+
+  const { query, customStyles, isDarkMode } = useGlobalProps();
+
   const { data: popularMovies, refetch } = useFetch(() => fetchMovies({ query }), false);
-  const { query } = useGlobalProps();
+  const { data: categorisedMovies, refetch: refetchCategorisedMovies} = useFetch(() => fetchMoviesByCategory({ genreId: selectedCategory?.id }), true);
 
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<{ name: string, id: number } | null>(null);
   const [fallbackIndex, setFallbackIndex] = useState<number>(0);
   const [bgUrl, setBgUrl] = useState<string>("");
 
@@ -17,7 +22,7 @@ const Home = () => {
   const fallbackMovie = firstTen[fallbackIndex];
   const currentMovie = selectedMovie || fallbackMovie;
 
-  // Update background image and preload it
+ // Update background image and preload it
   useEffect(() => {
     if (!currentMovie?.backdrop_path) return;
 
@@ -47,27 +52,74 @@ const Home = () => {
     return () => clearTimeout(timer);
   }, [query]);
 
+  // Refetch when category changes
+  useEffect(() => {
+    if (selectedCategory) {
+      refetchCategorisedMovies();
+    }
+  }, [selectedCategory]);
+  
+
   return (
-    <section className="pt-[100px] min-h-screen bg-cover bg-center xl:bg-left bg-no-repeat transition1 flex justify-center mainPX"
-      style={{ backgroundImage: bgUrl
+    <>
+    <section className="pt-[90px] pb-[10px] min-h-screen bg-cover bg-center xl:bg-left bg-no-repeat transition1 flex justify-center mainPX"
+       style={{ backgroundImage: bgUrl
           ? `linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0) 90%), url(${bgUrl})`
-          : undefined, backgroundColor: "#000",
-      }}
-    >
+          : undefined, backgroundColor: "#000", }}
+     >
 
-      <main className="content-container mt-[320px] xl:mt-[400px] MAX_W">
+      <main className="content-container1 flex flex-col mt-[320px] xl:mt-[400px] MAX_W">
+
         {currentMovie && <HomeMovieInfo currentMovie={currentMovie} />}
-        <h1 className="text-white txtShadowBlack text-[40px] mt-[80px]">Popular Movies</h1>
+        <h1 className="text-white txtShadowBlack text-[40px] mt-[80px]">Trends</h1>
 
-        {popularMovies && (
-          <div className="flex gap-4 overflow-x-auto py-6 scrollbar-hide">
-            {popularMovies.map((movie: Movie) => (
-              <HomeMovieCard key={movie.id} movie={movie} setSelectedMovie={setSelectedMovie} />
-            ))}
-          </div>
-        )}
+        <div className="flex gap-4 overflow-x-auto py-6 scrollbar-hide">
+          {popularMovies?.map((movie: Movie) => (
+            <HomeMovieCard key={movie.id} movie={movie} setSelectedMovie={setSelectedMovie} />
+          ))}
+        </div>
+
       </main>
     </section>
+
+    <section className={`relative w-full flex justify-center mainPX ${customStyles?.mainBg}`}>
+   
+      <main className="content-container2 MAX_W flex flex-col">
+        
+        {/* Dark Gradient when dark mode */}
+        {isDarkMode && <div className="absolute z-[0] inset-0 bg-gradient-to-t" style={{ backgroundImage: 'linear-gradient(to bottom, rgba(0,0,0,0.9) 5%, transparent 95%)'}}></div>}
+       
+        {/* FILTER BAR */}
+        <div id="moviesFilters"className="z-1 flex items-center gap-4 overflow-x-auto pt-[30px] pb-[70px] scroll-smooth scroll-bar-hidden"
+          style={{  WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none',  }}
+        >
+          <i className={`fa-solid fa-chevron-left ${customStyles?.basicDynamicTxt}`} />
+          {movieCategories.map((category, i) => (
+            <button key={i} className={`hover:bg-[#008cff] border-[2px] border-[#008cff] ${customStyles?.basicDynamicTxt} px-4 py-2 text-nowrap rounded-full transition1 cursor-pointer
+                    ${category.name === selectedCategory?.name && 'bg-[#008cff]'}`}
+              onClick={() => setSelectedCategory(prev => prev?.id === category.id ? null : category)}
+            >
+              {category.name}
+            </button>
+          ))}
+          <i className={`fa-solid fa-chevron-right ${customStyles?.basicDynamicTxt}`} />
+        </div>
+
+        {/* SECTION TITLE */}
+        <h1 className={`z-1 text-[2.5rem] md:text-[3rem] mb-[15px] ${customStyles?.basicDynamicTxt}`} >
+          {selectedCategory?.name || 'Select a category'}
+        </h1>
+
+        {/* MOVIE GRID */}
+        <div className="z-1 flex gap-4 overflow-x-auto py-6 scrollbar-hide">
+          {categorisedMovies?.map((movie: Movie) => (
+            <HomeMovieCard key={movie.id} movie={movie} setSelectedMovie={setSelectedMovie} />
+          ))}
+        </div>
+      </main>
+    </section>
+
+    </>
   );
 };
 

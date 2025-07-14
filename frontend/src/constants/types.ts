@@ -4,14 +4,17 @@ export type GlobalContextType = {
 
   isMobileMenuOpen?: boolean;
   toggleMobileMenu?: () => void;
+  
   query: string;
   setQuery?: React.Dispatch<React.SetStateAction<string>>;
+
   customStyles?: {
     mainBg: string;
     mainTxtHover: string;
     Bg_Txt: string;
     btnColor: string;
     btnColor2: string;
+    basicDynamicTxt: string,
   }
 };
 

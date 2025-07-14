@@ -96,6 +96,27 @@ export const fallBackMovies = [
     vote_count: 2659,
   },
 ];
+
+export const movieCategories = [
+  { name: "Action", id: 28 },
+  { name: "Comedy", id: 35 },
+  { name: "Drama", id: 18 },
+  { name: "Horror", id: 27 },
+  { name: "Romance", id: 10749 },
+  { name: "Sci-Fi", id: 878 },
+  { name: "Animation", id: 16 },
+  { name: "Fantasy", id: 14 },
+  { name: "Thriller", id: 53 },
+  { name: "Adventure", id: 12 },
+  { name: "Crime", id: 80 },
+  { name: "Documentary", id: 99 },
+  { name: "Family", id: 10751 },
+  { name: "Mystery", id: 9648 },
+  { name: "War", id: 10752 },
+];
+
+
+
 // const mobile = useMediaQuery({ maxWidth: 450 });
 // const tablet = useMediaQuery({ minWidth: 451, maxWidth: 768 });
 // const laptop = useMediaQuery({ minWidth: 769, maxWidth: 1024 });

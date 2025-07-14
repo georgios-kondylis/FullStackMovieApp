@@ -5,7 +5,7 @@ import { Home, About, Loader } from './components/exports'
 const App = () => {
   return (
     <>
-     <Loader />
+     {/* <Loader /> */}
       <Navbar />
       <Routes>
         <Route path="/" element={<Home/>} />
