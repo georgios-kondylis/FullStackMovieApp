@@ -19,7 +19,10 @@ const Home = () => {
   const [bgUrl, setBgUrl] = useState<string>("");
 
   const firstTen = popularMovies?.slice(0, 10) || [];
-  const fallbackMovie = firstTen[fallbackIndex];
+  // Always prefer Ballerina as the fallback movie if it exists
+  const ballerinaMovie = popularMovies?.find((movie: { title: string; }) =>  movie.title.toLowerCase().includes("ballerina"));
+  // const fallbackMovie = firstTen[fallbackIndex]; // this is without ballerina
+  const fallbackMovie = ballerinaMovie || firstTen[fallbackIndex];
   const currentMovie = selectedMovie || fallbackMovie;
 
  // Update background image and preload it
@@ -34,7 +37,7 @@ const Home = () => {
 
   // Rotate fallback movie every 8s
   useEffect(() => {
-    if (!popularMovies || selectedMovie) return;
+    if (!popularMovies || selectedMovie ) return;
 
     const update = () => {
       const random = Math.floor(Math.random() * firstTen.length);
@@ -44,7 +47,7 @@ const Home = () => {
     update();
     const interval = setInterval(update, 8000);
     return () => clearInterval(interval);
-  }, [popularMovies, selectedMovie]);
+  }, [popularMovies, selectedMovie, ballerinaMovie]);
 
   // Refetch when query changes
   useEffect(() => {
@@ -67,7 +70,6 @@ const Home = () => {
           ? `linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0) 90%), url(${bgUrl})`
           : undefined, backgroundColor: "#000", }}
      >
-
       <main className="content-container1 flex flex-col mt-[320px] xl:mt-[400px] MAX_W">
 
         {currentMovie && <HomeMovieInfo currentMovie={currentMovie} />}
@@ -118,7 +120,7 @@ const Home = () => {
       </main>
     </section>
 
-    <section className={`relative w-full flex justify-center mainPX bg-[url(/bgs/kidsBg.png)] bg-cover bg-center`}>
+    <section className={`relative w-full flex justify-center mainPX bg-[url(/bgs/kidsBg.jpg)] bg-cover bg-center`}>
    
       <main className="content-container3  min-h-screen flex flex-col">
 
