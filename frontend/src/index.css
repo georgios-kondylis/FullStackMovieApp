@@ -15,7 +15,7 @@ html, body {
 .transition1 { @apply transition-all duration-300 ease-in-out;}
 .transition2 { @apply transition-all duration-500 ease-in-out}
 .navIcon {@apply px-[6px] py-[5px] cursor-pointer}
-.txtShadowBlack {text-shadow: 0 0 15px #00000090}
+.txtShadowBlack {text-shadow: 0 0 20px #00000061}
 .navShadowBlack {box-shadow: 0 5px 10px #00000063}
 
 @layer components {

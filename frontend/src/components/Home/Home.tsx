@@ -62,7 +62,7 @@ const Home = () => {
 
   return (
     <>
-    <section className="pt-[90px] pb-[10px] min-h-screen bg-cover bg-center xl:bg-left bg-no-repeat transition1 flex justify-center mainPX"
+    <section id="Setion1" className="pt-[90px] pb-[10px] min-h-screen bg-cover bg-center xl:bg-left bg-no-repeat transition1 flex justify-center mainPX"
        style={{ backgroundImage: bgUrl
           ? `linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0) 90%), url(${bgUrl})`
           : undefined, backgroundColor: "#000", }}
@@ -82,8 +82,7 @@ const Home = () => {
       </main>
     </section>
 
-    <section className={`relative w-full flex justify-center mainPX ${customStyles?.mainBg}`}>
-   
+    <section id="Section2" className={`relative w-full flex justify-center mainPX ${customStyles?.mainBg}`}>
       <main className="content-container2 MAX_W flex flex-col">
         
         {/* Dark Gradient when dark mode */}
@@ -116,6 +115,14 @@ const Home = () => {
             <HomeMovieCard key={movie.id} movie={movie} setSelectedMovie={setSelectedMovie} />
           ))}
         </div>
+      </main>
+    </section>
+
+    <section className={`relative w-full flex justify-center mainPX bg-[url(/bgs/kidsBg.png)] bg-cover bg-center`}>
+   
+      <main className="content-container3  min-h-screen flex flex-col">
+
+        
       </main>
     </section>
 

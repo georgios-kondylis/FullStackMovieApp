@@ -40,7 +40,7 @@ const Navbar = () => {
           {navLinks.map((link, i) => {
             return (
               <NavLink key={i} to={link.href} 
-                       className={({ isActive }) =>`${customStyles?.mainTxtHover} txtShadowBlack relative` }  
+                       className={({ isActive }) =>`${customStyles?.mainTxtHover} ${isActive && 'text-white'} txtShadowBlack relative` }  
               >
               {({ isActive }) => (
                 <>
