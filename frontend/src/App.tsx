@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar/Navbar'
-import { Home, About, Loader } from './components/exports'
+import { Home, Series, Loader } from './components/exports'
 
 const App = () => {
   return (
@@ -9,7 +9,7 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home/>} />
-        <Route path="/series" element={<About />} />
+        <Route path="/series" element={<Series />} />
         <Route path="/anime" element={<div>Services Page</div>} />
         <Route path="/pricing" element={<div>Portfolio Page</div>} />
         <Route path="/contact" element={<div>Contact Page</div>} />

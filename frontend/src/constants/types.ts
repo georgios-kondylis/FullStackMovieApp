@@ -35,6 +35,22 @@ export type Movie = {
   vote_count: number;
 }
 
+export type Serie = {
+  id: number;
+  name: string;                    // series title is "name"
+  adult?: boolean;                 // usually movies have this, but series can have it too (optional)
+  backdrop_path: string | null;
+  genre_ids: number[];
+  original_language: string;
+  original_name: string;           // original series title
+  overview: string;
+  popularity: number;
+  poster_path: string | null;
+  first_air_date: string;          // release date equivalent
+  vote_average: number;
+  vote_count: number;
+};
+
 export type TrendingMovie = {
   searchTerm: string;
   movie_id: number;

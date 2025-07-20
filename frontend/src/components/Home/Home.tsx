@@ -5,27 +5,30 @@ import type { Movie } from "../../constants/types";
 import { useGlobalProps } from "../../GlobalContext";
 import { HomeMovieInfo, HomeMovieCard, } from "../exports";
 import { movieCategories } from "../../constants";
-import KidsSectionBg from "./KidsSectionBg";
+import KidsSectionBg from "../ui/KidsSectionBg";
 import { Link } from "react-router-dom";
-import Footer from "./Footer";
+import Footer from "../Footer/Footer";
+import { fallbackMovieBallerina } from "../../constants";
+import CardSkeleton from "./CardSkeleton";
 
 const Home = () => {
 
-  const { query, customStyles, isDarkMode } = useGlobalProps();
-
-  const { data: popularMovies, refetch } = useFetch(() => fetchMovies({ query }), false);
+  const { query, customStyles, } = useGlobalProps();
+  const { data: popularMovies, refetch, } = useFetch(() => fetchMovies({ query }), false);
   const { data: categorisedMovies, refetch: refetchCategorisedMovies} = useFetch(() => fetchMoviesByCategory({ genreId: selectedCategory?.id }), true);
+  const [local_loading, setLocal_loading] = useState(true); // i did it loccaly so that the bg behaves smoothly
+  useEffect(() => {if (popularMovies?.length > 0) setLocal_loading(false) }, [popularMovies]);
 
+  
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<{ name: string, id: number } | null>(null);
   const [fallbackIndex, setFallbackIndex] = useState<number>(0);
   const [bgUrl, setBgUrl] = useState<string>("");
 
   const firstTen = popularMovies?.slice(0, 10) || [];
-  // Always prefer Ballerina as the fallback movie if it exists
-  const ballerinaMovie = popularMovies?.find((movie: { title: string; }) =>  movie.title.toLowerCase().includes("ballerina"));
+  const ballerinaMovie = fallbackMovieBallerina;
+  const fallbackMovie = fallbackMovieBallerina || firstTen[fallbackIndex]; // Always prefer Ballerina as the fallback movie if it exists
   // const fallbackMovie = firstTen[fallbackIndex]; // this is without ballerina
-  const fallbackMovie = ballerinaMovie || firstTen[fallbackIndex];
   const currentMovie = selectedMovie || fallbackMovie;
 
  // Update background image and preload it
@@ -79,9 +82,10 @@ const Home = () => {
         <h1 className="text-white txtShadowBlack text-[40px] mt-[80px]">Trends</h1>
 
         <div className="flex gap-4 overflow-x-auto py-6 scrollbar-hide">
-          {popularMovies?.map((movie: Movie) => (
-            <HomeMovieCard key={movie.id} movie={movie} setSelectedMovie={setSelectedMovie} />
-          ))}
+        {local_loading ? Array.from({ length: 10 }).map((_, i) => ( <CardSkeleton key={i} /> ))
+                 : popularMovies?.map((movie: Movie) => (
+              <HomeMovieCard key={movie.id} movie={movie} setSelectedMovie={setSelectedMovie} />
+            ))}
         </div>
 
       </main>
@@ -139,7 +143,6 @@ const Home = () => {
     </section>
 
     <Footer/>
-
     </>
   );
 };

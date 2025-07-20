@@ -38,8 +38,6 @@ export const fetchMoviesByCategory = async ({ genreId }: { genreId?: number }) =
   return data.results;
 };
 
-
-
 export const fetchMovieDetails = async (movieId: string): Promise<MovieDetails> => {
   try {
       const response = await fetch(`${TMDB_CONFIG.BASE_URL}/movie/${movieId}?api_key=${TMDB_CONFIG.API_KEY}`, {
@@ -53,6 +51,51 @@ export const fetchMovieDetails = async (movieId: string): Promise<MovieDetails> 
       throw err;
   }
 }
+
+// ------------ Series ------------ //
+
+export const fetchSeries = async ({ query }: { query: string }) => {
+  const endpoint = query
+    ? `${TMDB_CONFIG.BASE_URL}/search/tv?query=${encodeURIComponent(query)}`
+    : `${TMDB_CONFIG.BASE_URL}/discover/tv?sort_by=popularity.desc`; // if no query, fetch popular series
+
+  const response = await fetch(endpoint, {
+    method: 'GET',
+    headers: TMDB_CONFIG.headers,
+  });
+
+  const data = await response.json();
+  return data.results; // returns the array of series
+};
+
+export const fetchSeriesByCategory = async ({ genreId }: { genreId?: number }) => {
+  const endpoint = genreId
+    ? `${TMDB_CONFIG.BASE_URL}/discover/tv?with_genres=${genreId}&sort_by=popularity.desc&page=1`
+    : `${TMDB_CONFIG.BASE_URL}/discover/tv?sort_by=popularity.desc&page=2`; // fallback to popular series
+
+  const response = await fetch(endpoint, {
+    method: "GET",
+    headers: TMDB_CONFIG.headers,
+  });
+
+  const data = await response.json();
+  return data.results;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

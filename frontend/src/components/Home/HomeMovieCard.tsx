@@ -1,9 +1,9 @@
 import React, { type Dispatch } from "react";
-import type { Movie } from "../../constants/types";
+import type { Movie, } from "../../constants/types";
 import { useGlobalProps } from "../../GlobalContext";
 
 type Props = {
-  movie: Movie;
+  movie: Movie ;
   setSelectedMovie: React.Dispatch<React.SetStateAction<Movie | null>>;
   bookmarked?: boolean;
   dynamicBg?: boolean;
@@ -14,7 +14,7 @@ const HomeMovieCard = ({movie, setSelectedMovie, bookmarked = false, dynamicBg }
   const {customStyles, isDarkMode } = useGlobalProps();
 
   return (
-    <div key={movie.id} onClick={() => setSelectedMovie(movie)}
+    <div key={movie.id} onClick={() => {setSelectedMovie(movie); console.log(movie)}}
       className="relative min-w-[150px] w-[140px] h-[230px] cursor-pointer rounded-lg overflow-hidden transition1
                  md:min-w-[200px] md:w-[200px] md:h-[300px]
                  hover:scale-[1.03] hover:shadow-2xl hover:translate-y-[-5px]"
