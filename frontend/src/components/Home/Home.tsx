@@ -5,6 +5,9 @@ import type { Movie } from "../../constants/types";
 import { useGlobalProps } from "../../GlobalContext";
 import { HomeMovieInfo, HomeMovieCard, } from "../exports";
 import { movieCategories } from "../../constants";
+import KidsSectionBg from "./KidsSectionBg";
+import { Link } from "react-router-dom";
+import Footer from "./Footer";
 
 const Home = () => {
 
@@ -70,7 +73,7 @@ const Home = () => {
           ? `linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0) 90%), url(${bgUrl})`
           : undefined, backgroundColor: "#000", }}
      >
-      <main className="content-container1 flex flex-col mt-[320px] xl:mt-[400px] MAX_W">
+      <main className="content-container1 flex flex-col mt-[300px] MAX_W">
 
         {currentMovie && <HomeMovieInfo currentMovie={currentMovie} />}
         <h1 className="text-white txtShadowBlack text-[40px] mt-[80px]">Trends</h1>
@@ -87,9 +90,6 @@ const Home = () => {
     <section id="Section2" className={`relative w-full flex justify-center mainPX ${customStyles?.mainBg}`}>
       <main className="content-container2 MAX_W flex flex-col">
         
-        {/* Dark Gradient when dark mode */}
-        {isDarkMode && <div className="absolute z-[0] inset-0 bg-gradient-to-t" style={{ backgroundImage: 'linear-gradient(to bottom, rgba(0,0,0,0.9) 5%, transparent 95%)'}}></div>}
-       
         {/* FILTER BAR */}
         <div id="moviesFilters"className="z-1 flex items-center gap-4 overflow-x-auto pt-[30px] pb-[70px] scroll-smooth scroll-bar-hidden"
           style={{  WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none',  }}
@@ -114,19 +114,31 @@ const Home = () => {
         {/* MOVIE GRID */}
         <div className="z-1 flex gap-4 overflow-x-auto py-6 scrollbar-hide">
           {categorisedMovies?.map((movie: Movie) => (
-            <HomeMovieCard key={movie.id} movie={movie} setSelectedMovie={setSelectedMovie} />
+            <HomeMovieCard key={movie.id} movie={movie} setSelectedMovie={setSelectedMovie} dynamicBg={true} />
           ))}
         </div>
       </main>
     </section>
 
-    <section className={`relative w-full flex justify-center mainPX bg-[url(/bgs/kidsBg.jpg)] bg-cover bg-center`}>
-   
-      <main className="content-container3  min-h-screen flex flex-col">
+    <section id="Section3_4Kids"  className={`relative w-full flex justify-center mainPX`}>
+      <KidsSectionBg/>
+      <main className="flex items-center z-1 flex-col min-h-[80vh] text-white">
+        <div className="flex flex-col items-center mt-[50px]">
+          <h1 className="text-3xl font-bold mb-[20px] text-center txtShadowBlackLight">
+            Family Friendly Streaming
+          </h1>
+          <p className="mt-2 font-semibold tracking-wide text-lg max-sm:text-[16px] text-center txtShadowBlackLight">
+            Let your little ones enjoy their favorite heroes in a fun, <br /> safe environment completely free from inappropriate content.
+          </p>
+        </div>
 
-        
+        <Link to="/4kids" className={`absolute bg-[#17161a] text-[#ffffff] px-[12px] py-[6px] rounded-[7px] bottom-[100px] font-semibold transition1 hover:scale-[1.1] `}>
+          Explore the Kids Section
+        </Link>
       </main>
     </section>
+
+    <Footer/>
 
     </>
   );

@@ -11,11 +11,13 @@ html, body {
 .MAX_W {@apply max-w-[1480px]}
 .mainPX {@apply px-[20px]}
 .mainMX {@apply mx-[20px]}
+.mainDarkBg {@apply bg-[#17161a]}
 
 .transition1 { @apply transition-all duration-300 ease-in-out;}
 .transition2 { @apply transition-all duration-500 ease-in-out}
 .navIcon {@apply px-[6px] py-[5px] cursor-pointer}
 .txtShadowBlack {text-shadow: 0 0 20px #00000061}
+.txtShadowBlackLight {text-shadow: 0 0 20px #0000002f}
 .navShadowBlack {box-shadow: 0 5px 10px #00000063}
 
 @layer components {

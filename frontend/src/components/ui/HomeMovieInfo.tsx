@@ -13,7 +13,7 @@ const HomeMovieInfo = ({ currentMovie }: Props) => {
       <p className="text-[40px]">{currentMovie.title}</p>
 
       <div className="txtShadowBlack max-w-[600px] w-full rounded-[13px]">
-        <p>{currentMovie.overview}</p>
+         <p>{currentMovie.overview.replace(/–/g, "")}</p> {/* to remove dashes – */}
       </div>
 
       <div className="flex w-fit p-2 gap-2 text-[20px] rounded-[10px] bg-[#80808043] backdrop-blur-[3px]">
