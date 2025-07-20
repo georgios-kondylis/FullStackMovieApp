@@ -5,10 +5,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Footer: React.FC = () => {
+const Footer = () => {
   const { isDarkMode, customStyles } = useGlobalProps();
   const footerRef = useRef<HTMLElement | null>(null);
-
 
 
   return (
