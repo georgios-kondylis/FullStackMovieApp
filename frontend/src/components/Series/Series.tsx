@@ -3,16 +3,14 @@ import useFetch from "../../services/useFetch";
 import { fetchSeries, fetchSeriesByCategory } from "../../services/api";
 import type { Serie } from "../../constants/types";
 import { useGlobalProps } from "../../GlobalContext";
-import { HomeMovieInfo, HomeMovieCard } from "../exports";
 import Series_Info from "./Series_Info";
 import { seriesCategories } from "../../constants"; // Using series-specific categories now
-import KidsSectionBg from "../ui/KidsSectionBg";
-import { Link } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import SeriesCard from "./SeriesCard";
 import { fallbackSeriesYou, fallbackSeriesGreysAnatomy } from "../../constants";
 import CardSkeleton from "../Home/CardSkeleton";
 import { useMediaQuery } from "react-responsive";
+import Section3_4Kids from "../4kids/Section3_4Kids";
 
 const Series = () => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
@@ -133,27 +131,7 @@ const Series = () => {
         </main>
       </section>
 
-      {/* Kids-friendly section */}
-      <section id="Section3_4Kids" className={`relative w-full flex justify-center mainPX`}>
-        <KidsSectionBg />
-        <main className="flex items-center z-1 flex-col min-h-[80vh] text-white">
-          <div className="flex flex-col items-center mt-[50px]">
-            <h1 className="text-3xl font-bold mb-[20px] text-center txtShadowBlackLight">
-              Family Friendly Streaming
-            </h1>
-            <p className="mt-2 font-semibold tracking-wide text-lg max-sm:text-[16px] text-center txtShadowBlackLight">
-              Let your little ones enjoy their favorite heroes in a fun, <br /> safe environment
-              completely free from inappropriate content.
-            </p>
-          </div>
-
-          <Link to="/4kids"
-            className="absolute bg-[#17161a] text-[#ffffff] px-[12px] py-[6px] rounded-[7px] bottom-[100px] font-semibold transition1 hover:scale-[1.1]"
-          >
-            Explore the Kids Section
-          </Link>
-        </main>
-      </section>
+      <Section3_4Kids/>
 
       <Footer />
     </>

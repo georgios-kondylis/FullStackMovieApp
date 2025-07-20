@@ -1,16 +1,13 @@
 // Navbar.tsx
 import { useGlobalProps } from "../../GlobalContext";
 import { useMediaQuery } from "react-responsive";
-
 import { NavLink } from "react-router-dom";
 import { navLinks } from "../../constants";
-import MobileMenu from "./MobileMenu";
 import { useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar4Kids = () => {
   const location = useLocation();
-  const isMobile = useMediaQuery({ maxWidth: 767 });
   const {isDarkMode, customStyles, toggleDarkMode, query, setQuery} = useGlobalProps();
 
   const [isHoveringSearch, setIsHoveringSearch] = useState(false);
@@ -34,21 +31,14 @@ const Navbar = () => {
               border border-[#71717183] rounded-xl backdrop-blur-[8px] navShadowBlack"
       >
         <div id="LOGO" className="flex items-center gap-[8px]">
-            {location.pathname === '/4kids' ? (
-            <img src="/icons/logoKids.png" className="w-[70px] md:w-[90px] rounded-full" alt="Kids Logo" />
-            ) : (
-              <>
-                <img src="/icons/logo.png" className="w-[35px] md:w-[50px] rounded-full" alt="Main Logo" />
-                <img src="/icons/logoWordWhite.png" className="w-[120px] md:w-[150px] rounded-full" alt="Cinemoon Logo Text" />
-              </>
-            )}
+          <img src="/icons/logoKids.png" className="w-[70px] md:w-[90px] rounded-full" alt="Kids Logo" />
         </div>
 
         <ul className="max-md:hidden flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
           {navLinks.map((link, i) => {
             return (
               <NavLink key={i} to={link.href} 
-                       className={({ isActive }) =>`${customStyles?.mainTxtHover} ${isActive && 'text-white'} txtShadowBlack relative` }  
+                       className={({ isActive }) =>`${customStyles?.mainTxtHover} ${isActive && 'text-white'} txtShadowBlack txtKids relative` }  
               >
               {({ isActive }) => (
                 <>
@@ -61,12 +51,12 @@ const Navbar = () => {
           })}
         </ul>
         
-        <div id="icons" className={`flex items-center`}>
+        <div id="icons" className={`flex gap-2 items-center`}>
          <div className="relative pl-[17px] pr-1 py-[5px] cursor-pointer txtShadowBlack"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <i className={`fa-solid fa-magnifying-glass ${customStyles?.mainTxtHover}`} />
+            <img src="/icons/glass4kids.png" className="w-[23px] cursor-pointer hover:scale-[1.1] transition1" alt="" />
             
             <input type="text" value={query}
               onChange={(e) => setQuery!(e.target.value)}
@@ -77,10 +67,10 @@ const Navbar = () => {
             />
           </div>
           
-          <i className={`fa-solid fa-user ${customStyles?.mainTxtHover} navIcon txtShadowBlack`}></i>
+          <img src="/icons/user4kids.png" className="w-[25px] cursor-pointer hover:scale-[1.1] transition1" alt="" />
           {isDarkMode
-            ? <i className={`fa-solid fa-sun ${customStyles?.mainTxtHover} navIcon txtShadowBlack`} onClick={toggleDarkMode}/>
-            : <i className={`fa-solid fa-moon ${customStyles?.mainTxtHover} navIcon txtShadowBlack`} onClick={toggleDarkMode}/>
+            ? <img src="icons/sun4kids.png" className="w-[25px] cursor-pointer hover:scale-[1.1] transition1" alt="" onClick={toggleDarkMode}/>
+            : <img src="icons/moon4kids.png" className="w-[25px] cursor-pointer hover:scale-[1.1] transition1" alt="" onClick={toggleDarkMode}/>
           }
         </div>
 
@@ -89,23 +79,5 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Navbar4Kids;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- {/* {isMobile &&( // Hamburger
-          <i className={`text-2xl fa-solid fa-bars`}
-            onClick={toggleMobileMenu}>
-          </i>)} */}

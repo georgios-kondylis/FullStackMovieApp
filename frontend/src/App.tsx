@@ -1,12 +1,16 @@
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar/Navbar'
 import { Home, Series, Loader } from './components/exports'
+import { useLocation } from 'react-router-dom'
+import Navbar4Kids from './components/Navbar/Navbar4Kids'
 
 const App = () => {
+  const location = useLocation();
   return (
     <>
-      {/* <Loader /> */}
-      <Navbar />
+      <Loader />
+      {location.pathname === '/4kids' ? <Navbar4Kids /> : <Navbar />}
+    
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/series" element={<Series />} />
