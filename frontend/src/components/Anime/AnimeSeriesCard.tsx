@@ -13,7 +13,7 @@ const AnimeSeriesCard = ({
   series,
   setSelectedSeries,
   bookmarked = false,
-  dynamicBg,
+  dynamicBg, // for the border of the + icon effect
 }: Props) => {
   const { customStyles, isDarkMode } = useGlobalProps();
 
