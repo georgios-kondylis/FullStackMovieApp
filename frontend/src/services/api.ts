@@ -68,6 +68,20 @@ export const fetchSeries = async ({ query }: { query: string }) => {
   return data.results; // returns the array of series
 };
 
+export const fetchSeriesDetails = async (seriesId: string): Promise<MovieDetails> => {
+  try {
+      const response = await fetch(`${TMDB_CONFIG.BASE_URL}/tv/${seriesId}?api_key=${TMDB_CONFIG.API_KEY}`, {
+          method: 'GET',
+          headers: TMDB_CONFIG.headers,
+      })
+      const data = await response.json();
+      return data;
+  } catch (err) {
+      console.log(err);
+      throw err;
+  }
+}
+
 export const fetchSeriesByCategory = async ({ genreId }: { genreId?: number }) => {
   const endpoint = genreId
     ? `${TMDB_CONFIG.BASE_URL}/discover/tv?with_genres=${genreId}&sort_by=popularity.desc&page=1`

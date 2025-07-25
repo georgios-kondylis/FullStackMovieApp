@@ -5,7 +5,6 @@ export const navLinks = [
   { title: 'Series', href: '/series' },
   { title: 'Anime', href: '/anime' },
   { title: 'Pricing', href: '/pricing' },
-  { title: 'Contact', href: '/contact' },
 ]
 // Local fallback movie objects for the hero section Bg
 

@@ -1,7 +1,8 @@
-import React from "react";
+// Series_Info.tsx
 import type { Serie } from "../../constants/types";
 import StarRating from "../ui/StarRating";
 import { useGlobalProps } from "../../GlobalContext";
+import { Link } from "react-router-dom";
 
 type Props = { currentSeries: Serie };
 
@@ -29,18 +30,17 @@ const Series_Info = ({ currentSeries }: Props) => {
 
       {/* Buttons */}
       <div className="flex gap-2 items-center">
-        <button
-          className={`${customStyles?.btnColor} flex gap-2 items-center px-[12px] py-[6px] rounded-[7px] hover:text-[#c5c5c5] cursor-pointer`}
+        <button className={`${customStyles?.btnColor} flex gap-2 items-center px-[12px] py-[6px] rounded-[7px] hover:text-[#c5c5c5] cursor-pointer`}
         >
           <i className="fa-solid fa-play"></i>
           Watch Trailer
         </button>
-        <button
-          className={`border flex gap-[7px] items-center px-[11px] py-[5px] rounded-[7px] hover:gap-[10px] cursor-pointer transition1`}
+        <Link to={`/series/${currentSeries.id}`}
+        className={`border flex gap-[7px] items-center px-[11px] py-[5px] rounded-[7px] hover:gap-[10px] cursor-pointer transition1`}
         >
           See more
           <i className="fa-solid fa-arrow-right"></i>
-        </button>
+        </Link>
       </div>
     </div>
   );
