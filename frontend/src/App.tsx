@@ -18,6 +18,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/:id" element={<MovieDetails />} />        {/*  for movies (e.g. /123) */}
         <Route path="/series/:id" element={<MovieDetails />} />  {/* for series (e.g. /series/456) */}
+        <Route path="/anime/:id" element={<MovieDetails />} /> 
         <Route path="/series" element={<Series />} />
         <Route path="/anime" element={<Anime />} />
         <Route path="/pricing" element={<div>Portfolio Page</div>} />
