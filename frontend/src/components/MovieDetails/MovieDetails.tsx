@@ -6,8 +6,16 @@ import type {
   SeriesDetails as SeriesDetailsType,
 } from '../../constants/types'
 import { useGlobalProps } from '../../GlobalContext'
+import StarRating from '../ui/StarRating'
+import { useState } from 'react'
 
 const MovieDetails = () => {
+  // Temporary States until i create a DB
+  const [liked, setLiked] = useState(false);
+  const [disliked, setDisliked] = useState(false);
+  const [bookmarked, setBookmarked] = useState(false);
+  // -------------------------------------------- //
+
   const { isDarkMode, customStyles } = useGlobalProps()
   const { id } = useParams()
   const location = useLocation()
@@ -20,10 +28,7 @@ const MovieDetails = () => {
     ? () => fetchMovieDetails(id!)
     : () => fetchSeriesDetails(id!) // used for both series & anime
 
-  const {
-    data: currentMovie,
-    loading,
-  } = useFetch<MovieDetailsType | SeriesDetailsType>(fetcher, true)
+  const {  data: currentMovie, loading,} = useFetch<MovieDetailsType | SeriesDetailsType>(fetcher, true)
 
   if (loading || !currentMovie)
     return <p className="text-white p-4">Loading...</p>
@@ -31,25 +36,90 @@ const MovieDetails = () => {
   const imgBgUrl = `https://image.tmdb.org/t/p/original${currentMovie.backdrop_path}`
 
   return (
-    <section className={`w-full flex justify-center relative min-h-[100vh] overflow-hidden ${customStyles?.Bg_Txt} `}>
+    <section className={`w-full flex justify-center relative min-h-[100vh] overflow-hidden ${customStyles?.mainBgDark} `}>
       {/* Background image */}
-      <div className="border absolute inset-0 h-[80vh] bg-cover bg-center z-0"
+      <div className=" absolute inset-0 h-[80vh] bg-cover bg-center z-0"
           style={{  backgroundImage: currentMovie.backdrop_path
               ? `linear-gradient(to top, rgba(3,10,27,0.9), rgba(3,10,27,0) 60%), url(${imgBgUrl})`
               : undefined,  backgroundColor: '#030A1B', }}  
       />
 
       {/* Content */}
-      <main className="relative w-full flex justify-center items-center min-h-[100vh] MAX_W">
-        <div className="text-white">
-          <h1 className="text-4xl font-bold mb-4 drop-shadow-md">
-            {'title' in currentMovie
-              ? currentMovie.title
-              : currentMovie.name}
-          </h1>
-          <p className="text-lg leading-relaxed drop-shadow-md">
-            {currentMovie.overview}
-          </p>
+      <main id='CONTENT' className="relative w-full flex flex-col min-h-[100vh] MAX_W mainPX">
+
+        <div id='Info_&_Buttons' className='flex justify-between max-md:flex-col gap-2' >
+          <div id='INFO' className="text-white flex flex-col gap-3 mt-[55vh]">
+            <h1 id='TITLE' className="text-4xl font-bold mb-4 drop-shadow-md">
+              {'title' in currentMovie ? currentMovie.title : currentMovie.name}
+            </h1>
+            <div id='RUNTIME' className="flex gap-2 txtFadedGray text-[14px]">
+              <p>
+                {'release_date' in currentMovie
+                  ? new Date(currentMovie.release_date).getFullYear()
+                  : 'first_air_date' in currentMovie
+                    ? new Date(currentMovie.first_air_date).getFullYear()
+                    : 'N/A'}
+              </p>
+
+              <p className=''>
+                {'runtime' in currentMovie
+                  ? `${currentMovie.runtime} min`
+                  : ``}
+              </p>
+            </div>
+            <div id='RATING' className='w-fit flex gap-2 rounded-[5px] txtFadedGray'>
+              <StarRating rating={currentMovie.vote_average / 2} />
+              <span className="text-[15px] text-[#e1e1e1cd]">
+                {(currentMovie.vote_average / 2).toFixed(1)} / 5 &nbsp; ({" "}
+                {currentMovie.vote_count.toLocaleString()} votes )
+              </span>
+            </div>
+            <div id='INTERACTIONS' className='flex gap-3 items-center text-[#ffffffb0]'>
+              <div className={`w-[35px] h-[35px] flex items-center justify-center rounded-full cursor-pointer transition1 border p-2 ${customStyles?.mainBgDark} hover:text-[#ffffff]`}
+                  onClick={() => setLiked((prev) => !prev)}>
+                <i className={`${liked ? 'fa-solid' : 'fa-regular'} fa-thumbs-up`} />
+              </div>
+
+              <div className={`w-[35px] h-[35px] flex items-center justify-center rounded-full cursor-pointer transition1 border p-2 ${customStyles?.mainBgDark} hover:text-[#ffffff]`}
+                  onClick={() => setDisliked((prev) => !prev)}>
+                <i className={`${disliked ? 'fa-solid' : 'fa-regular'} fa-thumbs-down`} />
+              </div>
+
+              <div className={`w-[35px] h-[35px] flex items-center justify-center rounded-full cursor-pointer transition1 border p-2 ${customStyles?.mainBgDark} hover:text-[#ffffff]`}
+                  onClick={() => setBookmarked((prev) => !prev)}>
+                <i className={`${bookmarked ? 'fa-solid' : 'fa-regular'} fa-bookmark`} />
+              </div>
+            </div>
+            <p id='OVERVIEW' className="flex flex-col gap-3 leading-relaxed drop-shadow-md md:max-w-[65vw] mt-[50px]">
+              <span className='txtFadedGray text-lg'>Overview</span>
+              {currentMovie.overview}
+            </p>
+            <p id='GENRES' className='txtFadedGray'>
+              {currentMovie.genres && currentMovie.genres.length > 0
+                ? currentMovie.genres.map((genre) => genre.name).join(' - ')
+                : 'No genres available'}
+            </p>
+          </div>
+
+          <div id='BUTTONS' className='flex gap-4 h-fit w-fit md:mt-[65vh] flex-nowrap
+                  max-md:mx-auto'>
+            <button className={`relative ${customStyles?.mainBgDark} min-w-fit overflow-hidden group rounded-[5px] px-[18px] py-[10px] flex items-center gap-3 text-white border border-[#ffffff22] hover:border-white font-semibold transition2 cursor-pointer text-nowrap
+            max-md:px-[14px] max-md:py-[7px] max-md:text-[14px]`}>
+              <img src="/icons/playMovie.png" className='w-[30px]  max-md:w-[26px] z-10' alt="Play Icon" />
+              <p className='z-10 transition1 group-hover:text-black'>
+                Watch full movie
+              </p>
+              {/* Fill animation layer */}
+              <span  className="absolute inset-0 w-full h-full -z-0 left-[-100%] bg-gradient-to-r from-[#ffffff] to-[#b3b3b3] group-hover:left-0 transition-all duration-500 ease-out" />
+            </button>
+
+            {/* Watch Trailer Button (simple style match) */}
+            <button  className={`flex gap-2 items-center px-[18px] py-[10px] text-white rounded-[5px] ${customStyles?.btnColor} transition1 cursor-pointer text-nowrap font-semibold`} >
+              <i className="fa-solid fa-play text-white"></i>
+              <p>Watch Trailer</p>
+            </button>
+          </div>
+
         </div>
       </main>
     </section>

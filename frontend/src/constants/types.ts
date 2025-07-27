@@ -9,6 +9,7 @@ export type GlobalContextType = {
   setQuery?: React.Dispatch<React.SetStateAction<string>>;
 
   customStyles?: {
+    mainBgDark: string;
     mainBg: string;
     mainTxtHover: string;
     Bg_Txt: string;

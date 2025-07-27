@@ -26,7 +26,7 @@ const HomeMovieInfo = ({ currentMovie }: Props) => {
       </div>
 
       <div className="flex gap-2 items-center">
-        <button className={`${customStyles?.btnColor} flex gap-2 items-center px-[12px] py-[6px] rounded-[7px] hover:text-[#c5c5c5] cursor-pointer`} >
+        <button className={`${customStyles?.btnColor} flex gap-2 items-center px-[12px] py-[6px] rounded-[7px]`} >
           <i className="fa-solid fa-play"></i>
            Watch Trailer
         </button>
