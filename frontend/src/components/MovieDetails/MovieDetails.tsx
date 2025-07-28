@@ -1,4 +1,4 @@
-import { useParams, useLocation, data } from 'react-router-dom'
+import { useParams, useLocation, } from 'react-router-dom'
 import { fetchMovieDetails, fetchSeriesDetails } from '../../services/api'
 import useFetch from '../../services/useFetch'
 import CastAndCrew from './CastAndCrew'
@@ -10,17 +10,21 @@ import type {
 import { useGlobalProps } from '../../GlobalContext'
 import StarRating from '../ui/StarRating'
 import { useState } from 'react'
+import TrailerIframed from '../ui/TrailerIframed'
 
 type WithCredits = (MovieDetailsType | SeriesDetailsType) & { credits: Credits; trailerKey?: string };
 
 const MovieDetails = () => {
+  const [showTrailerModal, setShowTrailerModal] = useState(false);
+
+
   // Temporary States until i create a DB
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   // -------------------------------------------- //
 
-  const { isDarkMode, customStyles } = useGlobalProps()
+  const { customStyles } = useGlobalProps()
   const { id } = useParams()
   const location = useLocation()
 
@@ -50,6 +54,9 @@ const MovieDetails = () => {
 
       {/* Content */}
       <main id='CONTENT' className="relative w-full flex flex-col min-h-[100vh] MAX_W mainPX pb-[70px]">
+        {showTrailerModal && (
+           <TrailerIframed currentMovie={currentMovie} setShowTrailerModal={setShowTrailerModal} />
+        )}
 
         <div id='' className="text-white w-full flex flex-col gap-7 mt-[55vh]">
 
@@ -111,18 +118,22 @@ const MovieDetails = () => {
               </button>
 
               {currentMovie.trailerKey ? (
-                <a href={`https://www.youtube.com/watch?v=${currentMovie.trailerKey}`}target="_blank" rel="noopener noreferrer" >
-                  <button  className={`flex gap-2 items-center px-[18px] py-[10px] text-white rounded-[5px] ${customStyles?.btnColor} transition1 cursor-pointer text-nowrap font-semibold`} >
-                    <i className="fa-solid fa-play text-white"></i>
-                    <p>Watch Trailer</p>
-                  </button>
-                </a>
+                <button onClick={() => setShowTrailerModal(true)}
+                  className={`flex gap-2 items-center px-[18px] py-[10px] text-white rounded-[5px] ${customStyles?.btnColor} transition1 cursor-pointer text-nowrap font-semibold`}
+                >
+                  <i className="fa-solid fa-play text-white"></i>
+                  <p>Watch Trailer</p>
+                </button>
               ) : (
-                <button disabled className={`flex gap-2 items-center px-[18px] py-[10px] text-white/50 bg-gray-600/50 rounded-[5px] cursor-not-allowed text-nowrap font-semibold`} >
+                <button
+                  disabled
+                  className={`flex gap-2 items-center px-[18px] py-[10px] text-white/50 bg-gray-600/50 rounded-[5px] cursor-not-allowed text-nowrap font-semibold`}
+                >
                   <i className="fa-solid fa-ban text-white/50" />
                   <p>No Trailer Available</p>
                 </button>
               )}
+
             </div>
           </div>
 

@@ -1,3 +1,4 @@
+// Home.tsx
 import { useEffect, useState } from "react";
 import useFetch from "../../services/useFetch";
 import { fetchMovies, fetchMoviesByCategory } from "../../services/api";
@@ -9,6 +10,7 @@ import Footer from "../Footer/Footer";
 import { fallbackMovieBallerina } from "../../constants";
 import CardSkeleton from "./CardSkeleton";
 import Section3_4Kids from "../4kids/Section3_4Kids";
+import { fetchMovieTrailerKey } from "../../services/api";
 
 const Home = () => {
 
@@ -20,6 +22,10 @@ const Home = () => {
 
   
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+  const handleSelectMovie = async (movie: Movie) => {
+    const trailerKey = await fetchMovieTrailerKey(movie.id);
+    setSelectedMovie({ ...movie, trailerKey });
+  };
   const [selectedCategory, setSelectedCategory] = useState<{ name: string, id: number } | null>(null);
   const [fallbackIndex, setFallbackIndex] = useState<number>(0);
   const [bgUrl, setBgUrl] = useState<string>("");
@@ -66,6 +72,7 @@ const Home = () => {
       refetchCategorisedMovies();
     }
   }, [selectedCategory]);
+
   
 
   return (
@@ -83,7 +90,7 @@ const Home = () => {
         <div className="flex gap-4 overflow-x-auto py-6 scrollbar-hide">
         {local_loading ? Array.from({ length: 10 }).map((_, i) => ( <CardSkeleton key={i} /> ))
                  : popularMovies?.map((movie: Movie) => (
-              <HomeMovieCard key={movie.id} movie={movie} setSelectedMovie={setSelectedMovie} />
+              <HomeMovieCard key={movie.id} movie={movie} handleSelectMovie={handleSelectMovie} />
             ))}
         </div>
 
@@ -117,7 +124,7 @@ const Home = () => {
         {/* MOVIE GRID */}
         <div className="z-1 flex gap-4 overflow-x-auto py-6 scrollbar-hide">
           {categorisedMovies?.map((movie: Movie) => (
-            <HomeMovieCard key={movie.id} movie={movie} setSelectedMovie={setSelectedMovie} dynamicBg={true} />
+            <HomeMovieCard key={movie.id} movie={movie} handleSelectMovie={handleSelectMovie} dynamicBg={true} />
           ))}
         </div>
       </main>

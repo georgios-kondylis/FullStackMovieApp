@@ -1,20 +1,20 @@
-import React, { type Dispatch } from "react";
+// HomeMovieCard.tsx
 import type { Movie, } from "../../constants/types";
 import { useGlobalProps } from "../../GlobalContext";
 
 type Props = {
   movie: Movie ;
-  setSelectedMovie: React.Dispatch<React.SetStateAction<Movie | null>>;
+  handleSelectMovie: any;
   bookmarked?: boolean;
   dynamicBg?: boolean;
 }
 
 
-const HomeMovieCard = ({movie, setSelectedMovie, bookmarked = false, dynamicBg }:Props,) => {
+const HomeMovieCard = ({movie, handleSelectMovie, bookmarked = false, dynamicBg }:Props,) => {
   const {customStyles, isDarkMode } = useGlobalProps();
 
   return (
-    <div key={movie.id} onClick={() => {setSelectedMovie(movie); console.log(movie)}}
+    <div key={movie.id} onClick={() => {handleSelectMovie(movie); console.log(movie) }}
       className="relative min-w-[150px] w-[140px] h-[230px] cursor-pointer rounded-lg overflow-hidden transition1
                  md:min-w-[200px] md:w-[200px] md:h-[300px]
                  hover:scale-[1.03] hover:shadow-2xl hover:translate-y-[-5px]"

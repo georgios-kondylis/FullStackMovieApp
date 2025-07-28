@@ -25,6 +25,7 @@ export const fallbackMovieBallerina = { // Fallback Movie: Ballerina
   video: false,
   vote_average: 7.481,
   vote_count: 1075,
+  trailerKey: "b9Rr9ygb-ac"
 };
 export const fallbackSeriesYou = { // Fallback Series: You
   adult: false,

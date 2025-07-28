@@ -1,16 +1,23 @@
-import React from "react";
+// HomeMovieInfo.tsx
 import type { Movie } from "../../constants/types";
 import StarRating from "../ui/StarRating";
 import { useGlobalProps } from "../../GlobalContext";
-import { Link } from "react-router-dom";
+import { Link, } from "react-router-dom";
+import { useState } from "react";
+import TrailerIframed from "../ui/TrailerIframed";
 
 type Props = { currentMovie: Movie };
 
 const HomeMovieInfo = ({ currentMovie }: Props) => {
   const { customStyles } = useGlobalProps();
+  const [showTrailerModal, setShowTrailerModal] = useState(false);
 
   return (
     <div className="flex flex-col gap-4 text-white">
+       {showTrailerModal && (
+           <TrailerIframed currentMovie={currentMovie} setShowTrailerModal={setShowTrailerModal} />
+        )}
+
       <p className="text-[40px]">{currentMovie.title}</p>
 
       <div className="txtShadowBlack max-w-[600px] w-full rounded-[13px]">
@@ -24,14 +31,27 @@ const HomeMovieInfo = ({ currentMovie }: Props) => {
           {currentMovie.vote_count.toLocaleString()} votes )
         </span>
       </div>
-
+ 
       <div className="flex gap-2 items-center">
-        <button className={`${customStyles?.btnColor} flex gap-2 items-center px-[12px] py-[6px] rounded-[7px]`} >
-          <i className="fa-solid fa-play"></i>
-           Watch Trailer
-        </button>
+        {currentMovie.trailerKey ? (
+          <button onClick={() => setShowTrailerModal(true)}
+          className={`${customStyles?.btnColor} flex gap-2 items-center px-[12px] py-[6px] rounded-[7px]`}
+          >
+            <i className="fa-solid fa-play text-white"></i>
+            <p>Watch Trailer</p>
+          </button>
+        ) : (
+          <button disabled
+            className={`flex gap-2 items-center px-[18px] py-[10px] text-white/50 bg-gray-600/50 rounded-[5px] cursor-not-allowed text-nowrap font-semibold`}
+          >
+            <i className="fa-solid fa-ban text-white/50" />
+            <p>No Trailer Available</p>
+          </button>
+       )}
+
+
         <Link to={`/${currentMovie.id}`} 
-        className={`border flex gap-[7px] items-center px-[11px] py-[5px] rounded-[7px] hover:gap-[10px] cursor-pointer transition1`} >
+          className={`border flex gap-[7px] items-center px-[11px] py-[5px] rounded-[7px] hover:gap-[10px] cursor-pointer transition1`} >
           See more
           <i className="fa-solid fa-arrow-right"></i>
         </Link>

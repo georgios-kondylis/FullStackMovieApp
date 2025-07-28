@@ -1,5 +1,5 @@
 // api.ts
-import type { MovieDetails, SeriesDetails, CastMember, Credits } from "../constants/types";
+import type { MovieDetails, SeriesDetails, Credits } from "../constants/types";
 
 export const TMDB_CONFIG = {
   BASE_URL: 'https://api.themoviedb.org/3',
@@ -78,17 +78,28 @@ export const fetchMovieDetails = async ( movieId: string): Promise<MovieDetails 
   }
 };
 
-
-export const fetchMovieVideos = async (id: string) => {
-  const res = await fetch(`${TMDB_CONFIG.BASE_URL}/movie/${id}/videos?api_key=YOUR_API_KEY`);
-  return res.json();
+export const fetchMovieTrailerKey = async (movieId: number | string): Promise<string | null> => {
+  try {
+    const res = await fetch(`${TMDB_CONFIG.BASE_URL}/movie/${movieId}/videos?api_key=${TMDB_CONFIG.API_KEY}`, {
+      method: 'GET',
+      headers: TMDB_CONFIG.headers, // 👈 Add headers here to be consistent
+    });
+    if (!res.ok) {
+      console.warn(`Failed to fetch videos for movie ${movieId}, status: ${res.status}`);
+      return null;
+    }
+    const data = await res.json();
+    // Log data to debug missing trailers
+   // console.log(`Video results for movie ${movieId}:`, data.results);
+    const trailer = data.results.find(
+      (video: any) => video.type.toLowerCase() === 'trailer' && video.site === 'YouTube'
+    );
+    return trailer?.key || null;
+  } catch (err) {
+    console.error('Failed to fetch trailer:', err);
+    return null;
+  }
 };
-
-export const fetchSeriesVideos = async (id: string) => {
-  const res = await fetch(`https://api.themoviedb.org/3/tv/${id}/videos?api_key=YOUR_API_KEY`);
-  return res.json();
-};
-
 
 
 // ------------ Series ------------ //
@@ -157,6 +168,29 @@ export const fetchSeriesDetails = async (seriesId: string): Promise<SeriesDetail
   } catch (err) {
     console.log(err);
     throw err;
+  }
+};
+
+// Not used Yet
+export const fetchSeriesTrailerKey = async (seriesId: number | string): Promise<string | null> => {
+  try {
+    const res = await fetch(`${TMDB_CONFIG.BASE_URL}/tv/${seriesId}/videos?api_key=${TMDB_CONFIG.API_KEY}`, {
+      method: 'GET',
+      headers: TMDB_CONFIG.headers,
+    });
+    if (!res.ok) {
+      console.warn(`Failed to fetch videos for series ${seriesId}, status: ${res.status}`);
+      return null;
+    }
+    const data = await res.json();
+    console.log(`Video results for series ${seriesId}:`, data.results);
+    const trailer = data.results.find(
+      (video: any) => video.type.toLowerCase() === 'trailer' && video.site === 'YouTube'
+    );
+    return trailer?.key || null;
+  } catch (err) {
+    console.error('Failed to fetch series trailer:', err);
+    return null;
   }
 };
 
