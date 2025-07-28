@@ -1,5 +1,5 @@
 // api.ts
-import type { MovieDetails } from "../constants/types";
+import type { MovieDetails, SeriesDetails, CastMember, Credits } from "../constants/types";
 
 export const TMDB_CONFIG = {
   BASE_URL: 'https://api.themoviedb.org/3',
@@ -37,20 +37,59 @@ export const fetchMoviesByCategory = async ({ genreId }: { genreId?: number }) =
   const data = await response.json();
   return data.results;
 };
-
-export const fetchMovieDetails = async (movieId: string): Promise<MovieDetails> => {
+// i uptated it with extra api call to fetch the credits like actors etc and Trailer key to add to <a href
+export const fetchMovieDetails = async ( movieId: string): Promise<MovieDetails & { credits: Credits; trailerKey?: string }> => {
   try {
-      const response = await fetch(`${TMDB_CONFIG.BASE_URL}/movie/${movieId}?api_key=${TMDB_CONFIG.API_KEY}`, {
-          method: 'GET',
-          headers: TMDB_CONFIG.headers,
-      })
-      const data = await response.json();
-      return data;
+    const [detailsRes, creditsRes, videosRes] = await Promise.all([
+      fetch(`${TMDB_CONFIG.BASE_URL}/movie/${movieId}?api_key=${TMDB_CONFIG.API_KEY}`, {
+        method: 'GET',
+        headers: TMDB_CONFIG.headers,
+      }),
+      fetch(`${TMDB_CONFIG.BASE_URL}/movie/${movieId}/credits?api_key=${TMDB_CONFIG.API_KEY}`, {
+        method: 'GET',
+        headers: TMDB_CONFIG.headers,
+      }),
+      fetch(`${TMDB_CONFIG.BASE_URL}/movie/${movieId}/videos?api_key=${TMDB_CONFIG.API_KEY}`, {
+        method: 'GET',
+        headers: TMDB_CONFIG.headers,
+      }),
+    ]);
+
+    if (!detailsRes.ok || !creditsRes.ok || !videosRes.ok) {
+      throw new Error('Failed to fetch movie details, credits, or videos');
+    }
+
+    const data = await detailsRes.json();
+    const creditsData = await creditsRes.json();
+    const videosData = await videosRes.json();
+
+    const trailer = videosData.results.find(
+      (vid: any) => vid.type === 'Trailer' && vid.site === 'YouTube'
+    );
+
+    return {
+      ...data,
+      credits: creditsData,
+      trailerKey: trailer?.key ?? null,
+    };
   } catch (err) {
-      console.log(err);
-      throw err;
+    console.error(err);
+    throw err;
   }
-}
+};
+
+
+export const fetchMovieVideos = async (id: string) => {
+  const res = await fetch(`${TMDB_CONFIG.BASE_URL}/movie/${id}/videos?api_key=YOUR_API_KEY`);
+  return res.json();
+};
+
+export const fetchSeriesVideos = async (id: string) => {
+  const res = await fetch(`https://api.themoviedb.org/3/tv/${id}/videos?api_key=YOUR_API_KEY`);
+  return res.json();
+};
+
+
 
 // ------------ Series ------------ //
 
@@ -67,21 +106,6 @@ export const fetchSeries = async ({ query }: { query: string }) => {
   const data = await response.json();
   return data.results; // returns the array of series
 };
-
-export const fetchSeriesDetails = async (seriesId: string): Promise<MovieDetails> => {
-  try {
-      const response = await fetch(`${TMDB_CONFIG.BASE_URL}/tv/${seriesId}?api_key=${TMDB_CONFIG.API_KEY}`, {
-          method: 'GET',
-          headers: TMDB_CONFIG.headers,
-      })
-      const data = await response.json();
-      return data;
-  } catch (err) {
-      console.log(err);
-      throw err;
-  }
-}
-
 export const fetchSeriesByCategory = async ({ genreId }: { genreId?: number }) => {
   const endpoint = genreId
     ? `${TMDB_CONFIG.BASE_URL}/discover/tv?with_genres=${genreId}&sort_by=popularity.desc&page=1`
@@ -95,32 +119,75 @@ export const fetchSeriesByCategory = async ({ genreId }: { genreId?: number }) =
   const data = await response.json();
   return data.results;
 };
+// i uptated it with extra api call to fetch the credits like actors etc and Trailer key to add to <a href
+export const fetchSeriesDetails = async (seriesId: string): Promise<SeriesDetails & { credits: Credits; trailerKey?: string }> => {
+  try {
+    const [detailsRes, creditsRes, videosRes] = await Promise.all([
+      fetch(`${TMDB_CONFIG.BASE_URL}/tv/${seriesId}?api_key=${TMDB_CONFIG.API_KEY}`, {
+        method: 'GET',
+        headers: TMDB_CONFIG.headers,
+      }),
+      fetch(`${TMDB_CONFIG.BASE_URL}/tv/${seriesId}/credits?api_key=${TMDB_CONFIG.API_KEY}`, {
+        method: 'GET',
+        headers: TMDB_CONFIG.headers,
+      }),
+      fetch(`${TMDB_CONFIG.BASE_URL}/tv/${seriesId}/videos?api_key=${TMDB_CONFIG.API_KEY}`, {
+        method: 'GET',
+        headers: TMDB_CONFIG.headers,
+      }),
+    ]);
+
+    if (!detailsRes.ok || !creditsRes.ok || !videosRes.ok) {
+      throw new Error('Failed to fetch series details, credits, or videos');
+    }
+
+    const data = await detailsRes.json();
+    const creditsData = await creditsRes.json();
+    const videosData = await videosRes.json();
+
+    const trailer = videosData.results.find(
+      (vid: any) => vid.type === 'Trailer' && vid.site === 'YouTube'
+    );
+
+    return {
+      ...data,
+      credits: creditsData,
+      trailerKey: trailer?.key ?? null,
+    };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// fetchMovies deleted
-// if (!response.ok) {
-//     // @ts-ignore
-//     throw new Error('Failed to fetch movies', response.statusText);
+// OLD AND SIMPLIFIED
+// export const fetchMovieDetails = async (movieId: string): Promise<MovieDetails> => {
+//   try {
+//       const response = await fetch(`${TMDB_CONFIG.BASE_URL}/movie/${movieId}?api_key=${TMDB_CONFIG.API_KEY}`, {
+//           method: 'GET',
+//           headers: TMDB_CONFIG.headers,
+//       })
+//       const data = await response.json();
+//       return data;
+//   } catch (err) {
+//       console.log(err);
+//       throw err;
+//   }
 // }
 
-// fetchMovieDetails deleted
-// if (!response.ok) throw new Error('Failed to fetch movie details')
+// export const fetchSeriesDetails = async (seriesId: string): Promise<MovieDetails> => {
+//   try {
+//       const response = await fetch(`${TMDB_CONFIG.BASE_URL}/tv/${seriesId}?api_key=${TMDB_CONFIG.API_KEY}`, {
+//           method: 'GET',
+//           headers: TMDB_CONFIG.headers,
+//       })
+//       const data = await response.json();
+//       return data;
+//   } catch (err) {
+//       console.log(err);
+//       throw err;
+//   }
+// }

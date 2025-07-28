@@ -22,9 +22,9 @@ html, body {
 .navIcon {@apply px-[6px] py-[5px] cursor-pointer}
 .txtShadowBlack {text-shadow: 0 0 20px #00000061}
 .txtShadowBlackLight {text-shadow: 0 0 20px #0000002f}
-.txtFadedGray {@apply  text-[#ffffff9b]}
+.txtFadedGray {@apply  text-gray-400}
 .navShadowBlack {box-shadow: 0 5px 10px #00000063}
-.i_interactions {@apply w-[35px] h-[35px] flex items-center justify-center rounded-full cursor-pointer transition1 border p-2}
+.i_interactions {@apply w-[35px] h-[35px] flex items-center justify-center rounded-full cursor-pointer border p-2 transition-all duration-300 ease-in-out}
 
 @layer components {
   section {}

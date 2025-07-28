@@ -107,6 +107,30 @@ export type MovieDetails = {
   vote_average: number;
   vote_count: number;
 }
+
+
+export type CastMember = {
+  id: number;
+  name: string;
+  character: string;
+  profile_path: string | null;
+}
+
+export type CrewMember = {
+  id: number;
+  name: string;
+  job: string;
+  department: string;
+  profile_path: string | null;
+}
+
+export type Credits = {
+  cast: CastMember[];
+  crew: CrewMember[];
+}
+
+
+
 export type SeriesDetails = {
   adult: boolean;
   backdrop_path: string | null;
@@ -196,8 +220,9 @@ export type SeriesDetails = {
   type: string;
   vote_average: number;
   vote_count: number;
+  budget?: number;
+  revenue?: number;
 };
-
 
 export type TrendingCardProps = {
   movie: TrendingMovie;
