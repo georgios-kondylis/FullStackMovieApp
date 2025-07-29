@@ -9,6 +9,7 @@ import Section3_4Kids from "../4kids/Section3_4Kids";
 import AnimeSeriesInfo from "./AnimeSeriesInfo";
 import AnimeSeriesCard from "./AnimeSeriesCard";
 import { JP_fallbackAnimeSeries, US_fallbackAnimeSeries } from "./fallbackAnimeSeries";
+import { fetchSeriesTrailerKey } from "../../services/api";
 
 const Anime = () => {
   const { query, customStyles } = useGlobalProps();
@@ -18,6 +19,11 @@ const Anime = () => {
   useEffect(() => { if (popularSeries?.length > 0) setLocal_loading(false); }, [popularSeries]);
 
   const [selectedSeries, setSelectedSeries] = useState<Serie | null>(null);
+  const handleSelectSeries = async (serie: Serie) => {
+    const trailerKey = await fetchSeriesTrailerKey(serie.id);
+    console.log(trailerKey)
+    setSelectedSeries({ ...serie, trailerKey });
+  };
   const [fallbackIndex, setFallbackIndex] = useState<number>(0);
   const [bgUrl, setBgUrl] = useState<string>("");
   const [isFromJapan, setIsFromJapan] = useState(true);
@@ -87,9 +93,9 @@ const Anime = () => {
                   <CardSkeleton key={i} /> ))
               : query && popularSeries?.length > 0
               ? popularSeries.map((series: Serie) => (
-                 <AnimeSeriesCard key={series.id} series={series} setSelectedSeries={setSelectedSeries} /> ))
+                 <AnimeSeriesCard key={series.id} series={series} handleSelectSeries={handleSelectSeries} /> ))
               : firstTen.map((series, i) => (
-                  <AnimeSeriesCard key={i} series={series} setSelectedSeries={setSelectedSeries} />
+                  <AnimeSeriesCard key={i} series={series} handleSelectSeries={handleSelectSeries} />
                 ))}
           </div>
         </main>

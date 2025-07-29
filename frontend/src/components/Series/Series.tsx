@@ -7,10 +7,12 @@ import Series_Info from "./Series_Info";
 import { seriesCategories } from "../../constants"; // Using series-specific categories now
 import Footer from "../Footer/Footer";
 import SeriesCard from "./SeriesCard";
-import { fallbackSeriesYou, fallbackSeriesGreysAnatomy } from "../../constants";
+import { fallbackSeriesYou, fallbackSeriesSquidGame } from "../../constants";
 import CardSkeleton from "../Home/CardSkeleton";
 import { useMediaQuery } from "react-responsive";
 import Section3_4Kids from "../4kids/Section3_4Kids";
+import { fetchSeriesTrailerKey } from "../../services/api";
+import Pricing from "../ui/Pricing/Pricing";
 
 const Series = () => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
@@ -21,14 +23,19 @@ const Series = () => {
   useEffect(() => {if (popularSeries?.length > 0) setLocal_loading(false) }, [popularSeries]);
 
   const [selectedSeries, setSelectedSeries] = useState<Serie | null>(null);
+  const handleSelectSeries = async (serie: Serie) => {
+    const trailerKey = await fetchSeriesTrailerKey(serie.id);
+    // console.log(trailerKey)
+    setSelectedSeries({ ...serie, trailerKey });
+  };
   const [selectedCategory, setSelectedCategory] = useState<{ name: string; id: number } | null>(null);
   const [fallbackIndex, setFallbackIndex] = useState<number>(0);
   const [bgUrl, setBgUrl] = useState<string>("");
 
   // First 10 series from popularSeries, used for fallback and cycling display
   const firstTen = popularSeries?.slice(0, 10) || [];
-  const youSeriesOrGreysAnatomy = isMobile? fallbackSeriesGreysAnatomy : fallbackSeriesYou 
-  const fallbackSeries = youSeriesOrGreysAnatomy || firstTen[fallbackIndex];
+  const youSeriesOrSquidGame = isMobile? fallbackSeriesSquidGame : fallbackSeriesYou 
+  const fallbackSeries = youSeriesOrSquidGame || firstTen[fallbackIndex];
   //const fallbackSeries = firstTen[fallbackIndex];
   const currentSeries = selectedSeries || fallbackSeries;
 
@@ -43,7 +50,6 @@ const Series = () => {
     img.src = url;
     img.onload = () => setBgUrl(url);
   }, [currentSeries]);
-
   // Cycle fallbackIndex every 8 seconds to rotate fallback series backdrop
   useEffect(() => {
     if (!popularSeries || selectedSeries) return; // Don't cycle if user has selected a series
@@ -58,13 +64,11 @@ const Series = () => {
 
     return () => clearInterval(interval); // Clean up interval on unmount or deps change
   }, [popularSeries, selectedSeries]);
-
   // Refetch popular series data when search query changes, with slight debounce
   useEffect(() => {
     const timer = setTimeout(refetch, 200);
     return () => clearTimeout(timer);
   }, [query]);
-
   // When user selects a category, refetch series filtered by that category
   useEffect(() => {
     if (selectedCategory) {
@@ -91,7 +95,7 @@ const Series = () => {
           <div className="flex gap-4 overflow-x-auto py-6 scrollbar-hide">
         {local_loading ? Array.from({ length: 10 }).map((_, i) => ( <CardSkeleton key={i} /> ))
                  : popularSeries?.map((series: Serie) => (
-                  <SeriesCard key={series.id} series={series} setSelectedSeries={setSelectedSeries}/>
+                  <SeriesCard key={series.id} series={series} handleSelectSeries={handleSelectSeries}/>
             ))}
         </div>
         </main>
@@ -125,13 +129,15 @@ const Series = () => {
           {/* Show series filtered by selected category */}
           <div className="z-1 flex gap-4 overflow-x-auto py-6 scrollbar-hide">
             {categorisedSeries?.map((series: Serie) => (
-             <SeriesCard key={series.id} series={series} setSelectedSeries={setSelectedSeries} dynamicBg={true}/>
+             <SeriesCard key={series.id} series={series} handleSelectSeries={handleSelectSeries} dynamicBg={true}/>
             ))}
           </div>
         </main>
       </section>
 
       <Section3_4Kids/>
+
+      <Pricing/>
 
       <Footer />
     </>

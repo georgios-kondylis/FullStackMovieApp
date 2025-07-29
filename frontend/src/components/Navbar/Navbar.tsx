@@ -45,21 +45,28 @@ const Navbar = () => {
         </div>
 
         <ul className="max-md:hidden flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
-          {navLinks.map((link, i) => {
-            return (
-              <NavLink key={i} to={link.href} 
-                       className={({ isActive }) =>`${customStyles?.mainTxtHover} ${isActive && 'text-white'} txtShadowBlack relative` }  
+          {navLinks.map((link, i) => (
+            link.title !== 'Pricing' ? (
+              <NavLink  key={i} to={link.href}
+                className={({ isActive }) => `${customStyles?.mainTxtHover} ${isActive ? 'text-white' : ''} txtShadowBlack text-shadow-2xs relative` }
               >
-              {({ isActive }) => (
-                <>
-                  {link.title}
-                  <span className={`absolute left-0 bottom-[-3px] h-[3px] rounded-b-full ${customStyles?.btnColor} transition1 pointer-events-none ${isActive? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
-                </>
-              )}
-            </NavLink>
-            );
-          })}
+                {({ isActive }) => (
+                  <>
+                    {link.title}
+                    <span className={`absolute left-0 bottom-[-3px] h-[3px] rounded-b-full ${customStyles?.btnColor} transition1 pointer-events-none ${
+                        isActive ? 'w-full opacity-100' : 'w-0 opacity-0' }`}
+                    />
+                  </>
+                )}
+              </NavLink>
+            ) : (
+              <a key={i}  href={link.href} className={`${customStyles?.mainTxtHover} txtShadowBlack relative`}>
+                {link.title}
+              </a>
+            )
+          ))}
         </ul>
+
         
         <div id="icons" className={`flex items-center`}>
          <div className="relative pl-[17px] pr-1 py-[5px] cursor-pointer txtShadowBlack"
@@ -90,22 +97,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- {/* {isMobile &&( // Hamburger
-          <i className={`text-2xl fa-solid fa-bars`}
-            onClick={toggleMobileMenu}>
-          </i>)} */}

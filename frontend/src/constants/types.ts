@@ -51,6 +51,7 @@ export type Serie = {
   first_air_date: string;          // release date equivalent
   vote_average: number;
   vote_count: number;
+  trailerKey?: string | null;
 };
 
 export type TrendingMovie = {

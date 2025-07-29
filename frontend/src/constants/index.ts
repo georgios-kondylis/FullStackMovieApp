@@ -4,7 +4,7 @@ export const navLinks = [
   { title: 'Movies', href: '/' },
   { title: 'Series', href: '/series' },
   { title: 'Anime', href: '/anime' },
-  { title: 'Pricing', href: '/pricing' },
+  { title: 'Pricing', href: '#pricing' },
 ]
 // Local fallback movie objects for the hero section Bg
 
@@ -43,24 +43,27 @@ export const fallbackSeriesYou = { // Fallback Series: You
   first_air_date: "2018-09-09",
   vote_average: 8.035,
   vote_count: 3585,
+  trailerKey: "v99ooSjCVhg"
 };
-export const fallbackSeriesGreysAnatomy = { // Fallback Series: Grey's Anatomy
+export const fallbackSeriesSquidGame = { // Fallback Series: Squid Game
   adult: false,
-  backdrop_path: "/fgvM6m7gAd8kDAaLF16aflbOSAK.jpg",
-  first_air_date: "2005-03-27",
-  genre_ids: [18],
-  id: 1416,
-  name: "Grey's Anatomy",
-  origin_country: ["US"],
-  original_language: "en",
-  original_name: "Grey's Anatomy",
+  backdrop_path: "/2meX1nMdScFOoV4370rqHWKmXhY.jpg",
+  first_air_date: "2021-09-17",
+  genre_ids: [10759, 9648, 18], // Action & Adventure, Mystery, Drama
+  id: 93405,
+  name: "Squid Game",
+  origin_country: ["KR"],
+  original_language: "ko",
+  original_name: "오징어 게임",
   overview:
-    "Follows the personal and professional lives of a group of doctors at Seattle’s Grey Sloan Memorial Hospital.",
-  popularity: 582.8723,
-  poster_path: "/7jEVqXC14bhfAzSPgr896dMdDv6.jpg",
-  vote_average: 8.223,
-  vote_count: 10569,
+    "Hundreds of cash-strapped players accept a strange invitation to compete in children's games. Inside, a tempting prize awaits — with deadly high stakes.",
+  popularity: 382.8292,
+  poster_path: "/onV0JoOJeiUHG1rfpB2lFTVw1vN.jpg",
+  vote_average: 7.865,
+  vote_count: 16464,
+  trailerKey: "oqxAJKy0ii4"
 };
+
 
 
 export const movieCategories = [

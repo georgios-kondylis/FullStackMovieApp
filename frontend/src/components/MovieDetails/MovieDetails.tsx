@@ -11,6 +11,7 @@ import { useGlobalProps } from '../../GlobalContext'
 import StarRating from '../ui/StarRating'
 import { useState } from 'react'
 import TrailerIframed from '../ui/TrailerIframed'
+import GoBackBtn from '../ui/GoBackBtn'
 
 type WithCredits = (MovieDetailsType | SeriesDetailsType) & { credits: Credits; trailerKey?: string };
 
@@ -63,7 +64,7 @@ const MovieDetails = () => {
           <div id='Info_&_Buttons_TOP' className='flex justify-between md:items-center gap-8
                 max-md:flex-col'>
             <div className='flex flex-col gap-4'>
-              <h1 id='TITLE' className="text-4xl font-bold mb-4 drop-shadow-md">
+              <h1 id='TITLE' className="text-4xl font-bold mb-4 drop-shadow-md text-gradient">
                 {'title' in currentMovie ? currentMovie.title : currentMovie.name}
               </h1>
               <div id='RUNTIME' className="flex gap-2 txtFadedGray text-[14px]">
@@ -178,6 +179,9 @@ const MovieDetails = () => {
           {currentMovie.credits && (
             <CastAndCrew credits={currentMovie.credits} />
           )}
+           <div className='w-full flex justify-end'>
+            <GoBackBtn/>
+           </div>
         </div>
 
       </main>

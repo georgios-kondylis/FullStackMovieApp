@@ -1,18 +1,24 @@
-import React from "react";
+
 import type { Serie } from "../../constants/types";
 import StarRating from "../ui/StarRating";
 import { useGlobalProps } from "../../GlobalContext";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import TrailerIframed from "../ui/TrailerIframed";
 
 type Props = { currentSeries: Serie };
 
 const AnimeSeriesInfo = ({ currentSeries }: Props) => {
   const { customStyles } = useGlobalProps();
+  const [showTrailerModal, setShowTrailerModal] = useState(false);
 
   return (
     <div className="flex flex-col gap-4 text-white">
+      {showTrailerModal && (
+           <TrailerIframed currentMovie={currentSeries} setShowTrailerModal={setShowTrailerModal} />
+        )}
       {/* Series Title */}
-      <p className="text-[40px]">{currentSeries.name}</p>
+      <p className="text-[40px] text-gradient font-bold ">{currentSeries.name}</p>
 
       {/* Overview with dash cleaning */}
       <div className="txtShadowBlack max-w-[600px] w-full rounded-[13px]">
@@ -30,10 +36,21 @@ const AnimeSeriesInfo = ({ currentSeries }: Props) => {
 
       {/* Buttons */}
       <div className="flex gap-2 items-center">
-        <button className={`${customStyles?.btnColor} flex gap-2 items-center px-[12px] py-[6px] rounded-[7px] hover:text-[#c5c5c5] cursor-pointer`} >
-          <i className="fa-solid fa-play"></i>
-          Watch Trailer
-        </button>
+       {currentSeries.trailerKey ? (
+          <button onClick={() => setShowTrailerModal(true)}
+          className={`${customStyles?.btnColor} flex gap-2 items-center px-[12px] py-[6px] rounded-[7px]`}
+          >
+            <i className="fa-solid fa-play text-white"></i>
+            <p>Watch Trailer</p>
+          </button>
+        ) : (
+          <button disabled
+            className={`flex gap-2 items-center px-[12px] py-[6px] rounded-[7px] text-white/50 bg-gray-600/50 cursor-not-allowed text-nowrap font-semibold`}
+          >
+            <i className="fa-solid fa-ban text-white/50" />
+            <p>No Trailer Available</p>
+          </button>
+       )}
         <Link to={`/anime/${currentSeries.id}`}
           className={`border flex gap-[7px] items-center px-[11px] py-[5px] rounded-[7px] hover:gap-[10px] cursor-pointer transition1`}
         >

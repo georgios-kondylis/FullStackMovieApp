@@ -11,6 +11,7 @@ import { fallbackMovieBallerina } from "../../constants";
 import CardSkeleton from "./CardSkeleton";
 import Section3_4Kids from "../4kids/Section3_4Kids";
 import { fetchMovieTrailerKey } from "../../services/api";
+import Pricing from "../ui/Pricing/Pricing";
 
 const Home = () => {
 
@@ -131,6 +132,8 @@ const Home = () => {
     </section>
 
     <Section3_4Kids />
+
+    <Pricing />
 
     <Footer/>
     </>

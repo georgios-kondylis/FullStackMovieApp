@@ -18,7 +18,7 @@ const HomeMovieInfo = ({ currentMovie }: Props) => {
            <TrailerIframed currentMovie={currentMovie} setShowTrailerModal={setShowTrailerModal} />
         )}
 
-      <p className="text-[40px]">{currentMovie.title}</p>
+      <p className="text-[40px] text-gradient font-bold ">{currentMovie.title}</p>
 
       <div className="txtShadowBlack max-w-[600px] w-full rounded-[13px]">
          <p>{currentMovie.overview.replace(/–/g, "")}</p> {/* to remove dashes – */}
@@ -42,7 +42,7 @@ const HomeMovieInfo = ({ currentMovie }: Props) => {
           </button>
         ) : (
           <button disabled
-            className={`flex gap-2 items-center px-[18px] py-[10px] text-white/50 bg-gray-600/50 rounded-[5px] cursor-not-allowed text-nowrap font-semibold`}
+            className={`flex gap-2 items-center px-[12px] py-[6px] rounded-[7px] text-white/50 bg-gray-600/50 cursor-not-allowed text-nowrap font-semibold`}
           >
             <i className="fa-solid fa-ban text-white/50" />
             <p>No Trailer Available</p>

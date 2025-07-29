@@ -4,22 +4,18 @@ import { useGlobalProps } from "../../GlobalContext";
 
 type Props = {
   series: Serie;
-  setSelectedSeries: React.Dispatch<React.SetStateAction<Serie | null>>;
+  setSelectedSeries?: React.Dispatch<React.SetStateAction<Serie | null>>;
   bookmarked?: boolean;
   dynamicBg?: boolean;
+  handleSelectSeries?: any
 };
 
-const SeriesCard = ({
-  series,
-  setSelectedSeries,
-  bookmarked = false,
-  dynamicBg,
-}: Props) => {
+const SeriesCard = ({series, setSelectedSeries, handleSelectSeries, bookmarked = false, dynamicBg,}: Props) => {
   const { customStyles, isDarkMode } = useGlobalProps();
 
   return (
     <div key={series.id}
-      onClick={() => {setSelectedSeries(series); console.log(series)}}
+      onClick={() => {handleSelectSeries(series); console.log(series)}}
       className="relative min-w-[150px] w-[140px] h-[230px] cursor-pointer rounded-lg overflow-hidden transition1
                  md:min-w-[200px] md:w-[200px] md:h-[300px]
                  hover:scale-[1.03] hover:shadow-2xl hover:translate-y-[-5px]"

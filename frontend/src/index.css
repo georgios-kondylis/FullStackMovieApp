@@ -20,11 +20,17 @@ html, body {
 .transition1 { @apply transition-all duration-300 ease-in-out;}
 .transition2 { @apply transition-all duration-500 ease-out}
 .navIcon {@apply px-[6px] py-[5px] cursor-pointer}
-.txtShadowBlack {text-shadow: 0 0 20px #00000061}
+.txtShadowBlack {text-shadow: 0 0 20px #00000061, 0 0 1px #000000}
 .txtShadowBlackLight {text-shadow: 0 0 20px #0000002f}
 .txtFadedGray {@apply  text-gray-400}
 .navShadowBlack {box-shadow: 0 5px 10px #00000063}
 .i_interactions {@apply w-[35px] h-[35px] flex items-center justify-center rounded-full cursor-pointer border p-2 transition-all duration-300 ease-in-out}
+.text-gradient {
+  background: linear-gradient(to bottom, #ffffff, #898989);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 
 @layer components {
   section {}
