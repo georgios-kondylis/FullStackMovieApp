@@ -1,20 +1,13 @@
 // Home.tsx
 import { useEffect, useState } from "react";
-import useFetch from "../../services/useFetch";
-import { fetchMovies, fetchMoviesByCategory } from "../../services/api";
 import type { Movie } from "../../constants/types";
-import { useGlobalProps } from "../../GlobalContext";
-import { HomeMovieInfo, HomeMovieCard, } from "../exports";
-import { movieCategories } from "../../constants";
-import Footer from "../Footer/Footer";
-import { fallbackMovieBallerina } from "../../constants";
-import CardSkeleton from "./CardSkeleton";
-import Section3_4Kids from "../4kids/Section3_4Kids";
-import { fetchMovieTrailerKey } from "../../services/api";
-import Pricing from "../ui/Pricing/Pricing";
+import { movieCategories, fallbackMovieBallerina } from "../../constants";
+import { fetchMovies, fetchMoviesByCategory, fetchMovieTrailerKey } from "../../services/api";
+import { HomeMovieInfo, HomeMovieCard, Pricing, CardSkeleton, Footer, Section3_4Kids, useGlobalProps, scrollToTop, useFetch } from "../exports";
+
 
 const Home = () => {
-
+  scrollToTop();
   const { query, customStyles, } = useGlobalProps();
   const { data: popularMovies, refetch, } = useFetch(() => fetchMovies({ query }), false);
   const { data: categorisedMovies, refetch: refetchCategorisedMovies} = useFetch(() => fetchMoviesByCategory({ genreId: selectedCategory?.id }), true);

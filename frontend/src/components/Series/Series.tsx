@@ -1,20 +1,12 @@
 import { useEffect, useState } from "react";
-import useFetch from "../../services/useFetch";
-import { fetchSeries, fetchSeriesByCategory } from "../../services/api";
+import { fetchSeries, fetchSeriesByCategory, fetchSeriesTrailerKey } from "../../services/api";
 import type { Serie } from "../../constants/types";
-import { useGlobalProps } from "../../GlobalContext";
-import Series_Info from "./Series_Info";
-import { seriesCategories } from "../../constants"; // Using series-specific categories now
-import Footer from "../Footer/Footer";
-import SeriesCard from "./SeriesCard";
-import { fallbackSeriesYou, fallbackSeriesSquidGame } from "../../constants";
-import CardSkeleton from "../Home/CardSkeleton";
+import { fallbackSeriesYou, fallbackSeriesSquidGame, seriesCategories } from "../../constants";
 import { useMediaQuery } from "react-responsive";
-import Section3_4Kids from "../4kids/Section3_4Kids";
-import { fetchSeriesTrailerKey } from "../../services/api";
-import Pricing from "../ui/Pricing/Pricing";
+import {SeriesCard, Series_Info, Pricing, CardSkeleton, Footer, Section3_4Kids, useGlobalProps, scrollToTop, useFetch } from "../exports";
 
 const Series = () => {
+  scrollToTop();
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const { query, customStyles } = useGlobalProps();
   const { data: popularSeries, refetch } = useFetch(() => fetchSeries({ query }), false);   // Fetch popular series based on search query; manual refetch control (false)

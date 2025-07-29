@@ -4,9 +4,8 @@ import { useMediaQuery } from 'react-responsive';
 import DynamicTicket from './DynamicTicket';
 
 const Pricing = () => {
-  const {customStyles, isDarkMode} = useGlobalProps();
+  const {customStyles} = useGlobalProps();
   const isMobile = useMediaQuery({ maxWidth: 767 });
-  const pricingTextDynamic = isDarkMode? 'text-black': 'text-white'
 
   return (
     <section id='pricing' className={`${customStyles?.mainBg} mainPX flex justify-center`}>

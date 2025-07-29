@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
-import useFetch from "../../services/useFetch";
-import { fetchSeries } from "../../services/api";
 import type { Serie } from "../../constants/types";
-import { useGlobalProps } from "../../GlobalContext";
-import Footer from "../Footer/Footer";
-import CardSkeleton from "../Home/CardSkeleton";
-import Section3_4Kids from "../4kids/Section3_4Kids";
 import AnimeSeriesInfo from "./AnimeSeriesInfo";
 import AnimeSeriesCard from "./AnimeSeriesCard";
 import { JP_fallbackAnimeSeries, US_fallbackAnimeSeries } from "./fallbackAnimeSeries";
-import { fetchSeriesTrailerKey } from "../../services/api";
+import { fetchSeriesTrailerKey, fetchSeries } from "../../services/api";
+
+import {Pricing, CardSkeleton, Footer, Section3_4Kids, useGlobalProps, scrollToTop, useFetch } from "../exports";
 
 const Anime = () => {
-  const { query, customStyles } = useGlobalProps();
+  scrollToTop();
+  const { query, } = useGlobalProps();
   const { data: popularSeries, refetch } = useFetch(() => fetchSeries({ query }), false); 
 
   const [local_loading, setLocal_loading] = useState(true);
@@ -102,6 +99,8 @@ const Anime = () => {
       </section>
 
       <Section3_4Kids />
+
+      <Pricing />
       <Footer />
     </>
   );

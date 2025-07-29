@@ -1,23 +1,20 @@
+// MovieDetails.tsx
+import { useState } from 'react'
 import { useParams, useLocation, } from 'react-router-dom'
 import { fetchMovieDetails, fetchSeriesDetails } from '../../services/api'
-import useFetch from '../../services/useFetch'
-import CastAndCrew from './CastAndCrew'
+import { useGlobalProps, scrollToTop, useFetch, StarRating, TrailerIframed, GoBackBtn, CastAndCrew } from "../exports";
+
 import type {
   MovieDetails as MovieDetailsType,
   SeriesDetails as SeriesDetailsType,
   Credits
 } from '../../constants/types'
-import { useGlobalProps } from '../../GlobalContext'
-import StarRating from '../ui/StarRating'
-import { useState } from 'react'
-import TrailerIframed from '../ui/TrailerIframed'
-import GoBackBtn from '../ui/GoBackBtn'
 
 type WithCredits = (MovieDetailsType | SeriesDetailsType) & { credits: Credits; trailerKey?: string };
 
 const MovieDetails = () => {
+  scrollToTop();
   const [showTrailerModal, setShowTrailerModal] = useState(false);
-
 
   // Temporary States until i create a DB
   const [liked, setLiked] = useState(false);
