@@ -17,6 +17,14 @@ import StarRating from "./ui/StarRating";
 import GoBackBtn from "./ui/GoBackBtn";
 import TrailerIframed from "./ui/TrailerIframed";
 import CastAndCrew from "./MovieDetails/CastAndCrew";
+import Navbar4Kids from "./Navbar/Navbar4Kids";
+import MovieDetails from "./MovieDetails/MovieDetails";
+import Navbar from "./Navbar/Navbar";
+import Anime from "./Anime/Anime";
+import SignUp from "./AUTH/SignUp/SignUp";
+import MoviesBg from "./AUTH/SignUp/MoviesBg";
+import Logo from "./ui/Logo";
+
 
 
 export {
@@ -39,4 +47,11 @@ export {
   GoBackBtn,
   TrailerIframed,
   CastAndCrew,
+  Navbar4Kids,
+  MovieDetails,
+  Navbar,
+  Anime,
+  SignUp,
+  MoviesBg,
+  Logo,
 }

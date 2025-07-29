@@ -1,18 +1,23 @@
 // App.tsx
-import { Routes, Route } from 'react-router-dom'
-import Navbar from './components/Navbar/Navbar'
-import { Home, Series, Loader } from './components/exports'
-import { useLocation } from 'react-router-dom'
-import Navbar4Kids from './components/Navbar/Navbar4Kids'
-import Anime from './components/Anime/Anime'
-import MovieDetails from './components/MovieDetails/MovieDetails'
+import { Routes, Route, useLocation } from 'react-router-dom'
+import { Home, Series, Loader, Navbar4Kids, MovieDetails, Navbar, Anime, SignUp } from './components/exports'
+import { useState } from 'react'
 
 const App = () => {
+  const [user, setUser] = useState({
+    firstName: '',
+    lastName: '',
+    isGuest: false,
+    profiles: [], // later use this to add profiles like Netflix
+  });
+  
   const location = useLocation();
+
   return (
     <>
       {/* <Loader /> */}
-      {location.pathname === '/4kids' ? <Navbar4Kids /> : <Navbar />}
+      {!user?.isGuest && <SignUp setUser={setUser} />}
+      {/* {location.pathname === '/4kids' ? <Navbar4Kids /> : <Navbar />} */}
     
       <Routes>
         <Route path="/" element={<Home />} />

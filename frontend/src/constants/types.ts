@@ -11,6 +11,7 @@ export type GlobalContextType = {
   customStyles?: {
     mainBgDark: string;
     mainBg: string;
+    mainGrayBg: string;
     mainTxtHover: string;
     Bg_Txt: string;
     btnColor: string;

@@ -16,6 +16,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   // ------------ CUSTOM STYLES ------------
   const customStyles = {
     mainBgDark: 'bg-[#030A1B]',
+    mainGrayBg: 'bg-[#333]',
     mainBg: isDarkMode? 'bg-[#030A1B]' : 'bg-[#ededed]',
     basicDynamicTxt: isDarkMode? 'text-[#fff]' : 'text-[#000000]',
     mainTxtHover: 'text-[#d6d6d6] hover:text-[#ffffff]',
