@@ -8,7 +8,7 @@ import { fetchSeriesTrailerKey, fetchSeries } from "../../services/api";
 import {Pricing, CardSkeleton, Footer, Section3_4Kids, useGlobalProps, scrollToTop, useFetch } from "../exports";
 
 const Anime = () => {
-  scrollToTop();
+  useEffect(()=> {scrollToTop()} ,[])
   const { query, } = useGlobalProps();
   const { data: popularSeries, refetch } = useFetch(() => fetchSeries({ query }), false); 
 

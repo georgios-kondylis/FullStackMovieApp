@@ -7,7 +7,8 @@ import { HomeMovieInfo, HomeMovieCard, Pricing, CardSkeleton, Footer, Section3_4
 
 
 const Home = () => {
-  scrollToTop();
+  useEffect(()=> {scrollToTop()} ,[])
+
   const { query, customStyles, } = useGlobalProps();
   const { data: popularMovies, refetch, } = useFetch(() => fetchMovies({ query }), false);
   const { data: categorisedMovies, refetch: refetchCategorisedMovies} = useFetch(() => fetchMoviesByCategory({ genreId: selectedCategory?.id }), true);

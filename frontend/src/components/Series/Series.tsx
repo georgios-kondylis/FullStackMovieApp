@@ -6,7 +6,7 @@ import { useMediaQuery } from "react-responsive";
 import {SeriesCard, Series_Info, Pricing, CardSkeleton, Footer, Section3_4Kids, useGlobalProps, scrollToTop, useFetch } from "../exports";
 
 const Series = () => {
-  scrollToTop();
+  useEffect(()=> {scrollToTop()} ,[])
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const { query, customStyles } = useGlobalProps();
   const { data: popularSeries, refetch } = useFetch(() => fetchSeries({ query }), false);   // Fetch popular series based on search query; manual refetch control (false)

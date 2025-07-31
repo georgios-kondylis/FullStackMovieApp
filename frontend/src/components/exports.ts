@@ -22,6 +22,7 @@ import MovieDetails from "./MovieDetails/MovieDetails";
 import Navbar from "./Navbar/Navbar";
 import Anime from "./Anime/Anime";
 import SignUp from "./AUTH/SignUp/SignUp";
+import SignIn from "./AUTH/SignIn/SignIn";
 import MoviesBg from "./AUTH/SignUp/MoviesBg";
 import Logo from "./ui/Logo";
 
@@ -52,6 +53,7 @@ export {
   Navbar,
   Anime,
   SignUp,
+  SignIn,
   MoviesBg,
   Logo,
 }
