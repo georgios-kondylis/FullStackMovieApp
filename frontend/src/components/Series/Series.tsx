@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchSeries, fetchSeriesByCategory, fetchSeriesTrailerKey } from "../../services/api";
+import { fetchSeries, fetchSeriesByCategory, fetchSeriesTrailerKey } from "../../services/apiTMDB";
 import type { Serie } from "../../constants/types";
 import { fallbackSeriesYou, fallbackSeriesSquidGame, seriesCategories } from "../../constants";
 import { useMediaQuery } from "react-responsive";

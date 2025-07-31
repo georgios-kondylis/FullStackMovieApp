@@ -1,7 +1,7 @@
 // MovieDetails.tsx
 import { useState } from 'react'
 import { useParams, useLocation, } from 'react-router-dom'
-import { fetchMovieDetails, fetchSeriesDetails } from '../../services/api'
+import { fetchMovieDetails, fetchSeriesDetails } from '../../services/apiTMDB'
 import { useGlobalProps, scrollToTop, useFetch, StarRating, TrailerIframed, GoBackBtn, CastAndCrew } from "../exports";
 
 import type {

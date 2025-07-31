@@ -3,7 +3,7 @@ import type { Serie } from "../../constants/types";
 import AnimeSeriesInfo from "./AnimeSeriesInfo";
 import AnimeSeriesCard from "./AnimeSeriesCard";
 import { JP_fallbackAnimeSeries, US_fallbackAnimeSeries } from "./fallbackAnimeSeries";
-import { fetchSeriesTrailerKey, fetchSeries } from "../../services/api";
+import { fetchSeriesTrailerKey, fetchSeries } from "../../services/apiTMDB";
 
 import {Pricing, CardSkeleton, Footer, Section3_4Kids, useGlobalProps, scrollToTop, useFetch } from "../exports";
 

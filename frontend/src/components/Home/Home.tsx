@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import type { Movie } from "../../constants/types";
 import { movieCategories, fallbackMovieBallerina } from "../../constants";
-import { fetchMovies, fetchMoviesByCategory, fetchMovieTrailerKey } from "../../services/api";
+import { fetchMovies, fetchMoviesByCategory, fetchMovieTrailerKey } from "../../services/apiTMDB";
 import { HomeMovieInfo, HomeMovieCard, Pricing, CardSkeleton, Footer, Section3_4Kids, useGlobalProps, scrollToTop, useFetch } from "../exports";
 
 

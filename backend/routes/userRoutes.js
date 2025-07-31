@@ -35,6 +35,7 @@ router.post('/sign-up', async (req, res) => {
 });
 // --------------- SIGN-UP --------------- //
 
+
 // --------------- LOG-IN --------------- //
 router.post('/login', async (req, res) => {
   try {
@@ -68,3 +69,5 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
+
+export default router

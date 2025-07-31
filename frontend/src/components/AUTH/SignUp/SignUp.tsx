@@ -1,52 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { useGlobalProps, MoviesBg, Logo } from '../../exports';
 import { useNavigate } from 'react-router-dom';
+import { handleSignUp, handleGuestLogin } from '../../../services/apiBackend';
 
 const SignUp = ({ setUser, user }: any) => {
   const { customStyles } = useGlobalProps();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [messageToUser, setMessageToUser] = useState('');
 
-  // One state object for the form inputs
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     password: '',
   });
-
-  const [showPassword, setShowPassword] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  // Handle form input changes dynamically by name attribute
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData(prev => ({ ...prev, [name]: value, }));
   };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setUser({
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      membership: '',
-      profiles: [],
-    });
-    setLoggedIn(true);
-  };
-
-  const handleContinueAsGuest = () => {
-    setUser({
-      firstName: 'Guest',
-      lastName: '',
-      membership: '',
-      profiles: [],
-    });
-    setLoggedIn(true);
-  };
-
+  
+  const handleSubmit = (e: React.FormEvent) => handleSignUp({ e, formData, setUser, setLoggedIn, setMessageToUser, navigate });  // POST API CALL TO CREATE USER
+  const handleContinueAsGuest = () => handleGuestLogin({ setUser, setLoggedIn });
+  
   useEffect(() => {
     if (loggedIn) {
       navigate('/');
@@ -128,6 +105,9 @@ const SignUp = ({ setUser, user }: any) => {
               Login
             </span>
           </p>
+        </div>
+        <div>
+          <p>{messageToUser !== '' && messageToUser}</p>
         </div>
       </main>
     </section>
