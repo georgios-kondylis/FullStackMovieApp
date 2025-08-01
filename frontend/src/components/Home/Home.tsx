@@ -68,8 +68,6 @@ const Home = () => {
     }
   }, [selectedCategory]);
 
-  
-
   return (
     <>
     <section id="Setion1" className="pt-[90px] pb-[10px] min-h-screen bg-cover bg-center xl:bg-left bg-no-repeat transition1 flex justify-center mainPX"

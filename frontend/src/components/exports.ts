@@ -23,8 +23,13 @@ import Navbar from "./Navbar/Navbar";
 import Anime from "./Anime/Anime";
 import SignUp from "./AUTH/SignUp/SignUp";
 import SignIn from "./AUTH/SignIn/SignIn";
-import MoviesBg from "./AUTH/SignUp/MoviesBg";
+import MoviesBg from "./AUTH/ui/MoviesBg";
 import Logo from "./ui/Logo";
+import MessageToUser from "./AUTH/ui/MessageToUser";
+import SubmitBtn from "./AUTH/ui/SubmitBtn";
+import Profiles from "./AUTH/profiles/Profiles";
+
+
 
 
 
@@ -56,4 +61,7 @@ export {
   SignIn,
   MoviesBg,
   Logo,
+  MessageToUser,
+  SubmitBtn,
+  Profiles,
 }

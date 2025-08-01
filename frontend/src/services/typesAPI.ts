@@ -1,4 +1,4 @@
-export type HandleSubmitProps = {
+export type HandleSignUpProps = {
   e: React.FormEvent;
   formData: {
     firstName: string;
@@ -6,8 +6,19 @@ export type HandleSubmitProps = {
     email: string;
     password: string;
   };
-  setUser: (user: any) => void;
-  setLoggedIn: (loggedIn: boolean) => void;
+  setUser?: (user: any) => void;
+  setMessageToUser?: React.Dispatch<React.SetStateAction<string>>;
+  navigate?: any;
+};
+export type HandleSignInProps = {
+  e: React.FormEvent;
+  formData: {
+    email: string;
+    password: string;
+  };
+  loggedIn?: boolean
+  setLoggedIn?: React.Dispatch<React.SetStateAction<boolean>>;
+  setUser?: (user: any) => void;
   setMessageToUser?: React.Dispatch<React.SetStateAction<string>>;
   navigate?: any;
 };

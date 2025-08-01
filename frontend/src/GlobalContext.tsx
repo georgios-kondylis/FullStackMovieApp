@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import type { GlobalContextType } from "./constants/types";
 
@@ -12,6 +12,28 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
 
   const [query, setQuery] = useState("");
+
+  const [user, setUser] = useState({
+    firstName: '',
+    lastName: '',
+    membership: '', // basic, suggested. premium,
+    profiles: [  // later use this to add profiles like Netflix
+      {
+        name: 'Johanna',
+        profileImage: '/images/profile2.png',
+        likedMovies: ['m1', 'm2'],
+        dislikedMovies: ['m3'],
+        favourites: ['m4'],
+        isKidsProfile: false,
+        createdAt: '',  
+      },
+    ],
+    createdAt: ''
+  });
+  useEffect(() => {  // AUTO SIGN-IN 
+    const storedUser = sessionStorage.getItem('user');
+    storedUser && setUser(JSON.parse(storedUser)) 
+  }, []);
   
   // ------------ CUSTOM STYLES ------------
   const customStyles = {
@@ -31,7 +53,8 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         isDarkMode, toggleDarkMode,
         isMobileMenuOpen, toggleMobileMenu,
         query, setQuery,
-        customStyles
+        customStyles,
+        user, setUser,
       }}
     >
       {children}

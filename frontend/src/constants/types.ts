@@ -7,6 +7,8 @@ export type GlobalContextType = {
   
   query: string;
   setQuery?: React.Dispatch<React.SetStateAction<string>>;
+  user: any, 
+  setUser:any,
 
   customStyles?: {
     mainBgDark: string;

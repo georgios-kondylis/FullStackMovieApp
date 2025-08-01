@@ -1,25 +1,11 @@
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
-import { Home, Series, Loader, Navbar4Kids, MovieDetails, Navbar, Anime, SignUp, SignIn } from './components/exports'
+import { Home, Series, Loader, Navbar4Kids, MovieDetails, Navbar, Anime, SignUp, SignIn, Profiles, useGlobalProps } from './components/exports'
 import { useEffect, useState } from 'react'
 
 const App = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState({
-    firstName: '',
-    lastName: '',
-    membership: '', // basic, suggested. premium,
-    profiles: [  // later use this to add profiles like Netflix
-      {
-        name: 'example',
-        profileImage : 'url',
-        likedMovies: [],
-        dislikedMovies: [],
-        favourites: [],
-      }
-    ],
-  });
-  
   const location = useLocation();
+  const {user, setUser} = useGlobalProps();
 
   useEffect(() => {
     const isUserEmpty = user.firstName === '';
@@ -35,11 +21,13 @@ const App = () => {
   return (
     <>
       {/* <Loader /> */}
-      {location.pathname === '/4kids' ? <Navbar4Kids /> : <Navbar />}
+      {location.pathname === '/4kids' ? <Navbar4Kids /> : 
+      location.pathname === '/profiles' || '/sign-in' || '/sign-up' ? '' : <Navbar />}
     
       <Routes>
         <Route path="/sign-in" element={<SignIn setUser={setUser} user={user} />} />
         <Route path="/sign-up" element={<SignUp setUser={setUser} user={user} />} />
+        <Route path="/profiles" element={<Profiles />} />
 
         <Route path="/" element={<Home />} />
         <Route path="/:id" element={<MovieDetails />} />        {/*  for movies (e.g. /123) */}

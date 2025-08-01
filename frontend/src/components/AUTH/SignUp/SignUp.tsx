@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useGlobalProps, MoviesBg, Logo } from '../../exports';
+import { useGlobalProps, MoviesBg, Logo, MessageToUser, SubmitBtn } from '../../exports';
 import { useNavigate } from 'react-router-dom';
 import { handleSignUp, handleGuestLogin } from '../../../services/apiBackend';
 
@@ -9,6 +9,14 @@ const SignUp = ({ setUser, user }: any) => {
   const [showPassword, setShowPassword] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [messageToUser, setMessageToUser] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // while signing up
+
+  useEffect(() => { // setMessageToUser to '' so it dissapears gain
+    if (messageToUser !== "") {
+      const timer = setTimeout(() => {setMessageToUser(""); }, 4000);
+      return () => clearTimeout(timer); // Clean up if component unmounts
+    }
+  }, [messageToUser]);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -16,18 +24,21 @@ const SignUp = ({ setUser, user }: any) => {
     email: '',
     password: '',
   });
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value, }));
   };
   
-  const handleSubmit = (e: React.FormEvent) => handleSignUp({ e, formData, setUser, setLoggedIn, setMessageToUser, navigate });  // POST API CALL TO CREATE USER
+  const handleSubmit = (e: React.FormEvent) => { 
+    setIsLoading(true);
+    handleSignUp({ e, formData, setMessageToUser, navigate })
+    .finally(() => setIsLoading(false));
+  }  
   const handleContinueAsGuest = () => handleGuestLogin({ setUser, setLoggedIn });
   
-  useEffect(() => {
-    if (loggedIn) {
-      navigate('/');
-    }
+  useEffect(() => {   // if loggenIn navigate to '/' 
+    if (loggedIn) { navigate('/') }
   }, [loggedIn, navigate]);
 
   return (
@@ -37,7 +48,7 @@ const SignUp = ({ setUser, user }: any) => {
       <main className="MAX_W relative z-10">
         <Logo />
 
-        <div className="max-w-[450px] mx-auto bg-black/80 px-6 py-8 rounded-lg text-white mt-[10%]">
+        <div className="relative max-w-[450px] mx-auto bg-black/80 px-6 py-8 rounded-lg text-white mt-[10%]">
           <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">Sign Up</h2>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -84,11 +95,7 @@ const SignUp = ({ setUser, user }: any) => {
               />
             </div>
 
-            <button type="submit"
-              className={`${customStyles?.btnColor} text-white font-semibold rounded p-3 hover:opacity-90 transition1`}
-            >
-              Sign Up
-            </button>
+            <SubmitBtn isLoading={isLoading} text='Sign Up' loadingText='Signing Up...' />
           </form>
 
           <button onClick={handleContinueAsGuest}
@@ -99,15 +106,14 @@ const SignUp = ({ setUser, user }: any) => {
 
           <p className="text-sm text-gray-400 mt-6 text-center">
             Already have an account?
-            <span className="text-white underline cursor-pointer ml-[8px]"
+            <span className="mt-4 text-sm text-gray-300 underline hover:text-white transition1 cursor-pointer ml-[8px]"
               onClick={() => navigate('/sign-in')}
             >
-              Login
+              Sign-in
             </span>
           </p>
-        </div>
-        <div>
-          <p>{messageToUser !== '' && messageToUser}</p>
+
+          <MessageToUser message={messageToUser} />
         </div>
       </main>
     </section>
