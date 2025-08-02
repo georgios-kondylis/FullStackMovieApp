@@ -28,6 +28,8 @@ import Logo from "./ui/Logo";
 import MessageToUser from "./AUTH/ui/MessageToUser";
 import SubmitBtn from "./AUTH/ui/SubmitBtn";
 import Profiles from "./AUTH/profiles/Profiles";
+import CreateProfileCard from "./AUTH/profiles/profilesUi/CreateProfileCard";
+import CreateProfile from "./AUTH/profiles/profilesUi/CreateProfile";
 
 
 
@@ -64,4 +66,6 @@ export {
   MessageToUser,
   SubmitBtn,
   Profiles,
+  CreateProfileCard,
+  CreateProfile,
 }

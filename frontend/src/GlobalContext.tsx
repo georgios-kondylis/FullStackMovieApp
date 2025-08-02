@@ -44,7 +44,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     mainTxtHover: 'text-[#d6d6d6] hover:text-[#ffffff]',
     Bg_Txt: isDarkMode? 'bg-[#030A1B] text-[#ededed]' : 'bg-[#ededed] text-[#17161a]', 
     btnColor: 'bg-[#c92443] text-[#ededed]  hover:bg-[#9b0e07] hover:text-[#c5c5c5] cursor-pointer',
-    btnColor2: 'bg-[#145de3] text-[#ededed] cursor-pointer', 
+    btnColor2: 'bg-[#145de3] text-[#ededed] hover:bg-[#0077ff] cursor-pointer', 
   }
   // ------------ CUSTOM STYLES ------------
   return (

@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
-import { Home, Series, Loader, Navbar4Kids, MovieDetails, Navbar, Anime, SignUp, SignIn, Profiles, useGlobalProps } from './components/exports'
+import { Home, Series, Loader, Navbar4Kids, MovieDetails, Navbar, Anime, SignUp, SignIn, Profiles, useGlobalProps, CreateProfile } from './components/exports'
 import { useEffect, useState } from 'react'
 
 const App = () => {
@@ -28,6 +28,7 @@ const App = () => {
         <Route path="/sign-in" element={<SignIn setUser={setUser} user={user} />} />
         <Route path="/sign-up" element={<SignUp setUser={setUser} user={user} />} />
         <Route path="/profiles" element={<Profiles />} />
+        <Route path="/profiles/createProfile" element={<CreateProfile />} />
 
         <Route path="/" element={<Home />} />
         <Route path="/:id" element={<MovieDetails />} />        {/*  for movies (e.g. /123) */}

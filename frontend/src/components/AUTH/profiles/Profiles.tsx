@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Logo, useGlobalProps } from '../../exports';
-import { Typewriter } from 'react-simple-typewriter';
+import { CreateProfileCard, Logo, useGlobalProps } from '../../exports';
 import { GreetingTypewriter } from './profilesUi/GreetingTypewritter';
 import GuestCard from './profilesUi/GuestCard';
 
 const Profiles = () => {
   const { user, customStyles } = useGlobalProps();
   const navigate = useNavigate();
+  const [creatingProfileIsActive, setCreatingProfileIsActive] = useState(false);
 
   const handleContinueAsGuest = (profileName: string) => {
     sessionStorage.setItem('activeProfile', profileName);
@@ -37,23 +37,21 @@ const Profiles = () => {
         </div>
        
         {hasProfiles? 
-        <div className={`border w-[300px] h-[300px]`}>
-          
-        </div> 
-        : 
-        <div className='flex max-sm:flex-col max-sm:items-center gap-[50px]'>
+          <div className={`border w-[300px] h-[300px]`}>
+            
+          </div> 
+          : 
+          <div className='flex max-sm:flex-col max-sm:items-center gap-[50px] transition1'>
+            <GuestCard 
+              handleContinueAsGuest={handleContinueAsGuest} 
+              creatingProfileIsActive={creatingProfileIsActive}
+            />
 
-         <GuestCard handleContinueAsGuest={handleContinueAsGuest}/>
-
-          <div className={`flex flex-col gap-3 items-center`}>
-            <div className={`w-[250px] h-[250px] md:w-[300px] md:h-[300px] rounded-[5px] flex items-center justify-center bg-[#0000007a] hover:bg-[#80808020]
-            text-[8rem] text-[gray] hover:text-[#eaeaea] cursor-pointer`}>
-              <i className="fa-solid fa-circle-plus"></i>
-            </div>
-            <p>Create a profile</p>
+            <CreateProfileCard 
+                text={'Create a profile'} 
+                setCreatingProfileIsActive={setCreatingProfileIsActive} 
+            />
           </div>
-
-        </div>
          }
       </main>
     </section>
