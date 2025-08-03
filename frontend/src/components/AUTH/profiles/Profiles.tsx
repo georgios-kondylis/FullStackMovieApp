@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CreateProfileCard, Logo, useGlobalProps } from '../../exports';
+import { CreateProfileCard, Logo, ProfileCard, useGlobalProps } from '../../exports';
 import { GreetingTypewriter } from './profilesUi/GreetingTypewritter';
-import GuestCard from './profilesUi/GuestCard';
+import GuestCard from './profilesUi/cards/GuestCard';
+import { useMediaQuery } from 'react-responsive';
+import MobileProfileCard from './profilesUi/cards/MobileProfileCard';
 
 const Profiles = () => {
   const { user, customStyles } = useGlobalProps();
+  const isMobile = useMediaQuery({ maxWidth: 640 });
   const navigate = useNavigate();
-  const [creatingProfileIsActive, setCreatingProfileIsActive] = useState(false);
 
   const handleContinueAsGuest = (profileName: string) => {
     sessionStorage.setItem('activeProfile', profileName);
@@ -15,42 +17,42 @@ const Profiles = () => {
   };
 
   const hasProfiles = user?.profiles?.length > 0;
-  console.log(hasProfiles)
 
   return (
     <section className={`flex justify-center min-h-screen ${customStyles?.mainBgDark} text-white mainPX`}>
-      
-      <main className={`relative MAX_W flex flex-col items-center`}>
+      <main className={`relative MAX_W flex flex-col pb-[80px]`}>
         <div className='w-full'>
          <Logo/>
         </div>
         
-        <div className='relative flex max-md:flex-col items-center mt-[15%] mb-[50px] gap-[0px] transition1'>
-          <div className='absolute top-[-60px] w-full'>
+        <div className='relative flex max-md:flex-col items-center mt-[5%] max-sm:mt-[15%] mb-[50px] gap-[0px] transition1'>
+          <div className='absolute left-1/2 -translate-x-1/2 top-[-60px]'>
             <GreetingTypewriter name={user.firstName || 'Guest'} />
           </div>
         
 
-          <h1 className={`text-gradient text-[3rem] font-semibold transition1`}>
-            Who's watching?
+          <h1 className={`text-gradient mx-auto text-[3rem] max-sm:text-[2rem] font-semibold transition1`}>
+           {user.firstName === 'Guest' ? '' : "Who's watching?" } 
           </h1>
         </div>
        
-        {hasProfiles? 
-          <div className={`border w-[300px] h-[300px]`}>
-            
-          </div> 
+        {user.firstName !== 'Guest' ? 
+         <div className={`flex flex-col items-start max-sm:items-center gap-[50px] transition1 overflow-x-auto
+                        ${user.profiles.length > 0 && 'md:ml-[70px]'}`}
+          >
+            {user.profiles.map((profile:any, i:any) => isMobile? 
+            <MobileProfileCard  key={i} profile={profile}/> 
+            :
+             <ProfileCard key={i} profile={profile} />
+            )}
+            <div className={`${user.profiles.length < 1 && 'mx-auto'}`}>
+             <CreateProfileCard text={'Create a profile'} />
+            </div>
+          
+          </div>
           : 
-          <div className='flex max-sm:flex-col max-sm:items-center gap-[50px] transition1'>
-            <GuestCard 
-              handleContinueAsGuest={handleContinueAsGuest} 
-              creatingProfileIsActive={creatingProfileIsActive}
-            />
-
-            <CreateProfileCard 
-                text={'Create a profile'} 
-                setCreatingProfileIsActive={setCreatingProfileIsActive} 
-            />
+          <div className='flex mx-auto max-sm:flex-col max-sm:items-center gap-[50px] transition1'>
+            <GuestCard handleContinueAsGuest={handleContinueAsGuest} />
           </div>
          }
       </main>

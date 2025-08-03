@@ -32,6 +32,7 @@ const userSchema = new mongoose.Schema({
     {
       name: String,
       profileImage: String,
+      forKids: Boolean,
       likedMovies: [String],      // store movie IDs or titles
       dislikedMovies: [String],
       favourites: [String],

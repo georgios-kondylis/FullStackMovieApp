@@ -29,12 +29,3 @@ const useFetch = <T>(fetchFunction: () => Promise<T>, autoFetch = true) => {
 };
 
 export default useFetch;
-
-
-
-
-// Temporarely removed from the function because i dont use it and i want it clean
-// const reset = () => {
-//     setData(null);
-//     setLoading(false);
-// };

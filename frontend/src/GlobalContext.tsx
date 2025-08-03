@@ -19,12 +19,12 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     membership: '', // basic, suggested. premium,
     profiles: [  // later use this to add profiles like Netflix
       {
-        name: 'Johanna',
-        profileImage: '/images/profile2.png',
-        likedMovies: ['m1', 'm2'],
-        dislikedMovies: ['m3'],
-        favourites: ['m4'],
-        isKidsProfile: false,
+        name: '',
+        profileImage: '',
+        likedMovies: [],
+        dislikedMovies: [],
+        favourites: [],
+        forKids: false,
         createdAt: '',  
       },
     ],

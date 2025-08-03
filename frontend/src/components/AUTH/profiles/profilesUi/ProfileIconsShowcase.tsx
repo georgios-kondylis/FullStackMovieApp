@@ -7,7 +7,7 @@ import {
   frozenProfileIcons, 
   kungFuPandaProfileIcons, 
   defaultProfileIcons
-} from './costants';
+} from '../costants';
 import ListOfAvatats from './ListOfAvatats';
 
 const ProfileIconsShowcase = ({setSelectedIcon, setIconsAvailableIsOpen} : any) => {
@@ -59,7 +59,7 @@ const ProfileIconsShowcase = ({setSelectedIcon, setIconsAvailableIsOpen} : any) 
         {/* Optional Close Button */}
         <div className='w-full bg-[#1c1c1c] pb-[30px] sticky bottom-0'>
           <button onClick={() => setIconsAvailableIsOpen(false)}
-            className={`w-full font-semibold py-2 rounded ${customStyles?.btnColor2} text-shadow-2xs transition1`}
+            className={`w-full font-semibold py-2 rounded ${customStyles?.btnColor} text-shadow-2xs transition1`}
           >
             Close
           </button>
@@ -70,23 +70,3 @@ const ProfileIconsShowcase = ({setSelectedIcon, setIconsAvailableIsOpen} : any) 
 }
 
 export default ProfileIconsShowcase
-
-
-
-
-// const listOfIcons = ({array, setSelectedIcon, setIconsAvailableIsOpen} : any) => {
-//   return(
-//     <div className="text-white flex flex-col">
-//     <h3 className="text-lg mb-2 font-medium">Default</h3>
-//     <div className="flex gap-4 overflow-x-auto scrollbar-thin p-1">
-//       {array.map((icon: any, i:any) => (
-//         <div key={i} className="min-w-[150px] h-[150px] rounded border-2 border-transparent hover:border-white cursor-pointer transition1 hover:scale-105"
-//           onClick={() => {setSelectedIcon(icon.img); setIconsAvailableIsOpen(false)}}
-//         >
-//           <img src={icon.img} alt="avatar" className="w-full h-full object-cover" />
-//         </div>
-//       ))}
-//     </div>
-//   </div>
-//   )
-// }

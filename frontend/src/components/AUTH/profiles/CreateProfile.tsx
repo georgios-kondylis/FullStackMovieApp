@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalProps, Logo, ProfileIconsShowcase } from '../../exports';
-import { defaultProfileIcons } from './profilesUi/costants';
+import { defaultProfileIcons } from './costants';
+import CustomCheckBox from './profilesUi/customCheckBox/CustomCheckBox';
+import { createNewProfileFunk } from '../../../services/apiBackend';
 
 const CreateProfile = () => {
-  const { user, customStyles } = useGlobalProps();
+  const { user, setUser, customStyles } = useGlobalProps();
   const navigate = useNavigate();
 
   const initialAvatar = defaultProfileIcons[1]?.img || defaultProfileIcons[0]?.img || '';
@@ -12,16 +14,30 @@ const CreateProfile = () => {
   const [selectedIcon, setSelectedIcon] = useState(initialAvatar);
   const [isIconHovered, setIsIconHovered] = useState(false);
   const [showIconModal, setShowIconModal] = useState(false);
+  const [messageToUser, setMessageToUser] = useState(false);
 
   const [newUser, setNewUser] = useState({
     name: '',
-    avatar: initialAvatar,
+    profileImage: initialAvatar,
     forKids: false,
   });
 
   useEffect(() => {
-    setNewUser(prev => ({ ...prev, avatar: selectedIcon }));
+    setNewUser(prev => ({ ...prev, profileImage: selectedIcon }));
   }, [selectedIcon]);
+
+  const handleCreateProfile = async () => {
+    if (!newUser.name) return;
+    try {
+      const updatedUser = await createNewProfileFunk(user.email, newUser);
+      sessionStorage.setItem("user", JSON.stringify(updatedUser));
+      setUser(updatedUser);
+      navigate('/profiles');
+    } catch (err) {
+      console.error("Error creating profile:", err);
+    }
+  };
+  
 
   return (
     <section className={`flex justify-center min-h-screen ${customStyles?.mainBgDark} text-white mainPX`}>
@@ -54,25 +70,19 @@ const CreateProfile = () => {
               {/* Name Input */}
               <div className="flex items-center gap-3">
                 <i className="fa-solid fa-user-pen" />
-                <input
-                  type="text"
-                  placeholder="Profile Name"
+                <input type="text"  placeholder="Profile Name"
                   value={newUser.name}
                   onChange={e => setNewUser(prev => ({ ...prev, name: e.target.value }))}
                   className="border-b-[#ffffff6a] hover:border-[#ffffffad] border-b bg-transparen px-1 py-2 outline-none focus:border-b-[white]"
+                  onKeyDown={(e) => {if (e.key === 'Enter' && newUser.name.trim()) handleCreateProfile()}}
                 />
               </div>
 
               {/* Kids Mode Toggle */}
-              <div className="flex items-center gap-3">
-                <input
-                  type="checkbox"
-                  id="forKids"
-                  checked={newUser.forKids}
-                  onChange={() => setNewUser(prev => ({ ...prev, forKids: !prev.forKids }))}
-                />
-                <label htmlFor="forKids" className="select-none">For Kids</label>
-              </div>
+              <CustomCheckBox id="forKids" checked={newUser.forKids}
+                onChange={() => setNewUser((prev) => ({ ...prev, forKids: !prev.forKids }))}
+                label="For Kids"
+              />
             </div>
           </div>
           
@@ -80,7 +90,8 @@ const CreateProfile = () => {
             <button className={`${customStyles?.btnColor} px-3 py-1 rounded-[7px]`} onClick={() => navigate(-1)}>
               Go Back
             </button>
-            <button className={`${newUser.name !== '' ? customStyles?.btnColor2 : 'bg-[#80808040] text-[#ffffff50] cursor-not-allowed'} px-3 py-1 rounded-[7px]`}>
+            <button className={`${newUser.name !== '' ? customStyles?.btnColor2 : 'bg-[#80808040] text-[#ffffff50] cursor-not-allowed'} px-3 py-1 rounded-[7px]`}
+                    onClick={handleCreateProfile}>
               Create
             </button>
           </div>

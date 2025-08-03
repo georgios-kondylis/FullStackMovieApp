@@ -33,15 +33,13 @@ router.post('/sign-up', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
-// --------------- SIGN-UP --------------- //
-
 
 // --------------- LOG-IN --------------- //
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email }).select("firstName lastName email password membership");
+    const user = await User.findOne({ email }).select("firstName lastName email password membership profiles");
 
     if (!user) { return res.status(400).json({ message: 'Invalid credentials' }); }
 
@@ -61,6 +59,7 @@ router.post('/login', async (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        membership: user.membership,
         profiles: user.profiles,
       }
     });
@@ -70,5 +69,77 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
+
+// --------------- Create Profile --------------- //
+router.put('/new-profile', async (req, res) => {
+  try {
+    const { email, name, profileImage, forKids } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // ❌ Check if a profile with the same name already exists
+    const nameExists = user.profiles.some(p => p.name.toLowerCase() === name.toLowerCase());
+    if (nameExists) {
+      return res.status(400).json({ message: 'Profile name already exists' });
+    }
+
+    const newProfile = {
+      name,
+      profileImage,
+      forKids,
+      likedMovies: [],
+      dislikedMovies: [],
+      favourites: [],
+    };
+
+    user.profiles.push(newProfile);
+    await user.save();
+
+    return res.status(200).json({ message: 'Profile created', profiles: user.profiles });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
+
+// Get The User Only, Ex. after i create a profile i want to update the user in the session storage
+router.get('/user-by-email', async (req, res) => {
+  const { email } = req.query;
+  try {
+    const user = await User.findOne({ email }).select("-password"); // exclude password
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
+// --------------- DELETE Profile --------------- //
+router.delete('/delete-profile', async (req, res) => {
+  try {
+    const { email, profileName } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // Filter out the profile with the matching name
+    const updatedProfiles = user.profiles.filter(profile => profile.name !== profileName);
+
+    if (updatedProfiles.length === user.profiles.length) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+
+    user.profiles = updatedProfiles;
+    await user.save();
+
+    res.status(200).json({ message: 'Profile deleted successfully', profiles: user.profiles });
+  } catch (error) {
+    console.error('Error deleting profile:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
 
 export default router
