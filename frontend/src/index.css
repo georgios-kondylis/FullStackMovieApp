@@ -17,6 +17,8 @@ html, body {
 .mainPX {@apply px-[20px]}
 .mainMX {@apply mx-[20px]}
 .mainDarkBg {@apply bg-[#17161a]}
+.mainSection1 { @apply bg-black relative pt-[90px] pb-[10px] min-h-screen flex justify-center overflow-hidden }
+
 
 .transition1 { @apply transition-all duration-300 ease-in-out;}
 .transition2 { @apply transition-all duration-500 ease-out}

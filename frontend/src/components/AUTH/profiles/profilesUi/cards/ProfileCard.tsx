@@ -1,14 +1,16 @@
-import React from 'react';
 import { useGlobalProps } from '../../../../exports';
 import { deleteProfile } from '../../../../../services/apiBackend';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileCard = ({ profile }: any) => {
-  const { user, setUser } = useGlobalProps();
+  const { user, setUser, setSelectedProfile, } = useGlobalProps();
+  const navigate = useNavigate();
 
   const handleDelete = () => deleteProfile(user, profile.name.trim(), setUser);
+  const handleSelectProfile = () => { setSelectedProfile!(profile); navigate('/') };
 
   return (
-    <div className="relative group flex flex-col gap-3 items-center pr-[70px]">
+    <div onClick={handleSelectProfile} className="relative group flex flex-col gap-3 items-center pr-[70px]">
       <div className="w-[250px] h-[250px] md:w-[300px] md:h-[300px] rounded-[5px] flex items-center justify-center overflow-hidden hover:brightness-75 cursor-pointer">
         <img src={profile.profileImage || null} className="w-full h-full object-cover" alt="Guest Avatar" />
       </div>

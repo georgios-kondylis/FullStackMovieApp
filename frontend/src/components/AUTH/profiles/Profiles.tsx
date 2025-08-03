@@ -15,14 +15,22 @@ const Profiles = () => {
     sessionStorage.setItem('activeProfile', profileName);
     navigate('/');
   };
+  const handleSignOut = () => {sessionStorage.clear(); navigate('/sign-in')}
 
   const hasProfiles = user?.profiles?.length > 0;
 
   return (
     <section className={`flex justify-center min-h-screen ${customStyles?.mainBgDark} text-white mainPX`}>
       <main className={`relative MAX_W flex flex-col pb-[80px]`}>
-        <div className='w-full'>
+
+        <div className='w-full flex items-center justify-between'>
          <Logo/>
+
+         <button className='flex items-center gap-2 text-[#ffffffc0] hover:text-[white] hover:underline cursor-pointer'
+                 onClick={handleSignOut}>
+           <i className="fa-solid fa-door-open"></i>
+           <span>Sign Out</span>
+         </button>
         </div>
         
         <div className='relative flex max-md:flex-col items-center mt-[5%] max-sm:mt-[15%] mb-[50px] gap-[0px] transition1'>

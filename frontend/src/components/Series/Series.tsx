@@ -70,7 +70,7 @@ const Series = () => {
 
   return (
     <>
-      <section  id="Setion1" className="relative pt-[90px] pb-[10px] min-h-screen bg-cover bg-center xl:bg-left bg-no-repeat transition1 flex justify-center mainPX"   >
+      <section id="Setion1" className="mainSection1 mainPX">
         {/* Moving Background Layer */}
         <BgTopSection bgUrl={bgUrl} />
         <main className="z-1 content-container1 flex flex-col mt-[300px] MAX_W">

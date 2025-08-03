@@ -35,6 +35,16 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     storedUser && setUser(JSON.parse(storedUser)) 
   }, []);
   
+  const [selectedProfile, setSelectedProfile] = useState(() => {
+    const stored = sessionStorage.getItem('selectedProfile');
+    return stored ? JSON.parse(stored) : null;
+  });
+  
+  useEffect(() => {
+    sessionStorage.setItem('selectedProfile', JSON.stringify(selectedProfile));
+  }, [selectedProfile]);
+  
+  
   // ------------ CUSTOM STYLES ------------
   const customStyles = {
     mainBgDark: 'bg-[#030A1B]',
@@ -55,6 +65,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         query, setQuery,
         customStyles,
         user, setUser,
+        selectedProfile, setSelectedProfile,
       }}
     >
       {children}

@@ -70,7 +70,7 @@ const Home = () => {
 
   return (
     <>
-    <section id="Section1" className="relative pt-[90px] pb-[10px] min-h-screen flex justify-center mainPX overflow-hidden" >
+    <section id="Section1" className="mainSection1 mainPX" >
       {/* Moving Background Layer */}
       <BgTopSection bgUrl={bgUrl} />
 

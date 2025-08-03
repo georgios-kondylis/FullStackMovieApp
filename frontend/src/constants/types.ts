@@ -9,6 +9,8 @@ export type GlobalContextType = {
   setQuery?: React.Dispatch<React.SetStateAction<string>>;
   user: any, 
   setUser:any,
+  selectedProfile?: any;
+  setSelectedProfile?: (profile: any) => void;
 
   customStyles?: {
     mainBgDark: string;
