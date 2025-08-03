@@ -1,92 +1,96 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalProps, Logo, ProfileIconsShowcase } from '../../exports';
-import {
-  defaultProfileIcons,
-  lionKingProfileIcons,
-  spidermanProfileIcons,
-  kungFuPandaProfileIcons,
-} from './profilesUi/costants';
+import { defaultProfileIcons } from './profilesUi/costants';
 
 const CreateProfile = () => {
   const { user, customStyles } = useGlobalProps();
   const navigate = useNavigate();
 
-  const [selectedIcon, setSelectedIcon] = useState(defaultProfileIcons[1].img);
-  const [iconIsHovered, setIconIsHovered] = useState(false);
-  const [iconsAvailableIsOpen, setIconsAvailableIsOpen] = useState(false);
+  const initialAvatar = defaultProfileIcons[1]?.img || defaultProfileIcons[0]?.img || '';
+
+  const [selectedIcon, setSelectedIcon] = useState(initialAvatar);
+  const [isIconHovered, setIsIconHovered] = useState(false);
+  const [showIconModal, setShowIconModal] = useState(false);
 
   const [newUser, setNewUser] = useState({
     name: '',
-    avatar: defaultProfileIcons[1].img,
+    avatar: initialAvatar,
     forKids: false,
   });
 
-  // Update avatar in newUser when icon is selected
   useEffect(() => {
-    setNewUser((prev) => ({ ...prev, avatar: selectedIcon }));
+    setNewUser(prev => ({ ...prev, avatar: selectedIcon }));
   }, [selectedIcon]);
 
   return (
     <section className={`flex justify-center min-h-screen ${customStyles?.mainBgDark} text-white mainPX`}>
-      <main className={`relative MAX_W flex flex-col`}>
-        <div className='w-full'>
-          <Logo />
-        </div>
+      <main className="relative MAX_W flex flex-col">
+        <Logo />
 
-        <div className='relative flex flex-col items-center mt-[5%] mb-[50px] gap-[40px] transition1'>
-          <h1 className={`text-gradient text-[3rem] font-semibold transition1 mx-auto`}>
-            Create Profile
-          </h1>
+        <div className="flex flex-col items-center mt-[5%] mb-[50px] gap-10 transition1">
+          <h1 className="text-gradient text-4xl font-semibold">New Profile</h1>
 
-          <div className='flex max-md:flex-col'>
-            {/* IMAGE SELECTOR */}
-            <div id='IMAGE'
-              className='relative w-[300px] aspect-square cursor-pointer'
-              onMouseEnter={() => setIconIsHovered(true)}
-              onMouseLeave={() => setIconIsHovered(false)}
-              onClick={() => setIconsAvailableIsOpen(true)}
+          <div className="flex gap-6 max-md:flex-col">
+            {/* Profile Image */}
+            <div className="relative w-[300px] aspect-square cursor-pointer"
+              onMouseEnter={() => setIsIconHovered(true)}
+              onMouseLeave={() => setIsIconHovered(false)}
+              onClick={() => setShowIconModal(true)}
             >
-              <img src={selectedIcon} alt="Selected Avatar" className='w-full h-full object-cover rounded-[8px]' />
+              <img src={selectedIcon} alt="Selected Avatar"
+                className="w-full h-full object-cover rounded-xl"
+              />
 
-              {iconIsHovered && (
-                <div className='absolute flex items-center justify-center top-0 left-0 w-full h-full bg-[#ffffff8f] pointer-events-none rounded-[8px]'>
-                  <i className="fa-solid fa-pencil text-[#282828] text-[4rem]"></i>
+              {isIconHovered && (
+                <div className="absolute inset-0 bg-[#ffffff8f] flex items-center justify-center rounded-xl pointer-events-none">
+                  <i className="fa-solid fa-pencil text-[#282828] text-4xl" />
                 </div>
               )}
             </div>
 
-            {/* INPUTS */}
-            <div id='INPUTS' className='flex flex-col ml-[20px] gap-5 justify-center'>
-              {/* Profile Name */}
-              <div id='UserName' className='flex items-center gap-3'>
-                <i className="fa-solid fa-user-pen"></i>
+            {/* Inputs */}
+            <div className="flex flex-col justify-center gap-6">
+              {/* Name Input */}
+              <div className="flex items-center gap-3">
+                <i className="fa-solid fa-user-pen" />
                 <input
                   type="text"
-                  className='border px-2 py-1 outline-none bg-transparent text-white border-gray-500 rounded'
                   placeholder="Profile Name"
                   value={newUser.name}
-                  onChange={(e) => setNewUser((prev) => ({ ...prev, name: e.target.value }))}
+                  onChange={e => setNewUser(prev => ({ ...prev, name: e.target.value }))}
+                  className="border-b-[#ffffff6a] hover:border-[#ffffffad] border-b bg-transparen px-1 py-2 outline-none focus:border-b-[white]"
                 />
               </div>
 
-              {/* Kids Mode Radio */}
-              <div id='KidsMode' className='flex items-center gap-3'>
-                <input type="checkbox"  id="forKids"
+              {/* Kids Mode Toggle */}
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="forKids"
                   checked={newUser.forKids}
-                  onChange={() => setNewUser((prev) => ({ ...prev, forKids: !prev.forKids }))}
+                  onChange={() => setNewUser(prev => ({ ...prev, forKids: !prev.forKids }))}
                 />
-                <label htmlFor="forKids" className='select-none'>For Kids</label>
+                <label htmlFor="forKids" className="select-none">For Kids</label>
               </div>
             </div>
           </div>
+          
+          <div className='flex gap-[20px] mt-[30px] text-[2rem]'>
+            <button className={`${customStyles?.btnColor} px-3 py-1 rounded-[7px]`} onClick={() => navigate(-1)}>
+              Go Back
+            </button>
+            <button className={`${newUser.name !== '' ? customStyles?.btnColor2 : 'bg-[#80808040] text-[#ffffff50] cursor-not-allowed'} px-3 py-1 rounded-[7px]`}>
+              Create
+            </button>
+          </div>
+         
         </div>
 
-        {/* ICON SELECTION MODAL */}
-        {iconsAvailableIsOpen && (
+        {showIconModal && (
           <ProfileIconsShowcase
             setSelectedIcon={setSelectedIcon}
-            setIconsAvailableIsOpen={setIconsAvailableIsOpen}
+            setIconsAvailableIsOpen={setShowIconModal}
           />
         )}
       </main>
