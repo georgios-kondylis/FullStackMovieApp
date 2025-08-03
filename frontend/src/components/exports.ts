@@ -29,7 +29,9 @@ import MessageToUser from "./AUTH/ui/MessageToUser";
 import SubmitBtn from "./AUTH/ui/SubmitBtn";
 import Profiles from "./AUTH/profiles/Profiles";
 import CreateProfileCard from "./AUTH/profiles/profilesUi/CreateProfileCard";
-import CreateProfile from "./AUTH/profiles/profilesUi/CreateProfile";
+import CreateProfile from "./AUTH/profiles/CreateProfile";
+import ProfileIconsShowcase from "./AUTH/profiles/profilesUi/ProfileIconsShowcase";
+
 
 
 
@@ -68,4 +70,5 @@ export {
   Profiles,
   CreateProfileCard,
   CreateProfile,
+  ProfileIconsShowcase,
 }
