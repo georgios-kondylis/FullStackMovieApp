@@ -5,7 +5,7 @@ import AnimeSeriesCard from "./AnimeSeriesCard";
 import { JP_fallbackAnimeSeries, US_fallbackAnimeSeries } from "./fallbackAnimeSeries";
 import { fetchSeriesTrailerKey, fetchSeries } from "../../services/apiTMDB";
 
-import {Pricing, CardSkeleton, Footer, Section3_4Kids, useGlobalProps, scrollToTop, useFetch } from "../exports";
+import {Pricing, CardSkeleton, Footer, Section3_4Kids, useGlobalProps, scrollToTop, useFetch, BgTopSection } from "../exports";
 
 const Anime = () => {
   useEffect(()=> {scrollToTop()} ,[])
@@ -64,13 +64,10 @@ const Anime = () => {
   return (
     <>
       {/* Main hero section */}
-      <section  id="Setion1" className="pt-[90px] pb-[10px] min-h-screen bg-cover bg-center xl:bg-left bg-no-repeat transition1 flex justify-center mainPX"
-        style={{  backgroundImage: bgUrl
-            ? `linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0) 90%), url(${bgUrl})`
-            : undefined, backgroundColor: "#000",
-        }}
-      >
-        <main className="content-container1 flex flex-col mt-[300px] MAX_W">
+      <section  id="Setion1" className="relative pt-[90px] pb-[10px] min-h-screen bg-cover bg-center xl:bg-left bg-no-repeat transition1 flex justify-center mainPX" >
+         {/* Moving Background Layer */}
+         <BgTopSection bgUrl={bgUrl} />
+        <main className="z-1 content-container1 flex flex-col mt-[300px] MAX_W">
           {currentSeries && <AnimeSeriesInfo currentSeries={currentSeries} />}
 
           <div className="flex mt-[80px] mb-[10px]"> {/*coutry Switch button */}

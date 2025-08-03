@@ -72,7 +72,7 @@ export const handleSignIn = async ({ e, formData, setUser, setLoggedIn, setMessa
   }
 };
 
-export const createNewProfileFunk = async (userEmail: string, newProfile: any) => {
+export const createNewProfileFunk = async (userEmail: string, newProfile: any, setMessageToUser: any) => {
   const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/new-profile`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -86,6 +86,8 @@ export const createNewProfileFunk = async (userEmail: string, newProfile: any) =
 
   if (!res.ok) {
     const errorData = await res.json();
+    setMessageToUser(errorData.message)
+    setTimeout(() => {setMessageToUser('')}, 3000)
     throw new Error(errorData.message || 'Failed to create profile');
   }
 

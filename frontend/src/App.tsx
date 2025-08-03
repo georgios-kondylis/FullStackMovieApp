@@ -22,7 +22,7 @@ const App = () => {
     <>
       {/* <Loader /> */}
       {location.pathname === '/4kids' ? <Navbar4Kids /> : 
-      location.pathname === '/profiles' || '/sign-in' || '/sign-up' ? '' : <Navbar />}
+      ['/profiles', '/sign-in', '/sign-up'].includes(location.pathname) ? '' : <Navbar />}
     
       <Routes>
         <Route path="/sign-in" element={<SignIn setUser={setUser} user={user} />} />

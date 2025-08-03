@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGlobalProps, Logo, ProfileIconsShowcase } from '../../exports';
+import { useGlobalProps, Logo, ProfileIconsShowcase, MessageToUser } from '../../exports';
 import { defaultProfileIcons } from './costants';
 import CustomCheckBox from './profilesUi/customCheckBox/CustomCheckBox';
 import { createNewProfileFunk } from '../../../services/apiBackend';
@@ -14,7 +14,7 @@ const CreateProfile = () => {
   const [selectedIcon, setSelectedIcon] = useState(initialAvatar);
   const [isIconHovered, setIsIconHovered] = useState(false);
   const [showIconModal, setShowIconModal] = useState(false);
-  const [messageToUser, setMessageToUser] = useState(false);
+  const [messageToUser, setMessageToUser] = useState('');
 
   const [newUser, setNewUser] = useState({
     name: '',
@@ -29,7 +29,7 @@ const CreateProfile = () => {
   const handleCreateProfile = async () => {
     if (!newUser.name) return;
     try {
-      const updatedUser = await createNewProfileFunk(user.email, newUser);
+      const updatedUser = await createNewProfileFunk(user.email, newUser, setMessageToUser);
       sessionStorage.setItem("user", JSON.stringify(updatedUser));
       setUser(updatedUser);
       navigate('/profiles');
@@ -86,7 +86,7 @@ const CreateProfile = () => {
             </div>
           </div>
           
-          <div className='flex gap-[20px] mt-[30px] text-[2rem]'>
+          <div className='relative flex gap-[20px] mt-[30px] text-[2rem]'>
             <button className={`${customStyles?.btnColor} px-3 py-1 rounded-[7px]`} onClick={() => navigate(-1)}>
               Go Back
             </button>
@@ -94,8 +94,9 @@ const CreateProfile = () => {
                     onClick={handleCreateProfile}>
               Create
             </button>
+            
+            <MessageToUser message={messageToUser}/> 
           </div>
-         
         </div>
 
         {showIconModal && (

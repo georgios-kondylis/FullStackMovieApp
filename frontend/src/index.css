@@ -38,13 +38,14 @@ html, body {
   main {
     @apply w-full overflow-x-hidden;
   }
-
-  /* nav {
-    @apply sticky h-[50px] z-50 w-full flex items-center justify-center shadow-[0_2px_4px_#00000030]
-    ;
-
-    h1 { @apply text-3xl -mb-2;}
-    
-
-  } */
 }
+
+/* BG MOVING ANIMATION */
+@keyframes slideLeftVerySlow {
+  0% { background-position: 20% center; }
+  100% { background-position: left; }
+}
+.bg-animate-left {
+  animation: slideLeftVerySlow 20s ease-in-out infinite alternate;
+}
+

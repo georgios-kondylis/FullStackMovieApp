@@ -3,7 +3,7 @@ import { fetchSeries, fetchSeriesByCategory, fetchSeriesTrailerKey } from "../..
 import type { Serie } from "../../constants/types";
 import { fallbackSeriesYou, fallbackSeriesSquidGame, seriesCategories } from "../../constants";
 import { useMediaQuery } from "react-responsive";
-import {SeriesCard, Series_Info, Pricing, CardSkeleton, Footer, Section3_4Kids, useGlobalProps, scrollToTop, useFetch } from "../exports";
+import {SeriesCard, Series_Info, Pricing, CardSkeleton, Footer, Section3_4Kids, useGlobalProps, scrollToTop, useFetch, BgTopSection } from "../exports";
 
 const Series = () => {
   useEffect(()=> {scrollToTop()} ,[])
@@ -70,16 +70,10 @@ const Series = () => {
 
   return (
     <>
-      {/* Main hero section with background image */}
-      <section  id="Setion1"
-        className="pt-[90px] pb-[10px] min-h-screen bg-cover bg-center xl:bg-left bg-no-repeat transition1 flex justify-center mainPX"
-        style={{ backgroundImage: bgUrl
-            ? `linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0) 90%), url(${bgUrl})`
-            : undefined,
-          backgroundColor: "#000",
-        }}
-      >
-        <main className="content-container1 flex flex-col mt-[300px] MAX_W">
+      <section  id="Setion1" className="relative pt-[90px] pb-[10px] min-h-screen bg-cover bg-center xl:bg-left bg-no-repeat transition1 flex justify-center mainPX"   >
+        {/* Moving Background Layer */}
+        <BgTopSection bgUrl={bgUrl} />
+        <main className="z-1 content-container1 flex flex-col mt-[300px] MAX_W">
           {currentSeries && <Series_Info currentSeries={currentSeries} />}
           <h1 className="text-white txtShadowBlack text-[40px] mt-[80px]">Trending Series</h1>
 

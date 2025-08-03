@@ -32,6 +32,8 @@ import CreateProfileCard from "./AUTH/profiles/profilesUi/cards/CreateProfileCar
 import CreateProfile from "./AUTH/profiles/CreateProfile";
 import ProfileIconsShowcase from "./AUTH/profiles/profilesUi/ProfileIconsShowcase";
 import ProfileCard from "./AUTH/profiles/profilesUi/cards/ProfileCard";
+import BgTopSection from "./Home/BgTopSection";
+
 
 
 export {
@@ -69,4 +71,5 @@ export {
   ProfileCard,
   CreateProfile,
   ProfileIconsShowcase,
+  BgTopSection,
 }

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import type { Movie } from "../../constants/types";
 import { movieCategories, fallbackMovieBallerina } from "../../constants";
 import { fetchMovies, fetchMoviesByCategory, fetchMovieTrailerKey } from "../../services/apiTMDB";
-import { HomeMovieInfo, HomeMovieCard, Pricing, CardSkeleton, Footer, Section3_4Kids, useGlobalProps, scrollToTop, useFetch } from "../exports";
+import { HomeMovieInfo, HomeMovieCard, Pricing, CardSkeleton, Footer, Section3_4Kids, useGlobalProps, scrollToTop, useFetch, BgTopSection } from "../exports";
 
 
 const Home = () => {
@@ -70,25 +70,24 @@ const Home = () => {
 
   return (
     <>
-    <section id="Setion1" className="pt-[90px] pb-[10px] min-h-screen bg-cover bg-center xl:bg-left bg-no-repeat transition1 flex justify-center mainPX"
-       style={{ backgroundImage: bgUrl
-          ? `linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0) 90%), url(${bgUrl})`
-          : undefined, backgroundColor: "#000", }}
-     >
-      <main className="content-container1 flex flex-col mt-[300px] MAX_W">
+    <section id="Section1" className="relative pt-[90px] pb-[10px] min-h-screen flex justify-center mainPX overflow-hidden" >
+      {/* Moving Background Layer */}
+      <BgTopSection bgUrl={bgUrl} />
 
+      <main className="relative z-10 content-container1 flex flex-col mt-[300px] MAX_W">
         {currentMovie && <HomeMovieInfo currentMovie={currentMovie} />}
         <h1 className="text-white txtShadowBlack text-[40px] mt-[80px]">Trends</h1>
 
         <div className="flex gap-4 overflow-x-auto py-6 scrollbar-hide">
-        {local_loading ? Array.from({ length: 10 }).map((_, i) => ( <CardSkeleton key={i} /> ))
-                 : popularMovies?.map((movie: Movie) => (
-              <HomeMovieCard key={movie.id} movie={movie} handleSelectMovie={handleSelectMovie} />
-            ))}
+          {local_loading
+            ? Array.from({ length: 10 }).map((_, i) => <CardSkeleton key={i} />)
+            : popularMovies?.map((movie: Movie) => (
+                <HomeMovieCard key={movie.id} movie={movie} handleSelectMovie={handleSelectMovie} />
+              ))}
         </div>
-
       </main>
     </section>
+
 
     <section id="Section2" className={`relative w-full flex justify-center mainPX ${customStyles?.mainBg}`}>
       <main className="content-container2 MAX_W flex flex-col">
