@@ -21,4 +21,5 @@ export type HandleSignInProps = {
   setUser?: (user: any) => void;
   setMessageToUser?: React.Dispatch<React.SetStateAction<string>>;
   navigate?: any;
+  rememberMe: boolean;
 };

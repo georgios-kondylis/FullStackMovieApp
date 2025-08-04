@@ -30,17 +30,20 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     ],
     createdAt: ''
   });
-  useEffect(() => {  // AUTO SIGN-IN 
-    const storedUser = sessionStorage.getItem('user');
-    storedUser && setUser(JSON.parse(storedUser)) 
+  
+ 
+  useEffect(() => {  // ✅ AUTO SIGN-IN with localStorage fallback
+    const storedUser = localStorage.getItem('user') || sessionStorage.getItem('user');
+    if (storedUser) setUser(JSON.parse(storedUser));
   }, []);
   
-  const [selectedProfile, setSelectedProfile] = useState(() => {
-    const stored = sessionStorage.getItem('selectedProfile');
+  const [selectedProfile, setSelectedProfile] = useState(() => {// ✅ SELECTED PROFILE from localStorage or sessionStorage
+    const stored = localStorage.getItem('selectedProfile') || sessionStorage.getItem('selectedProfile');
     return stored ? JSON.parse(stored) : null;
   });
   
-  useEffect(() => {
+  useEffect(() => {   // Save to both just to be safe depending on where it was read from
+    localStorage.setItem('selectedProfile', JSON.stringify(selectedProfile));
     sessionStorage.setItem('selectedProfile', JSON.stringify(selectedProfile));
   }, [selectedProfile]);
   

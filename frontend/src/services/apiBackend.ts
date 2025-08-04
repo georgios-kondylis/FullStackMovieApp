@@ -39,7 +39,7 @@ export const handleSignUp = async ({ e, formData, setMessageToUser, navigate,}: 
   }
 };
 
-export const handleSignIn = async ({ e, formData, setUser, setLoggedIn, setMessageToUser,}: HandleSignInProps) => {
+export const handleSignIn = async ({ e, formData, setUser, setLoggedIn, setMessageToUser, rememberMe}: HandleSignInProps) => {
   e.preventDefault();
 
   try {
@@ -57,8 +57,10 @@ export const handleSignIn = async ({ e, formData, setUser, setLoggedIn, setMessa
       return;
     }
 
-    sessionStorage.setItem("token", data.token);
-    sessionStorage.setItem("user", JSON.stringify(data.user));
+    // 🧠 Use localStorage if rememberMe is true, else use sessionStorage
+    const storage = rememberMe ? localStorage : sessionStorage;
+    storage.setItem("token", data.token);
+    storage.setItem("user", JSON.stringify(data.user));
 
     setUser?.(data.user);
     setMessageToUser?.("✅ Successfully Signed in");

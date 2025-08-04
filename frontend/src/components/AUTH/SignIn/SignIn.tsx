@@ -1,3 +1,4 @@
+// SignIn.tsx
 import React, { useState, useEffect } from 'react';
 import { useGlobalProps, MoviesBg, Logo, MessageToUser, SubmitBtn, Loader } from '../../exports';
 import { handleGuestLogin, handleSignIn } from '../../../services/apiBackend';
@@ -12,12 +13,16 @@ const SignIn = ({ setUser }: any) => {
 
   const [loggedIn, setLoggedIn] = useState(false);
   const selectedProfile = JSON.parse(sessionStorage.getItem('selectedProfile') || 'null');
+  const [rememberMe, setRememberMe] = useState(false);
 
-  // AUTO SIGN-IN IF TOKEN EXISTS
-  useEffect(() => {
-    const jwt = sessionStorage.getItem('token');
-    if (jwt) setLoggedIn(true);
-  }, []);
+
+
+  // AUTO SIGN-IN IF TOKEN EXISTS Checks both localStorage and sessionStorage
+useEffect(() => {
+  const jwt = localStorage.getItem('token') || sessionStorage.getItem('token');
+  if (jwt) setLoggedIn(true);
+}, []);
+
 
   // REDIRECT BASED ON PROFILE
   useEffect(() => {
@@ -53,7 +58,7 @@ const SignIn = ({ setUser }: any) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    handleSignIn({ e, formData, setUser, setLoggedIn, setMessageToUser, navigate })
+    handleSignIn({ e, formData, setUser, setLoggedIn, setMessageToUser, navigate,rememberMe })
       .finally(() => setIsLoading(false));
   };
 
@@ -93,11 +98,22 @@ const SignIn = ({ setUser }: any) => {
           </form>
 
           {/* GUEST LOGIN */}
-          <button onClick={handleContinueAsGuest}
-            className="mt-4 text-sm text-gray-300 underline hover:text-white transition1 cursor-pointer"
-          >
-            Continue as Guest
-          </button>
+          <div className='flex items-center justify-between mt-4'>
+            <button onClick={handleContinueAsGuest}
+              className="text-sm text-gray-300 underline hover:text-white transition1 cursor-pointer"
+            >
+              Continue as Guest
+            </button>
+
+            <label className="text-sm text-gray-300 flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" checked={rememberMe}
+                onChange={() => setRememberMe(prev => !prev)}
+                className="accent-[#c92443] w-4 h-4 cursor-pointer"
+              />
+              Remember Me
+            </label>
+          </div>
+        
 
           {/* SIGN-UP REDIRECT */}
           <p className="text-sm text-gray-400 mt-6 text-center">
