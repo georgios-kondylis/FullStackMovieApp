@@ -28,6 +28,7 @@ html, body {
 .txtFadedGray {@apply  text-gray-400}
 .navShadowBlack {box-shadow: 0 5px 10px #00000063}
 .i_interactions {@apply w-[35px] h-[35px] flex items-center justify-center rounded-full cursor-pointer border p-2 transition-all duration-300 ease-in-out}
+.profileSettings {@apply flex items-center gap-2 p-2 cursor-pointer hover:bg-[#ffffff66] rounded-[5px]}
 .text-gradient {
   background: linear-gradient(to bottom, #ffffff, #898989);
   -webkit-background-clip: text;

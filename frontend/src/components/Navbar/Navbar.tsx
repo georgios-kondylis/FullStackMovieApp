@@ -4,15 +4,16 @@ import { useMediaQuery } from "react-responsive";
 
 import { NavLink } from "react-router-dom";
 import { navLinks } from "../../constants";
-import MobileMenu from "./MobileMenu";
 import { useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { ProfileDropdown } from "../exports";
 
 const Navbar = () => {
   const location = useLocation();
   const isMobile = useMediaQuery({ maxWidth: 767 });
-  const {isDarkMode, customStyles, toggleDarkMode, query, setQuery} = useGlobalProps();
+  const {user, isDarkMode, customStyles, toggleDarkMode, query, setQuery} = useGlobalProps();
 
+  // SEARCH
   const [isHoveringSearch, setIsHoveringSearch] = useState(false);
   const searchActive = isHoveringSearch || query.length > 0;
 
@@ -26,12 +27,15 @@ const Navbar = () => {
       setIsHoveringSearch(false);
     }, 1500); // or however long you want
   };
+  //--------------------------------
+
+  const [profileIsOpen, setProfileIsOpen] = useState(false);
   
 
   return (
     <nav className={`fixed z-50 w-full flex items-center justify-center `}>
       <div className="w-full flex justify-between items-center px-4 my-3 py-1 mainMX MAX_W 
-              border border-[#71717183] rounded-xl backdrop-blur-[8px] navShadowBlack"
+              border border-[#71717183] rounded-xl backdrop-blur-[8px] bg-[#00000030] navShadowBlack"
       >
         <div id="LOGO" className="flex items-center gap-[8px]">
             {location.pathname === '/4kids' ? (
@@ -84,11 +88,13 @@ const Navbar = () => {
             />
           </div>
           
-          <i className={`fa-solid fa-user ${customStyles?.mainTxtHover} navIcon txtShadowBlack`}></i>
-          {isDarkMode
-            ? <i className={`fa-solid fa-sun ${customStyles?.mainTxtHover} navIcon txtShadowBlack`} onClick={toggleDarkMode}/>
-            : <i className={`fa-solid fa-moon ${customStyles?.mainTxtHover} navIcon txtShadowBlack`} onClick={toggleDarkMode}/>
-          }
+          <i className={`fa-solid fa-user ${customStyles?.mainTxtHover} navIcon txtShadowBlack`}
+             onClick={() => setProfileIsOpen(prev => !prev)}
+          />
+          
+          {profileIsOpen &&
+          <ProfileDropdown/>}
+       
         </div>
 
       </div>
@@ -97,3 +103,13 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+
+
+
+
+// {isDarkMode
+//   ? <i className={`fa-solid fa-sun ${customStyles?.mainTxtHover} navIcon txtShadowBlack`} onClick={toggleDarkMode}/>
+//   : <i className={`fa-solid fa-moon ${customStyles?.mainTxtHover} navIcon txtShadowBlack`} onClick={toggleDarkMode}/>
+// }

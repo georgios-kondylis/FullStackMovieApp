@@ -33,6 +33,8 @@ import CreateProfile from "./AUTH/profiles/CreateProfile";
 import ProfileIconsShowcase from "./AUTH/profiles/profilesUi/ProfileIconsShowcase";
 import ProfileCard from "./AUTH/profiles/profilesUi/cards/ProfileCard";
 import BgTopSection from "./Home/BgTopSection";
+import ProfileDropdown from "./Navbar/ProfileDropdown";
+
 
 
 
@@ -72,4 +74,5 @@ export {
   CreateProfile,
   ProfileIconsShowcase,
   BgTopSection,
+  ProfileDropdown,
 }

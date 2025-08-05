@@ -7,7 +7,7 @@ import { useMediaQuery } from 'react-responsive';
 import MobileProfileCard from './profilesUi/cards/MobileProfileCard';
 
 const Profiles = () => {
-  const { user, customStyles } = useGlobalProps();
+  const { user, customStyles, handleSignOut } = useGlobalProps();
   const isMobile = useMediaQuery({ maxWidth: 640 });
   const navigate = useNavigate();
 
@@ -15,9 +15,6 @@ const Profiles = () => {
     sessionStorage.setItem('activeProfile', profileName);
     navigate('/');
   };
-  const handleSignOut = () => {sessionStorage.clear(); navigate('/sign-in')}
-
-  const hasProfiles = user?.profiles?.length > 0;
 
   return (
     <section className={`flex justify-center min-h-screen ${customStyles?.mainBgDark} text-white mainPX`}>

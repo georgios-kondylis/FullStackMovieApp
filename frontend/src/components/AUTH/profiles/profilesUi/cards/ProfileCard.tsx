@@ -6,7 +6,7 @@ const ProfileCard = ({ profile }: any) => {
   const { user, setUser, setSelectedProfile, } = useGlobalProps();
   const navigate = useNavigate();
 
-  const handleDelete = () => deleteProfile(user, profile.name.trim(), setUser);
+  const handleDelete = (e: React.MouseEvent) => { e.stopPropagation(); deleteProfile(user, profile.name.trim(), setUser)};
   const handleSelectProfile = () => { setSelectedProfile!(profile); navigate('/') };
 
   return (

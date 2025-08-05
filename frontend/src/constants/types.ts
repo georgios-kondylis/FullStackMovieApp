@@ -11,6 +11,8 @@ export type GlobalContextType = {
   setUser:any,
   selectedProfile?: any;
   setSelectedProfile?: (profile: any) => void;
+  handleSignOut?: () => void;
+  handleChangeUser?: () => void;
 
   customStyles?: {
     mainBgDark: string;

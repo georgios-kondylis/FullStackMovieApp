@@ -1,10 +1,12 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import type { GlobalContextType } from "./constants/types";
+import { useNavigate } from "react-router-dom";
 
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
 
 export const GlobalProvider = ({ children }: { children: ReactNode }) => {
+  const navigate = useNavigate();
   const [isDarkMode, setIsDarkMode] = useState(true);
   const toggleDarkMode = () => setIsDarkMode((prev) => !prev);
 
@@ -30,6 +32,16 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     ],
     createdAt: ''
   });
+  const handleSignOut = () => {
+    sessionStorage.clear(); 
+    localStorage.clear();
+    navigate('/sign-in');
+  }
+  const handleChangeUser = () => {
+    sessionStorage.removeItem('selectedProfile');
+    localStorage.removeItem('selectedProfile');
+    navigate('/profiles');
+  }
   
  
   useEffect(() => {  // ✅ AUTO SIGN-IN with localStorage fallback
@@ -69,6 +81,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         customStyles,
         user, setUser,
         selectedProfile, setSelectedProfile,
+        handleSignOut, handleChangeUser,
       }}
     >
       {children}
