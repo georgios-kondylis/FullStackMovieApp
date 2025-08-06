@@ -93,7 +93,7 @@ const Navbar = () => {
           />
           
           {profileIsOpen &&
-          <ProfileDropdown/>}
+          <ProfileDropdown setProfileIsOpen={setProfileIsOpen}/>}
        
         </div>
 

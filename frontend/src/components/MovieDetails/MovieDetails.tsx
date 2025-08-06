@@ -123,10 +123,7 @@ const MovieDetails = () => {
                   <p>Watch Trailer</p>
                 </button>
               ) : (
-                <button
-                  disabled
-                  className={`flex gap-2 items-center px-[18px] py-[10px] text-white/50 bg-gray-600/50 rounded-[5px] cursor-not-allowed text-nowrap font-semibold`}
-                >
+                <button disabled className={`flex gap-2 items-center px-[18px] py-[10px] text-white/50 bg-gray-600/50 rounded-[5px] cursor-not-allowed text-nowrap font-semibold`} >
                   <i className="fa-solid fa-ban text-white/50" />
                   <p>No Trailer Available</p>
                 </button>

@@ -34,6 +34,8 @@ import ProfileIconsShowcase from "./AUTH/profiles/profilesUi/ProfileIconsShowcas
 import ProfileCard from "./AUTH/profiles/profilesUi/cards/ProfileCard";
 import BgTopSection from "./Home/BgTopSection";
 import ProfileDropdown from "./Navbar/ProfileDropdown";
+import ViewProfile from "./AUTH/profiles/ViewProfile";
+
 
 
 
@@ -75,4 +77,5 @@ export {
   ProfileIconsShowcase,
   BgTopSection,
   ProfileDropdown,
+  ViewProfile,
 }
