@@ -4,11 +4,11 @@ import { useMediaQuery } from 'react-responsive';
 import DynamicTicket from './DynamicTicket';
 
 const Pricing = () => {
-  const {customStyles} = useGlobalProps();
+  const {customStyles, setProfileIsOpen} = useGlobalProps();
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
   return (
-    <section id='pricing' className={`${customStyles?.mainBg} mainPX flex justify-center`}>
+    <section id='pricing' className={`${customStyles?.mainBg} mainPX flex justify-center`}  onClick={() => setProfileIsOpen!(false)}>
       <main className={`MAX_W flex w-full justify-center items-center py-[60px]`}>
 
         <DynamicTicket price='159.99' months='3' title='Basic'/>

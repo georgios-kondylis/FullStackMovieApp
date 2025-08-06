@@ -11,7 +11,7 @@ import { ProfileDropdown } from "../exports";
 const Navbar = () => {
   const location = useLocation();
   const isMobile = useMediaQuery({ maxWidth: 767 });
-  const {user, isDarkMode, customStyles, toggleDarkMode, query, setQuery} = useGlobalProps();
+  const {user, isDarkMode, customStyles, toggleDarkMode, query, setQuery, profileIsOpen, setProfileIsOpen ,toggleProfileIsOpen} = useGlobalProps();
 
   // SEARCH
   const [isHoveringSearch, setIsHoveringSearch] = useState(false);
@@ -28,12 +28,10 @@ const Navbar = () => {
     }, 1500); // or however long you want
   };
   //--------------------------------
-
-  const [profileIsOpen, setProfileIsOpen] = useState(false);
   
 
   return (
-    <nav className={`fixed z-50 w-full flex items-center justify-center `}>
+    <nav className={`fixed z-50 w-full flex items-center justify-center `} onClick={() => setProfileIsOpen!(false)}>
       <div className="w-full flex justify-between items-center px-4 my-3 py-1 mainMX MAX_W 
               border border-[#71717183] rounded-xl backdrop-blur-[8px] bg-[#00000030] navShadowBlack"
       >
@@ -89,12 +87,11 @@ const Navbar = () => {
           </div>
           
           <i className={`fa-solid fa-user ${customStyles?.mainTxtHover} navIcon txtShadowBlack`}
-             onClick={() => setProfileIsOpen(prev => !prev)}
+             onClick={(e) =>{ e.stopPropagation(); toggleProfileIsOpen!()}}
           />
           
           {profileIsOpen &&
           <ProfileDropdown setProfileIsOpen={setProfileIsOpen}/>}
-       
         </div>
 
       </div>

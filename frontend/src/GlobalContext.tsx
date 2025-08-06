@@ -12,6 +12,9 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
+  
+  const [profileIsOpen, setProfileIsOpen] = useState(false);
+  const toggleProfileIsOpen = () => setProfileIsOpen((prev) => !prev);
 
   const [query, setQuery] = useState("");
 
@@ -82,6 +85,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         user, setUser,
         selectedProfile, setSelectedProfile,
         handleSignOut, handleChangeUser,
+        profileIsOpen, setProfileIsOpen, toggleProfileIsOpen,
       }}
     >
       {children}

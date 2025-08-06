@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CreateProfileCard, Logo, ProfileCard, useGlobalProps } from '../../exports';
+import { CreateProfileCard, Logo, ProfileCard, useGlobalProps, scrollToTop } from '../../exports';
 import { GreetingTypewriter } from './profilesUi/GreetingTypewritter';
 import GuestCard from './profilesUi/cards/GuestCard';
 import { useMediaQuery } from 'react-responsive';
 import MobileProfileCard from './profilesUi/cards/MobileProfileCard';
 
 const Profiles = () => {
+  useEffect(() => {scrollToTop();}, [])
   const { user, customStyles, handleSignOut } = useGlobalProps();
   const isMobile = useMediaQuery({ maxWidth: 640 });
   const navigate = useNavigate();

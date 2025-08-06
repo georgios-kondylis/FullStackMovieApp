@@ -9,7 +9,7 @@ import {Pricing, CardSkeleton, Footer, Section3_4Kids, useGlobalProps, scrollToT
 
 const Anime = () => {
   useEffect(()=> {scrollToTop()} ,[])
-  const { query, } = useGlobalProps();
+  const { query, setProfileIsOpen} = useGlobalProps();
   const { data: popularSeries, refetch } = useFetch(() => fetchSeries({ query }), false); 
 
   const [local_loading, setLocal_loading] = useState(true);
@@ -64,7 +64,7 @@ const Anime = () => {
   return (
     <>
       {/* Main hero section */}
-      <section  id="Setion1" className="mainSection1 mainPX" >
+      <section  id="Setion1" className="mainSection1 mainPX"  onClick={() => setProfileIsOpen!(false)} >
          {/* Moving Background Layer */}
          <BgTopSection bgUrl={bgUrl} />
         <main className="z-1 content-container1 flex flex-col mt-[300px] MAX_W">

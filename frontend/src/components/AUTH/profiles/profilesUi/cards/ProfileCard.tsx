@@ -7,6 +7,7 @@ const ProfileCard = ({ profile }: any) => {
   const navigate = useNavigate();
 
   const handleDelete = (e: React.MouseEvent) => { e.stopPropagation(); deleteProfile(user, profile.name.trim(), setUser)};
+  const handleEdit = (e: React.MouseEvent) => { e.stopPropagation(); setSelectedProfile!(profile); navigate('/profiles/editProfile') };
   const handleSelectProfile = () => { setSelectedProfile!(profile); navigate('/') };
 
   return (
@@ -17,7 +18,9 @@ const ProfileCard = ({ profile }: any) => {
       <p className="text-[1.7rem]">{profile.name}</p>
 
       <div className="absolute right-[20px] top-[42%] -translate-y-1/2 group-hover:flex flex-col gap-[10px] hidden">
-        <div className="relative group/edit w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer hover:bg-[#ffffff37]">
+
+        <div className="relative group/edit w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer hover:bg-[#ffffff37]"
+        onClick={handleEdit}>
           <i className="fa-solid fa-pencil" />
           <span className="txtFadedGray font-light absolute opacity-0 group-hover/edit:opacity-100 transition1 right-[-35px] whitespace-nowrap pointer-events-none">
             Edit

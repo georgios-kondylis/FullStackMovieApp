@@ -11,13 +11,14 @@ html, body {
   width: 100%;
   scroll-behavior: smooth;
   overflow-x: hidden;
+  background-color: #030A1B; /* so that it doesnt flash white when changing routes*/
 }
 
 .MAX_W {@apply max-w-[1480px]}
 .mainPX {@apply px-[20px]}
 .mainMX {@apply mx-[20px]}
 .mainDarkBg {@apply bg-[#17161a]}
-.mainSection1 { @apply bg-black relative pt-[90px] pb-[10px] min-h-screen flex justify-center overflow-hidden }
+.mainSection1 { @apply relative pt-[90px] pb-[10px] min-h-screen flex justify-center overflow-hidden }
 
 
 .transition1 { @apply transition-all duration-300 ease-in-out;}

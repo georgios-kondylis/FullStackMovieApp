@@ -1,5 +1,5 @@
 // MovieDetails.tsx
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams, useLocation, } from 'react-router-dom'
 import { fetchMovieDetails, fetchSeriesDetails } from '../../services/apiTMDB'
 import { useGlobalProps, scrollToTop, useFetch, StarRating, TrailerIframed, GoBackBtn, CastAndCrew } from "../exports";
@@ -13,7 +13,8 @@ import type {
 type WithCredits = (MovieDetailsType | SeriesDetailsType) & { credits: Credits; trailerKey?: string };
 
 const MovieDetails = () => {
-  scrollToTop();
+  useEffect(() => {scrollToTop();}, [])
+  
   const [showTrailerModal, setShowTrailerModal] = useState(false);
 
   // Temporary States until i create a DB
@@ -22,7 +23,7 @@ const MovieDetails = () => {
   const [bookmarked, setBookmarked] = useState(false);
   // -------------------------------------------- //
 
-  const { customStyles } = useGlobalProps()
+  const { customStyles, setProfileIsOpen } = useGlobalProps()
   const { id } = useParams()
   const location = useLocation()
 
@@ -42,9 +43,9 @@ const MovieDetails = () => {
   const imgBgUrl = `https://image.tmdb.org/t/p/original${currentMovie.backdrop_path}`
 
   return (
-    <section className={`w-full flex justify-center relative min-h-[100vh] overflow-hidden ${customStyles?.mainBg} `}>
+    <section className={`w-full flex justify-center relative min-h-[100vh] overflow-hidden ${customStyles?.mainBg}`} onClick={() => setProfileIsOpen!(false)}>
       {/* Background image */}
-      <div className=" absolute inset-0 h-[80vh] bg-cover bg-center z-0"
+      <div className="absolute inset-0 h-[80vh] bg-cover bg-center z-0"
           style={{  backgroundImage: currentMovie.backdrop_path
               ? `linear-gradient(to top, rgba(3,10,27,0.9), rgba(3,10,27,0) 60%), url(${imgBgUrl})`
               : undefined,  backgroundColor: '#030A1B', }}  

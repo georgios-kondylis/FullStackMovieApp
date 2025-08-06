@@ -6,10 +6,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const Footer = () => {
-  const { isDarkMode, customStyles } = useGlobalProps();
+  const { isDarkMode, customStyles, setProfileIsOpen } = useGlobalProps();
 
   return (
-    <footer className={`${customStyles?.Bg_Txt}`}>
+    <footer className={`${customStyles?.Bg_Txt}`}  onClick={() => setProfileIsOpen!(false)}>
       <section className="flex flex-col items-center py-10 px-4 text-center">
         {/* Logo */}
         <div id="logo" className="flex items-center gap-3 mt-4 mb-6">

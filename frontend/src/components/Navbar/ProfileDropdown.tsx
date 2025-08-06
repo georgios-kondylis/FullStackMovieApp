@@ -3,12 +3,12 @@ import { useGlobalProps } from '../exports';
 import { useNavigate } from 'react-router-dom';
 
 const ProfileDropdown = ({setProfileIsOpen} : any) => {
-  const { user, selectedProfile, handleSignOut, handleChangeUser } = useGlobalProps();
+  const { user, selectedProfile, handleSignOut, handleChangeUser, isDarkMode, customStyles, toggleDarkMode } = useGlobalProps();
   const navigate = useNavigate();
 
 
   return (
-    <div className="absolute top-[60px] right-0 bg-[#0000009e] p-3 rounded-[10px] text-white border border-[#80808056] z-50">
+    <div className="absolute top-[60px] max-md:top-[45px] right-0 bg-[#000000bb] backdrop-blur-[8px] p-3 rounded-[10px] text-white border border-[#80808056] z-50">
       <div className="flex items-center gap-2 border-b border-[#80808056] pb-3">
         <img src={selectedProfile?.profileImage}
           className="w-[50px] h-[50px] rounded-full"
@@ -30,11 +30,19 @@ const ProfileDropdown = ({setProfileIsOpen} : any) => {
           <i className="fa-solid fa-user-group" />
           <span>Change Profile</span>
         </div>
+        <div className="profileSettings cursor-pointer" onClick={toggleDarkMode}>
+         {isDarkMode
+            ? <i className={`fa-solid fa-sun ${customStyles?.mainTxtHover} txtShadowBlack`} />
+            : <i className={`fa-solid fa-moon ${customStyles?.mainTxtHover} txtShadowBlack`} />
+          }
+          <span>{isDarkMode? 'Switch to bright mode' : 'Switch to dark mode'}</span>
+        </div>
         <div className="profileSettings cursor-pointer" onClick={handleSignOut}>
           <i className="fa-solid fa-arrow-right-from-bracket" />
           <span>Sign Out</span>
         </div>
       </div>
+
 
 
     </div>

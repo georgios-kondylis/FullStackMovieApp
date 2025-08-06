@@ -9,7 +9,7 @@ import { HomeMovieInfo, HomeMovieCard, Pricing, CardSkeleton, Footer, Section3_4
 const Home = () => {
   useEffect(()=> {scrollToTop()} ,[])
 
-  const { query, customStyles, } = useGlobalProps();
+  const { query, customStyles, setProfileIsOpen } = useGlobalProps();
   const { data: popularMovies, refetch, } = useFetch(() => fetchMovies({ query }), false);
   const { data: categorisedMovies, refetch: refetchCategorisedMovies} = useFetch(() => fetchMoviesByCategory({ genreId: selectedCategory?.id }), true);
   const [local_loading, setLocal_loading] = useState(true); // i did it loccaly so that the bg behaves smoothly
@@ -70,7 +70,7 @@ const Home = () => {
 
   return (
     <>
-    <section id="Section1" className="mainSection1 mainPX" >
+    <section id="Section1" className="mainSection1 mainPX"  onClick={() => setProfileIsOpen!(false)}>
       {/* Moving Background Layer */}
       <BgTopSection bgUrl={bgUrl} />
 
@@ -89,7 +89,7 @@ const Home = () => {
     </section>
 
 
-    <section id="Section2" className={`relative w-full flex justify-center mainPX ${customStyles?.mainBg}`}>
+    <section id="Section2" className={`relative w-full flex justify-center mainPX ${customStyles?.mainBg}`}  onClick={() => setProfileIsOpen!(false)}>
       <main className="content-container2 MAX_W flex flex-col">
         
         {/* FILTER BAR */}

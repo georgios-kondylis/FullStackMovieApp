@@ -4,9 +4,9 @@ import KidsSectionBg from '../ui/KidsSectionBg';
 import { Link } from 'react-router-dom';
 
 const Section3_4Kids = () => {
-    const {customStyles} = useGlobalProps();
+    const {customStyles, setProfileIsOpen} = useGlobalProps();
   return (
-    <section id="Section3_4Kids" className={`relative w-full flex justify-center mainPX`}>
+    <section id="Section3_4Kids" className={`relative w-full flex justify-center mainPX`}  onClick={() => setProfileIsOpen!(false)}>
         <KidsSectionBg />
         <main className="flex items-center z-1 flex-col min-h-[80vh] text-white">
         <div className="flex flex-col items-center mt-[50px]">

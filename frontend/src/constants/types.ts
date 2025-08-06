@@ -4,6 +4,9 @@ export type GlobalContextType = {
 
   isMobileMenuOpen?: boolean;
   toggleMobileMenu?: () => void;
+  profileIsOpen?: boolean;
+  setProfileIsOpen?:  React.Dispatch<React.SetStateAction<boolean>>;
+  toggleProfileIsOpen?: () => void;
   
   query: string;
   setQuery?: React.Dispatch<React.SetStateAction<string>>;

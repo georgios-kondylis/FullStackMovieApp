@@ -8,7 +8,7 @@ import {SeriesCard, Series_Info, Pricing, CardSkeleton, Footer, Section3_4Kids, 
 const Series = () => {
   useEffect(()=> {scrollToTop()} ,[])
   const isMobile = useMediaQuery({ maxWidth: 767 });
-  const { query, customStyles } = useGlobalProps();
+  const { query, customStyles, setProfileIsOpen } = useGlobalProps();
   const { data: popularSeries, refetch } = useFetch(() => fetchSeries({ query }), false);   // Fetch popular series based on search query; manual refetch control (false)
   const { data: categorisedSeries, refetch: refetchCategorisedSeries } = useFetch( () => fetchSeriesByCategory({ genreId: selectedCategory?.id }),  true);  // Fetch series filtered by selected category; only fetch when selectedCategory changes (true)
   const [local_loading, setLocal_loading] = useState(true); // i did it loccaly so that the bg behaves smoothly
@@ -70,7 +70,7 @@ const Series = () => {
 
   return (
     <>
-      <section id="Setion1" className="mainSection1 mainPX">
+      <section id="Setion1" className="mainSection1 mainPX"  onClick={() => setProfileIsOpen!(false)}>
         {/* Moving Background Layer */}
         <BgTopSection bgUrl={bgUrl} />
         <main className="z-1 content-container1 flex flex-col mt-[300px] MAX_W">
@@ -88,7 +88,7 @@ const Series = () => {
       </section>
 
       {/* Series categories filter and categorized series list */}
-      <section id="Section2" className={`relative w-full flex justify-center mainPX ${customStyles?.mainBg}`}>
+      <section id="Section2" className={`relative w-full flex justify-center mainPX ${customStyles?.mainBg}`}  onClick={() => setProfileIsOpen!(false)}>
         <main className="content-container2 MAX_W flex flex-col">
           <div
             id="seriesFilters"

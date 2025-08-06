@@ -35,6 +35,8 @@ import ProfileCard from "./AUTH/profiles/profilesUi/cards/ProfileCard";
 import BgTopSection from "./Home/BgTopSection";
 import ProfileDropdown from "./Navbar/ProfileDropdown";
 import ViewProfile from "./AUTH/profiles/ViewProfile";
+import EditProfile from "./AUTH/profiles/EditProfile";
+
 
 
 
@@ -78,4 +80,5 @@ export {
   BgTopSection,
   ProfileDropdown,
   ViewProfile,
+  EditProfile,
 }
