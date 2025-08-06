@@ -15,6 +15,7 @@ const CreateProfile = () => {
   const [isIconHovered, setIsIconHovered] = useState(false);
   const [showIconModal, setShowIconModal] = useState(false);
   const [messageToUser, setMessageToUser] = useState('');
+  const [isCreating, setIsCreating] = useState(false);
 
   const [newUser, setNewUser] = useState({
     name: '',
@@ -27,7 +28,8 @@ const CreateProfile = () => {
   }, [selectedIcon]);
 
   const handleCreateProfile = async () => {
-    if (!newUser.name) return;
+    if (!newUser.name.trim()) return;
+    setIsCreating(true);
     try {
       const updatedUser = await createNewProfileFunk(user.email, newUser, setMessageToUser);
       sessionStorage.setItem("user", JSON.stringify(updatedUser));
@@ -35,9 +37,10 @@ const CreateProfile = () => {
       navigate('/profiles');
     } catch (err) {
       console.error("Error creating profile:", err);
+    } finally {
+      setIsCreating(false);
     }
   };
-  
 
   return (
     <section className={`flex justify-center min-h-screen ${customStyles?.mainBgDark} text-white mainPX`}>
@@ -70,11 +73,11 @@ const CreateProfile = () => {
               {/* Name Input */}
               <div className="flex items-center gap-3">
                 <i className="fa-solid fa-user-pen" />
-                <input type="text"  placeholder="Profile Name"
+                <input type="text" placeholder="Profile Name"
                   value={newUser.name}
                   onChange={e => setNewUser(prev => ({ ...prev, name: e.target.value }))}
                   className="border-b-[#ffffff6a] hover:border-[#ffffffad] border-b bg-transparen px-1 py-2 outline-none focus:border-b-[white]"
-                  onKeyDown={(e) => {if (e.key === 'Enter' && newUser.name.trim()) handleCreateProfile()}}
+                  onKeyDown={(e) => { if (e.key === 'Enter' && newUser.name.trim()) handleCreateProfile(); }}
                 />
               </div>
 
@@ -90,9 +93,17 @@ const CreateProfile = () => {
             <button className={`${customStyles?.btnColor} px-3 py-1 rounded-[7px]`} onClick={() => navigate(-1)}>
               Go Back
             </button>
-            <button className={`${newUser.name !== '' ? customStyles?.btnColor2 : 'bg-[#80808040] text-[#ffffff50] cursor-not-allowed'} px-3 py-1 rounded-[7px]`}
-                    onClick={handleCreateProfile}>
-              Create
+
+            <button className={`${newUser.name !== '' && !isCreating ? customStyles?.btnColor2 : 'bg-[#80808040] text-[#ffffff50] cursor-not-allowed'} px-3 py-1 rounded-[7px] flex items-center gap-2`}
+              onClick={handleCreateProfile} disabled={isCreating || newUser.name === ''}
+            >
+              {isCreating ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Creating...
+                </>
+              ) : ( "Create")
+              }
             </button>
             
             <MessageToUser message={messageToUser}/> 

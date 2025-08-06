@@ -21,7 +21,7 @@ const App = () => {
   return (
     <>
       {location.pathname === '/4kids' ? <Navbar4Kids /> : 
-      ['/profiles', '/sign-in', '/sign-up', '/profiles/createProfile', '/viewProfile'].includes(location.pathname) ? '' : <Navbar />}
+      ['/profiles', '/sign-in', '/sign-up', '/profiles/createProfile', '/profiles/editProfile', '/viewProfile'].includes(location.pathname) ? '' : <Navbar />}
       {/* <Loader /> HERE AND IN THE SIGN IN IS NEEDED */}
     
       <Routes>
