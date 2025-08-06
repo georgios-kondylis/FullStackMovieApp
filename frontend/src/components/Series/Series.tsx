@@ -80,7 +80,9 @@ const Series = () => {
         <BgTopSection bgUrl={bgUrl} />
         <main className="z-1 content-container1 flex flex-col mt-[300px] MAX_W">
           {currentSeries && <Series_Info currentSeries={currentSeries} />}
-          <h1 className="text-white txtShadowBlack text-[40px] mt-[80px]">Trending Series</h1>
+          <h1 className={`${customStyles?.basicDynamicTxt} txtShadowBlack text-[40px] mt-[80px]`}>
+            Trending Series
+          </h1>
 
           {/* Horizontal scroll list of popular series */}
           <div className="flex gap-4 overflow-x-auto py-6 scrollbar-hide">

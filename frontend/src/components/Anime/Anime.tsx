@@ -9,7 +9,7 @@ import {Pricing, CardSkeleton, Footer, Section3_4Kids, useGlobalProps, scrollToT
 
 const Anime = () => {
   useEffect(()=> {scrollToTop()} ,[])
-  const { query, setProfileIsOpen} = useGlobalProps();
+  const { query, setProfileIsOpen, customStyles} = useGlobalProps();
   const { data: popularSeries, refetch } = useFetch(() => fetchSeries({ query }), false); 
 
   const [local_loading, setLocal_loading] = useState(true);
@@ -79,7 +79,9 @@ const Anime = () => {
               </button>
           </div>
 
-          <h1 className="text-white txtShadowBlack text-[40px] ">Popular Series</h1>
+          <h1 className={`${customStyles?.basicDynamicTxt} txtShadowBlack text-[40px] mt-[80px]`}>
+            Popular Series
+          </h1>
 
           {/* Trending Section */}
           <div className="flex gap-4 overflow-x-auto py-6 scrollbar-hide">

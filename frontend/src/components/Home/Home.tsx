@@ -14,7 +14,7 @@ const Home = () => {
   const [local_loading, setLocal_loading] = useState(true); // i did it loccaly so that the bg behaves smoothly
   useEffect(() => {if (popularMovies?.length > 0) setLocal_loading(false) }, [popularMovies]);
 
-  const filteredForKidsCategories = !selectedProfile.forKids
+  const filteredForKidsCategories = !selectedProfile?.forKids
   ? movieCategories 
   : movieCategories.filter((categ) => !forKidsExcludedCategories.includes(categ.name.toLowerCase()));
   
@@ -28,7 +28,7 @@ const Home = () => {
   const [bgUrl, setBgUrl] = useState<string>("");
 
   const firstTen = popularMovies?.slice(0, 10) || [];
-  const ballerinaMovie = selectedProfile.forKids ? fallbackMovieLiloAndStitch : fallbackMovieBallerina 
+  const ballerinaMovie = selectedProfile?.forKids ? fallbackMovieLiloAndStitch : fallbackMovieBallerina 
   const fallbackMovie = ballerinaMovie || firstTen[fallbackIndex]; // Always prefer Ballerina as the fallback movie if it exists
   // const fallbackMovie = firstTen[fallbackIndex]; // this is without ballerina
   const currentMovie = selectedMovie || fallbackMovie;
@@ -78,7 +78,9 @@ const Home = () => {
 
       <main className="relative z-10 content-container1 flex flex-col mt-[300px] MAX_W">
         {currentMovie && <HomeMovieInfo currentMovie={currentMovie} />}
-        <h1 className="text-white txtShadowBlack text-[40px] mt-[80px]">Trends</h1>
+        <h1 className={`${customStyles?.basicDynamicTxt} txtShadowBlack text-[40px] mt-[80px]`}>
+          Trends
+        </h1>
 
         <div className="flex gap-4 overflow-x-auto py-6 scrollbar-hide">
           {local_loading

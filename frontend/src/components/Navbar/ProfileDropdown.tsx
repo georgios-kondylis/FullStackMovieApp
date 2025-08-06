@@ -32,8 +32,8 @@ const ProfileDropdown = ({setProfileIsOpen} : any) => {
         </div>
         <div className="profileSettings cursor-pointer" onClick={toggleDarkMode}>
          {isDarkMode
-            ? <i className={`fa-solid fa-sun ${customStyles?.mainTxtHover} txtShadowBlack`} />
-            : <i className={`fa-solid fa-moon ${customStyles?.mainTxtHover} txtShadowBlack`} />
+            ? <i className={`fa-solid fa-sun txtShadowBlack`} />
+            : <i className={`fa-solid fa-moon txtShadowBlack`} />
           }
           <span>{isDarkMode? 'Switch to bright mode' : 'Switch to dark mode'}</span>
         </div>

@@ -48,7 +48,6 @@ export const fetchMoviesByCategory = async ({ genreId, forKids }: any) => {
 };
 
 
-
 // i uptated it with extra api call to fetch the credits like actors etc and Trailer key to add to <a href
 export const fetchMovieDetails = async ( movieId: string): Promise<MovieDetails & { credits: Credits; trailerKey?: string }> => {
   try {
@@ -115,38 +114,9 @@ export const fetchMovieTrailerKey = async (movieId: number | string): Promise<st
 
 
 // ------------ Series ------------ //
+const EXCLUDED_SERIES_GENRES = "9648,10765,80,99"; // Mystery, Sci-Fi & Fantasy, Crime, Documentary
 
-// export const fetchSeries = async ({ query }: { query: string }) => {
-//   const endpoint = query
-//     ? `${TMDB_CONFIG.BASE_URL}/search/tv?query=${encodeURIComponent(query)}`
-//     : `${TMDB_CONFIG.BASE_URL}/discover/tv?sort_by=popularity.desc`; // if no query, fetch popular series
-
-//   const response = await fetch(endpoint, {
-//     method: 'GET',
-//     headers: TMDB_CONFIG.headers,
-//   });
-
-//   const data = await response.json();
-//   return data.results; // returns the array of series
-// };
-// export const fetchSeriesByCategory = async ({ genreId }: { genreId?: number }) => {
-//   const endpoint = genreId
-//     ? `${TMDB_CONFIG.BASE_URL}/discover/tv?with_genres=${genreId}&sort_by=popularity.desc&page=1`
-//     : `${TMDB_CONFIG.BASE_URL}/discover/tv?sort_by=popularity.desc&page=2`; // fallback to popular series
-
-//   const response = await fetch(endpoint, {
-//     method: "GET",
-//     headers: TMDB_CONFIG.headers,
-//   });
-
-//   const data = await response.json();
-//   return data.results;
-// };
-const EXCLUDED_SERIES_GENRES = "9648,10765,80,99"; 
-// Mystery, Sci-Fi & Fantasy, Crime, Documentary
-// You can adjust based on what you want to block for kids
-
-export const fetchSeries = async ({ query, forKids }: { query?: string; forKids?: boolean }) => {
+export const fetchSeries = async ({ query, forKids }: any) => {
   const endpoint = query
     ? `${TMDB_CONFIG.BASE_URL}/search/tv?query=${encodeURIComponent(query)}`
     : `${TMDB_CONFIG.BASE_URL}/discover/tv?sort_by=popularity.desc`;
@@ -246,6 +216,29 @@ export const fetchSeriesTrailerKey = async (seriesId: number | string): Promise<
     return null;
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -11,7 +11,7 @@ import { ProfileDropdown } from "../exports";
 const Navbar = () => {
   const location = useLocation();
   const isMobile = useMediaQuery({ maxWidth: 767 });
-  const {user, isDarkMode, customStyles, toggleDarkMode, query, setQuery, profileIsOpen, setProfileIsOpen ,toggleProfileIsOpen} = useGlobalProps();
+  const {customStyles, query, setQuery, profileIsOpen, setProfileIsOpen ,toggleProfileIsOpen, selectedProfile} = useGlobalProps();
 
   // SEARCH
   const [isHoveringSearch, setIsHoveringSearch] = useState(false);
@@ -36,13 +36,13 @@ const Navbar = () => {
               border border-[#71717183] rounded-xl backdrop-blur-[8px] bg-[#00000030] navShadowBlack"
       >
         <div id="LOGO" className="flex items-center gap-[8px]">
-            {location.pathname === '/4kids' ? (
+            {selectedProfile?.forKids ? (
             <img src="/icons/logoKids.png" className="w-[70px] md:w-[90px] rounded-full" alt="Kids Logo" />
             ) : (
-              <>
+              <div className="flex items-center">
                 <img src="/icons/logo.png" className="w-[35px] md:w-[50px] rounded-full" alt="Main Logo" />
                 <img src="/icons/logoWordWhite.png" className="w-[120px] md:w-[150px] rounded-full" alt="Cinemoon Logo Text" />
-              </>
+              </div>
             )}
         </div>
 
@@ -75,7 +75,11 @@ const Navbar = () => {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <i className={`fa-solid fa-magnifying-glass ${customStyles?.mainTxtHover}`} />
+
+            {selectedProfile?.forKids
+            ?  <img src="/icons/glass4kids.png" className="w-[23px] cursor-pointer hover:scale-[1.1] transition1" alt="" />
+            :  <i className={`fa-solid fa-magnifying-glass ${customStyles?.mainTxtHover}`} />
+            }
             
             <input type="text" value={query}
               onChange={(e) => setQuery!(e.target.value)}
@@ -86,9 +90,9 @@ const Navbar = () => {
             />
           </div>
           
-          <i className={`fa-solid fa-user ${customStyles?.mainTxtHover} navIcon txtShadowBlack`}
-             onClick={(e) =>{ e.stopPropagation(); toggleProfileIsOpen!()}}
-          />
+          {selectedProfile?.forKids
+          ? <img src="/icons/user4kids.png" className="w-[25px] cursor-pointer hover:scale-[1.1] transition1" alt="" onClick={(e) =>{ e.stopPropagation(); toggleProfileIsOpen!()}} /> 
+          : <i className={`fa-solid fa-user ${customStyles?.mainTxtHover} navIcon txtShadowBlack`} onClick={(e) =>{ e.stopPropagation(); toggleProfileIsOpen!()}} /> }
           
           {profileIsOpen &&
           <ProfileDropdown setProfileIsOpen={setProfileIsOpen}/>}
@@ -100,13 +104,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
-
-
-
-
-// {isDarkMode
-//   ? <i className={`fa-solid fa-sun ${customStyles?.mainTxtHover} navIcon txtShadowBlack`} onClick={toggleDarkMode}/>
-//   : <i className={`fa-solid fa-moon ${customStyles?.mainTxtHover} navIcon txtShadowBlack`} onClick={toggleDarkMode}/>
-// }

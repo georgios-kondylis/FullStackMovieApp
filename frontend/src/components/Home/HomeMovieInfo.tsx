@@ -9,18 +9,18 @@ import TrailerIframed from "../ui/TrailerIframed";
 type Props = { currentMovie: Movie };
 
 const HomeMovieInfo = ({ currentMovie }: Props) => {
-  const { customStyles } = useGlobalProps();
+  const { customStyles, isDarkMode } = useGlobalProps();
   const [showTrailerModal, setShowTrailerModal] = useState(false);
 
   return (
-    <div className="flex flex-col gap-4 text-white">
+    <div className={`flex flex-col gap-4 ${customStyles?.basicDynamicTxt}`}>
        {showTrailerModal && (
            <TrailerIframed currentMovie={currentMovie} setShowTrailerModal={setShowTrailerModal} />
         )}
 
-      <p className="text-[40px] text-gradient font-bold ">{currentMovie.title}</p>
+      <p className={`text-[40px] ${isDarkMode? 'text-gradient' : 'text-black' } font-bold `}>{currentMovie.title}</p>
 
-      <div className="txtShadowBlack max-w-[600px] w-full rounded-[13px]">
+      <div className={`${isDarkMode && 'txtShadowBlack'} max-w-[600px] w-full rounded-[13px]`}>
          <p>{currentMovie.overview.replace(/–/g, "")}</p> {/* to remove dashes – */}
       </div>
 

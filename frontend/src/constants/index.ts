@@ -157,10 +157,3 @@ export const seriesCategories = [
   { name: "War & Politics", id: 10768 },
   { name: "Western", id: 37 },
 ];
-
-
-
-// const mobile = useMediaQuery({ maxWidth: 450 });
-// const tablet = useMediaQuery({ minWidth: 451, maxWidth: 768 });
-// const laptop = useMediaQuery({ minWidth: 769, maxWidth: 1024 });
-// const xl = useMediaQuery({ minWidth: 1025 });
