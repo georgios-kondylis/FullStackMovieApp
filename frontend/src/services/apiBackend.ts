@@ -125,3 +125,41 @@ export const deleteProfile = async (user:any, profileName:any, setUser:any) => {
     console.error('Error deleting profile:', error);
   }
 };
+
+export const updateProfileFunk = async ( email:string, profileId:string, profileData:any, setMessageToUser:any) => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/edit-profile`, {
+      method: "PUT",
+      headers: {"Content-Type": "application/json" },
+      body: JSON.stringify({
+        email,
+        profileId,
+        name: profileData.name,
+        profileImage: profileData.profileImage,
+        forKids: profileData.forKids,
+        likedMovies: profileData.likedMovies || [],
+        dislikedMovies: profileData.dislikedMovies || [],
+        favourites: profileData.favourites || [],
+      }),
+    });
+
+    if (!res.ok) {
+      const errData = await res.json();
+      setMessageToUser(errData.message)
+      setTimeout(() => {setMessageToUser('')}, 3000)
+      throw new Error(errData.message || "Failed to update profile");
+    }
+
+    const data = await res.json();
+    setMessageToUser("Profile updated successfully ✅");
+    setTimeout(() => {
+      setMessageToUser("");
+    }, 2000);
+    return data.user; // backend should return `user` in res.json
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    const errorMessage = error instanceof Error ? error.message : "Failed to update profile ❌";
+    setMessageToUser(errorMessage);
+    throw error;
+  }
+};

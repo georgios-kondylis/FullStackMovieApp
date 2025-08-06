@@ -1,18 +1,23 @@
 import { useEffect, useState } from "react";
 import { fetchSeries, fetchSeriesByCategory, fetchSeriesTrailerKey } from "../../services/apiTMDB";
 import type { Serie } from "../../constants/types";
-import { fallbackSeriesYou, fallbackSeriesSquidGame, seriesCategories } from "../../constants";
+import { fallbackSeriesYou, fallbackSeriesSquidGame, seriesCategories, forKidsExcludedCategories, fallbackSeriesScoobyDoo } from "../../constants";
 import { useMediaQuery } from "react-responsive";
 import {SeriesCard, Series_Info, Pricing, CardSkeleton, Footer, Section3_4Kids, useGlobalProps, scrollToTop, useFetch, BgTopSection } from "../exports";
 
 const Series = () => {
   useEffect(()=> {scrollToTop()} ,[])
   const isMobile = useMediaQuery({ maxWidth: 767 });
-  const { query, customStyles, setProfileIsOpen } = useGlobalProps();
-  const { data: popularSeries, refetch } = useFetch(() => fetchSeries({ query }), false);   // Fetch popular series based on search query; manual refetch control (false)
-  const { data: categorisedSeries, refetch: refetchCategorisedSeries } = useFetch( () => fetchSeriesByCategory({ genreId: selectedCategory?.id }),  true);  // Fetch series filtered by selected category; only fetch when selectedCategory changes (true)
+  const { query, customStyles, setProfileIsOpen, selectedProfile } = useGlobalProps();
+  const { data: popularSeries, refetch } = useFetch(() => fetchSeries({ query,  forKids: selectedProfile?.forKids }), false);   // Fetch popular series based on search query; manual refetch control (false)
+  const { data: categorisedSeries, refetch: refetchCategorisedSeries } = useFetch( () => fetchSeriesByCategory({ genreId: selectedCategory?.id, forKids: selectedProfile?.forKids }),  true);  // Fetch series filtered by selected category; only fetch when selectedCategory changes (true)
   const [local_loading, setLocal_loading] = useState(true); // i did it loccaly so that the bg behaves smoothly
   useEffect(() => {if (popularSeries?.length > 0) setLocal_loading(false) }, [popularSeries]);
+
+  const filteredForKidsCategories = !selectedProfile.forKids
+  ? seriesCategories 
+  : seriesCategories.filter((categ) => !forKidsExcludedCategories.includes(categ.name.toLowerCase()));
+  
 
   const [selectedSeries, setSelectedSeries] = useState<Serie | null>(null);
   const handleSelectSeries = async (serie: Serie) => {
@@ -26,7 +31,7 @@ const Series = () => {
 
   // First 10 series from popularSeries, used for fallback and cycling display
   const firstTen = popularSeries?.slice(0, 10) || [];
-  const youSeriesOrSquidGame = isMobile? fallbackSeriesSquidGame : fallbackSeriesYou 
+  const youSeriesOrSquidGame = selectedProfile.forKids? fallbackSeriesScoobyDoo : isMobile? fallbackSeriesSquidGame : fallbackSeriesYou 
   const fallbackSeries = youSeriesOrSquidGame || firstTen[fallbackIndex];
   //const fallbackSeries = firstTen[fallbackIndex];
   const currentSeries = selectedSeries || fallbackSeries;
@@ -79,7 +84,7 @@ const Series = () => {
 
           {/* Horizontal scroll list of popular series */}
           <div className="flex gap-4 overflow-x-auto py-6 scrollbar-hide">
-        {local_loading ? Array.from({ length: 10 }).map((_, i) => ( <CardSkeleton key={i} /> ))
+               {local_loading ? Array.from({ length: 10 }).map((_, i) => ( <CardSkeleton key={i} /> ))
                  : popularSeries?.map((series: Serie) => (
                   <SeriesCard key={series.id} series={series} handleSelectSeries={handleSelectSeries}/>
             ))}
@@ -90,13 +95,11 @@ const Series = () => {
       {/* Series categories filter and categorized series list */}
       <section id="Section2" className={`relative w-full flex justify-center mainPX ${customStyles?.mainBg}`}  onClick={() => setProfileIsOpen!(false)}>
         <main className="content-container2 MAX_W flex flex-col">
-          <div
-            id="seriesFilters"
-            className="z-1 flex items-center gap-4 overflow-x-auto pt-[30px] pb-[70px] scroll-smooth scroll-bar-hidden"
+          <div id="seriesFilters" className="z-1 flex items-center gap-4 overflow-x-auto pt-[30px] pb-[70px] scroll-smooth scroll-bar-hidden"
             style={{ WebkitOverflowScrolling: "touch", scrollbarWidth: "none" }}
           >
             <i className={`fa-solid fa-chevron-left ${customStyles?.basicDynamicTxt}`} />
-            {seriesCategories.map((category, i) => (
+            {filteredForKidsCategories.map((category, i) => (
               <button key={i} className={`hover:bg-[#008cff] border-[2px] border-[#008cff] ${customStyles?.basicDynamicTxt} px-4 py-2 text-nowrap rounded-full transition1 cursor-pointer
                 ${category.name === selectedCategory?.name ? "bg-[#008cff]" : ""}`}
                 onClick={() =>  setSelectedCategory((prev) => (prev?.id === category.id ? null : category))  }

@@ -3,43 +3,42 @@ import { useNavigate } from 'react-router-dom';
 import { useGlobalProps, Logo, ProfileIconsShowcase, MessageToUser } from '../../exports';
 import { defaultProfileIcons } from './costants';
 import CustomCheckBox from './profilesUi/customCheckBox/CustomCheckBox';
-// import { updateProfileFunk } from '../../../services/apiBackend'; // <-- CHANGE THIS
+import { updateProfileFunk } from '../../../services/apiBackend';
 
 const EditProfile = () => {
   const { user, setUser, customStyles, selectedProfile } = useGlobalProps();
   const navigate = useNavigate();
-  console.log(selectedProfile)
 
   // Ensure we start with the current profile's image
   const initialAvatar = selectedProfile?.profileImage || defaultProfileIcons[0]?.img;
-
   const [selectedIcon, setSelectedIcon] = useState(initialAvatar);
   const [isIconHovered, setIsIconHovered] = useState(false);
   const [showIconModal, setShowIconModal] = useState(false);
   const [messageToUser, setMessageToUser] = useState('');
 
   // Pre-fill with existing profile info
-  const [editedProfile, setEditedProfile] = useState({
+  const [profileToEdit, setProfileToEdit] = useState({
     name: selectedProfile?.name || '',
     profileImage: initialAvatar,
     forKids: selectedProfile?.forKids || false,
   });
 
   useEffect(() => {
-    setEditedProfile(prev => ({ ...prev, profileImage: selectedIcon }));
+    setProfileToEdit(prev => ({ ...prev, profileImage: selectedIcon }));
   }, [selectedIcon]);
 
-  // const handleSaveProfile = async () => {
-  //   if (!editedProfile.name) return;
-  //   try {
-  //     const updatedUser = await updateProfileFunk( user.email, selectedProfile._id, editedProfile, setMessageToUser );
-  //     sessionStorage.setItem("user", JSON.stringify(updatedUser));
-  //     setUser(updatedUser);
-  //     navigate('/profiles');
-  //   } catch (err) {
-  //     console.error("Error updating profile:", err);
-  //   }
-  // };
+  const handleSaveProfile = async () => {
+    if (!profileToEdit.name) return;
+    try {
+      const updatedUser = await updateProfileFunk( user.email, selectedProfile._id, profileToEdit, setMessageToUser );
+      sessionStorage.setItem("user", JSON.stringify(updatedUser));
+      setUser(updatedUser);
+      setTimeout(() =>{navigate('/profiles');}, 1500 )
+      
+    } catch (err) {
+      console.error("Error updating profile:", err);
+    }
+  };
 
   return (
     <section className={`flex justify-center min-h-screen ${customStyles?.mainBgDark} text-white mainPX`}>
@@ -51,14 +50,12 @@ const EditProfile = () => {
 
           <div className="flex gap-6 max-md:flex-col">
             {/* Profile Image */}
-            <div
-              className="relative w-[300px] aspect-square cursor-pointer"
+            <div className="relative w-[300px] aspect-square cursor-pointer"
               onMouseEnter={() => setIsIconHovered(true)}
               onMouseLeave={() => setIsIconHovered(false)}
               onClick={() => setShowIconModal(true)}
             >
-              <img
-                src={selectedIcon}
+              <img src={selectedIcon}
                 alt="Selected Avatar"
                 className="w-full h-full object-cover rounded-xl"
               />
@@ -77,20 +74,18 @@ const EditProfile = () => {
                 <i className="fa-solid fa-user-pen" />
                 <input type="text"
                   placeholder="Profile Name"
-                  value={editedProfile.name}
-                  onChange={e => setEditedProfile(prev => ({ ...prev, name: e.target.value }))}
+                  value={profileToEdit.name}
+                  onChange={e => setProfileToEdit(prev => ({ ...prev, name: e.target.value }))}
                   className="border-b-[#ffffff6a] hover:border-[#ffffffad] border-b bg-transparent px-1 py-2 outline-none focus:border-b-[white]"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && editedProfile.name.trim()) handleSaveProfile();
-                  }}
+                  onKeyDown={(e) => { if (e.key === 'Enter' && profileToEdit.name.trim()) handleSaveProfile(); }}
                 />
               </div>
 
               {/* Kids Mode Toggle */}
               <CustomCheckBox
                 id="forKids"
-                checked={editedProfile.forKids}
-                onChange={() => setEditedProfile(prev => ({ ...prev, forKids: !prev.forKids }))}
+                checked={profileToEdit.forKids}
+                onChange={() => setProfileToEdit(prev => ({ ...prev, forKids: !prev.forKids }))}
                 label="For Kids"
               />
             </div>
@@ -102,8 +97,8 @@ const EditProfile = () => {
             >
               Go Back
             </button>
-            <button className={`${editedProfile.name !== '' ? customStyles?.btnColor2 : 'bg-[#80808040] text-[#ffffff50] cursor-not-allowed'} px-3 py-1 rounded-[7px]`}
-              // onClick={handleSaveProfile}
+            <button className={`${profileToEdit.name !== '' ? customStyles?.btnColor2 : 'bg-[#80808040] text-[#ffffff50] cursor-not-allowed'} px-3 py-1 rounded-[7px]`}
+              onClick={handleSaveProfile}
             >
               Save
             </button>

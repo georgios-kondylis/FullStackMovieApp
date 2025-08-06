@@ -1,20 +1,22 @@
 // Home.tsx
 import { useEffect, useState } from "react";
 import type { Movie } from "../../constants/types";
-import { movieCategories, fallbackMovieBallerina } from "../../constants";
+import { movieCategories, fallbackMovieBallerina, fallbackMovieLiloAndStitch,forKidsExcludedCategories } from "../../constants";
 import { fetchMovies, fetchMoviesByCategory, fetchMovieTrailerKey } from "../../services/apiTMDB";
 import { HomeMovieInfo, HomeMovieCard, Pricing, CardSkeleton, Footer, Section3_4Kids, useGlobalProps, scrollToTop, useFetch, BgTopSection } from "../exports";
-
 
 const Home = () => {
   useEffect(()=> {scrollToTop()} ,[])
 
-  const { query, customStyles, setProfileIsOpen } = useGlobalProps();
-  const { data: popularMovies, refetch, } = useFetch(() => fetchMovies({ query }), false);
-  const { data: categorisedMovies, refetch: refetchCategorisedMovies} = useFetch(() => fetchMoviesByCategory({ genreId: selectedCategory?.id }), true);
+  const { query, customStyles, setProfileIsOpen, selectedProfile } = useGlobalProps();
+  const { data: popularMovies, refetch, } = useFetch(() => fetchMovies({ query, forKids: selectedProfile?.forKids }), false);
+  const { data: categorisedMovies, refetch: refetchCategorisedMovies} = useFetch(() => fetchMoviesByCategory({ genreId: selectedCategory?.id,  forKids: selectedProfile?.forKids }), true);
   const [local_loading, setLocal_loading] = useState(true); // i did it loccaly so that the bg behaves smoothly
   useEffect(() => {if (popularMovies?.length > 0) setLocal_loading(false) }, [popularMovies]);
 
+  const filteredForKidsCategories = !selectedProfile.forKids
+  ? movieCategories 
+  : movieCategories.filter((categ) => !forKidsExcludedCategories.includes(categ.name.toLowerCase()));
   
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const handleSelectMovie = async (movie: Movie) => {
@@ -26,8 +28,8 @@ const Home = () => {
   const [bgUrl, setBgUrl] = useState<string>("");
 
   const firstTen = popularMovies?.slice(0, 10) || [];
-  const ballerinaMovie = fallbackMovieBallerina;
-  const fallbackMovie = fallbackMovieBallerina || firstTen[fallbackIndex]; // Always prefer Ballerina as the fallback movie if it exists
+  const ballerinaMovie = selectedProfile.forKids ? fallbackMovieLiloAndStitch : fallbackMovieBallerina 
+  const fallbackMovie = ballerinaMovie || firstTen[fallbackIndex]; // Always prefer Ballerina as the fallback movie if it exists
   // const fallbackMovie = firstTen[fallbackIndex]; // this is without ballerina
   const currentMovie = selectedMovie || fallbackMovie;
 
@@ -97,7 +99,7 @@ const Home = () => {
           style={{  WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none',  }}
         >
           <i className={`fa-solid fa-chevron-left ${customStyles?.basicDynamicTxt}`} />
-          {movieCategories.map((category, i) => (
+          {filteredForKidsCategories.map((category, i) => (
             <button key={i} className={`hover:bg-[#008cff] border-[2px] border-[#008cff] ${customStyles?.basicDynamicTxt} px-4 py-2 text-nowrap rounded-full transition1 cursor-pointer
                     ${category.name === selectedCategory?.name && 'bg-[#008cff]'}`}
               onClick={() => setSelectedCategory(prev => prev?.id === category.id ? null : category)}

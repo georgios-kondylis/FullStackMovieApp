@@ -10,33 +10,45 @@ export const TMDB_CONFIG = {
   }
 };
 
-export const fetchMovies = async ({query} : {query: string}) =>{
-  const endpoint = query
-      ? `${TMDB_CONFIG.BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
-      : `${TMDB_CONFIG.BASE_URL}/discover/movie?sort_by=popularity.desc`; // if there is no query aka search then fetch the popular ones
+const EXCLUDED_GENRES = "27,53,80,99"; // Horror, Thriller, Crime, Documentary
+export const fetchMovies = async ({ query, forKids }: any) => {
+  const base = query
+    ? `${TMDB_CONFIG.BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
+    : `${TMDB_CONFIG.BASE_URL}/discover/movie?sort_by=popularity.desc`;
 
-  const response = await fetch(endpoint, {
-      method: 'GET',
-      headers: TMDB_CONFIG.headers,
-  })
+  const kidsFilter = forKids
+    ? `&certification_country=US&certification.lte=PG&include_adult=false&without_genres=${EXCLUDED_GENRES}`
+    : "";
 
-  const data = await response.json();
-  return data.results; // TMDB returns a full response object, but we only need the 'results' array which contains the movies
-}
-
-export const fetchMoviesByCategory = async ({ genreId }: { genreId?: number }) => {
-  const endpoint = genreId
-    ? `${TMDB_CONFIG.BASE_URL}/discover/movie?with_genres=${genreId}&sort_by=popularity.desc&page=1`
-    : `${TMDB_CONFIG.BASE_URL}/discover/movie?sort_by=popularity.desc&page=2`; // fallback to popular
-
-  const response = await fetch(endpoint, {
+  const response = await fetch(base + kidsFilter, {
     method: "GET",
     headers: TMDB_CONFIG.headers,
   });
 
   const data = await response.json();
-  return data.results;
+  return data.results || [];
 };
+
+export const fetchMoviesByCategory = async ({ genreId, forKids }: any) => {
+  const base = genreId
+    ? `${TMDB_CONFIG.BASE_URL}/discover/movie?with_genres=${genreId}&sort_by=popularity.desc&page=1`
+    : `${TMDB_CONFIG.BASE_URL}/discover/movie?sort_by=popularity.desc&page=2`;
+
+  const kidsFilter = forKids
+    ? `&certification_country=US&certification.lte=PG&include_adult=false&without_genres=${EXCLUDED_GENRES}`
+    : "";
+
+  const response = await fetch(base + kidsFilter, {
+    method: "GET",
+    headers: TMDB_CONFIG.headers,
+  });
+
+  const data = await response.json();
+  return data.results || [];
+};
+
+
+
 // i uptated it with extra api call to fetch the credits like actors etc and Trailer key to add to <a href
 export const fetchMovieDetails = async ( movieId: string): Promise<MovieDetails & { credits: Credits; trailerKey?: string }> => {
   try {
@@ -104,32 +116,73 @@ export const fetchMovieTrailerKey = async (movieId: number | string): Promise<st
 
 // ------------ Series ------------ //
 
-export const fetchSeries = async ({ query }: { query: string }) => {
+// export const fetchSeries = async ({ query }: { query: string }) => {
+//   const endpoint = query
+//     ? `${TMDB_CONFIG.BASE_URL}/search/tv?query=${encodeURIComponent(query)}`
+//     : `${TMDB_CONFIG.BASE_URL}/discover/tv?sort_by=popularity.desc`; // if no query, fetch popular series
+
+//   const response = await fetch(endpoint, {
+//     method: 'GET',
+//     headers: TMDB_CONFIG.headers,
+//   });
+
+//   const data = await response.json();
+//   return data.results; // returns the array of series
+// };
+// export const fetchSeriesByCategory = async ({ genreId }: { genreId?: number }) => {
+//   const endpoint = genreId
+//     ? `${TMDB_CONFIG.BASE_URL}/discover/tv?with_genres=${genreId}&sort_by=popularity.desc&page=1`
+//     : `${TMDB_CONFIG.BASE_URL}/discover/tv?sort_by=popularity.desc&page=2`; // fallback to popular series
+
+//   const response = await fetch(endpoint, {
+//     method: "GET",
+//     headers: TMDB_CONFIG.headers,
+//   });
+
+//   const data = await response.json();
+//   return data.results;
+// };
+const EXCLUDED_SERIES_GENRES = "9648,10765,80,99"; 
+// Mystery, Sci-Fi & Fantasy, Crime, Documentary
+// You can adjust based on what you want to block for kids
+
+export const fetchSeries = async ({ query, forKids }: { query?: string; forKids?: boolean }) => {
   const endpoint = query
     ? `${TMDB_CONFIG.BASE_URL}/search/tv?query=${encodeURIComponent(query)}`
-    : `${TMDB_CONFIG.BASE_URL}/discover/tv?sort_by=popularity.desc`; // if no query, fetch popular series
+    : `${TMDB_CONFIG.BASE_URL}/discover/tv?sort_by=popularity.desc`;
 
-  const response = await fetch(endpoint, {
-    method: 'GET',
-    headers: TMDB_CONFIG.headers,
-  });
+  const kidsFilter = forKids
+    ? `&certification_country=US&certification.lte=PG&include_adult=false&without_genres=${EXCLUDED_SERIES_GENRES}`
+    : "";
 
-  const data = await response.json();
-  return data.results; // returns the array of series
-};
-export const fetchSeriesByCategory = async ({ genreId }: { genreId?: number }) => {
-  const endpoint = genreId
-    ? `${TMDB_CONFIG.BASE_URL}/discover/tv?with_genres=${genreId}&sort_by=popularity.desc&page=1`
-    : `${TMDB_CONFIG.BASE_URL}/discover/tv?sort_by=popularity.desc&page=2`; // fallback to popular series
-
-  const response = await fetch(endpoint, {
+  const response = await fetch(endpoint + kidsFilter, {
     method: "GET",
     headers: TMDB_CONFIG.headers,
   });
 
   const data = await response.json();
-  return data.results;
+  return data.results || [];
 };
+
+export const fetchSeriesByCategory = async ({ genreId, forKids,}: any) => {
+  const endpoint = genreId
+    ? `${TMDB_CONFIG.BASE_URL}/discover/tv?with_genres=${genreId}&sort_by=popularity.desc&page=1`
+    : `${TMDB_CONFIG.BASE_URL}/discover/tv?sort_by=popularity.desc&page=2`;
+
+  const kidsFilter = forKids
+    ? `&certification_country=US&certification.lte=PG&include_adult=false&without_genres=${EXCLUDED_SERIES_GENRES}`
+    : "";
+
+  const response = await fetch(endpoint + kidsFilter, {
+    method: "GET",
+    headers: TMDB_CONFIG.headers,
+  });
+
+  const data = await response.json();
+  return data.results || [];
+};
+
+
 // i uptated it with extra api call to fetch the credits like actors etc and Trailer key to add to <a href
 export const fetchSeriesDetails = async (seriesId: string): Promise<SeriesDetails & { credits: Credits; trailerKey?: string }> => {
   try {

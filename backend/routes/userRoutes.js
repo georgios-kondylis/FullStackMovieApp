@@ -141,5 +141,42 @@ router.delete('/delete-profile', async (req, res) => {
   }
 });
 
+// --------------- Update Profile --------------- //
+router.put('/edit-profile', async (req, res) => {
+  try {
+    const { email, profileId, name, profileImage, forKids, likedMovies, dislikedMovies, favourites } = req.body;
+
+    // 1. Find user
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // 2. Find profile inside user's profiles array
+    const profile = user.profiles.id(profileId);
+    if (!profile) return res.status(404).json({ message: 'Profile not found' });
+
+    // 3. Update basic fields
+    if (name !== undefined) profile.name = name;
+    if (profileImage !== undefined) profile.profileImage = profileImage;
+    if (typeof forKids === 'boolean') profile.forKids = forKids;
+
+    // 4. Update arrays (if provided)
+    if (Array.isArray(likedMovies)) profile.likedMovies = likedMovies;
+    if (Array.isArray(dislikedMovies)) profile.dislikedMovies = dislikedMovies;
+    if (Array.isArray(favourites)) profile.favourites = favourites;
+
+    // 5. Save updated user
+    await user.save();
+
+    return res.status(200).json({
+      message: 'Profile updated successfully',
+      user,
+    });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
+
 
 export default router

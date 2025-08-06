@@ -11,8 +11,9 @@ const ProfileCard = ({ profile }: any) => {
   const handleSelectProfile = () => { setSelectedProfile!(profile); navigate('/') };
 
   return (
-    <div onClick={handleSelectProfile} className="relative group flex flex-col gap-3 items-center pr-[70px]">
-      <div className="w-[250px] h-[250px] md:w-[300px] md:h-[300px] rounded-[5px] flex items-center justify-center overflow-hidden hover:brightness-75 cursor-pointer">
+    <div className="relative group flex flex-col gap-3 items-center pr-[70px]">
+      <div className="w-[250px] h-[250px] md:w-[300px] md:h-[300px] rounded-[5px] flex items-center justify-center overflow-hidden hover:brightness-75 cursor-pointer"
+           onClick={handleSelectProfile}>
         <img src={profile.profileImage || null} className="w-full h-full object-cover" alt="Guest Avatar" />
       </div>
       <p className="text-[1.7rem]">{profile.name}</p>
@@ -20,7 +21,7 @@ const ProfileCard = ({ profile }: any) => {
       <div className="absolute right-[20px] top-[42%] -translate-y-1/2 group-hover:flex flex-col gap-[10px] hidden">
 
         <div className="relative group/edit w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer hover:bg-[#ffffff37]"
-        onClick={handleEdit}>
+           onClick={handleEdit}>
           <i className="fa-solid fa-pencil" />
           <span className="txtFadedGray font-light absolute opacity-0 group-hover/edit:opacity-100 transition1 right-[-35px] whitespace-nowrap pointer-events-none">
             Edit
