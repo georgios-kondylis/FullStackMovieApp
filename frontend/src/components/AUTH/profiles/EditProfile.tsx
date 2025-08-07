@@ -45,12 +45,9 @@ const EditProfile = () => {
       sessionStorage.setItem("selectedProfile", JSON.stringify(updatedProfile));
       setUser(updatedUser);
   
-      // If you have setSelectedProfile from context, update it too:
-     //  setSelectedProfile(updatedProfile);
-  
       setTimeout(() => {
         navigate("/profiles");
-      }, 1500);
+      }, 1000);
     } catch (err) {
       console.error("Error updating profile:", err);
     } finally {
