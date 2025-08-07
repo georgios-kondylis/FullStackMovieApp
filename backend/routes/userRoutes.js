@@ -144,7 +144,7 @@ router.delete('/delete-profile', async (req, res) => {
 // --------------- Update Profile --------------- //
 router.put('/edit-profile', async (req, res) => {
   try {
-    const { email, profileId, name, profileImage, forKids, likedMovies, dislikedMovies, favourites, movie, likedMovie, dislikedMovie } = req.body;
+    const { email, profileId, name, profileImage, forKids, movie, likedMovie, dislikedMovie } = req.body;
 
     // 1. Find user
     const user = await User.findOne({ email });
@@ -154,28 +154,20 @@ router.put('/edit-profile', async (req, res) => {
     const profile = user.profiles.id(profileId);
     if (!profile) return res.status(404).json({ message: 'Profile not found' });
 
-    // 3. Update basic fields
+    // 3. Update basic fields if provided
     if (name !== undefined) profile.name = name;
     if (profileImage !== undefined) profile.profileImage = profileImage;
     if (typeof forKids === 'boolean') profile.forKids = forKids;
 
-    // 4A. Overwrite arrays (if full arrays provided)
-    if (Array.isArray(likedMovies)) profile.likedMovies = likedMovies;
-    if (Array.isArray(dislikedMovies)) profile.dislikedMovies = dislikedMovies;
-    if (Array.isArray(favourites)) profile.favourites = favourites;
-
-    // 4B. Incrementally add a single movie
-    if (movie) {
-      const exists = profile.favourites.some(m => m.id === movie.id);
-      if (!exists) profile.favourites.push(movie);
+    // 4. Incrementally add single movies if provided (avoid duplicates)
+    if (movie && !profile.favourites.some(m => m.id === movie.id)) {
+      profile.favourites.push(movie);
     }
-    if (likedMovie) {
-      const exists = profile.likedMovies.some(m => m.id === likedMovie.id);
-      if (!exists) profile.likedMovies.push(likedMovie);
+    if (likedMovie && !profile.likedMovies.some(m => m.id === likedMovie.id)) {
+      profile.likedMovies.push(likedMovie);
     }
-    if (dislikedMovie) {
-      const exists = profile.dislikedMovies.some(m => m.id === dislikedMovie.id);
-      if (!exists) profile.dislikedMovies.push(dislikedMovie);
+    if (dislikedMovie && !profile.dislikedMovies.some(m => m.id === dislikedMovie.id)) {
+      profile.dislikedMovies.push(dislikedMovie);
     }
 
     // 5. Save updated user
@@ -190,6 +182,7 @@ router.put('/edit-profile', async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
+
 
 // router.put('/edit-profile', async (req, res) => {
 //   try {
