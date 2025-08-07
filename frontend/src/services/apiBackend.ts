@@ -163,3 +163,24 @@ export const updateProfileFunk = async ( email:string, profileId:string, profile
     throw error;
   }
 };
+
+export const addMovieToFavourites = async (email: string, profileId: string, movie: any) => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/edit-profile`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, profileId, movie }),
+    });
+
+    if (!res.ok) {
+      const errData = await res.json();
+      throw new Error(errData.message || "Failed to update profile");
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    throw error;
+  }
+};
+
