@@ -164,13 +164,19 @@ export const updateProfileFunk = async ( email:string, profileId:string, profile
   }
 };
 
-export const addMovieToFavourites = async (email: string, profileId: string, movie: any) => {
+export const addMovieToFavourites = async (email: string, selectedProfile: any, movie: any) => {
   try {
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/edit-profile`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, profileId, movie }),
-    });
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/edit-profile`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          profileId: selectedProfile._id,
+          movie,
+        }),
+      }
+    );
 
     if (!res.ok) {
       const errData = await res.json();
@@ -179,8 +185,7 @@ export const addMovieToFavourites = async (email: string, profileId: string, mov
 
     return await res.json();
   } catch (error) {
-    console.error("Error updating profile:", error);
+    console.error("❌ Error updating profile:", error);
     throw error;
   }
 };
-

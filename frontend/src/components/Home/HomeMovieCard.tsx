@@ -11,13 +11,25 @@ type Props = {
 };
 
 const HomeMovieCard = ({ movie, handleSelectMovie, bookmarked = false, dynamicBg }: Props) => {
-  const { customStyles, isDarkMode, user, selectedProfile } = useGlobalProps();
+  const { customStyles, isDarkMode, user, selectedProfile, setSelectedProfile, setUser } = useGlobalProps();
 
   const handleAddMovieToFavourites = async (e: React.MouseEvent) => {
-    e.stopPropagation(); // ⛔ Prevents triggering handleSelectMovie
+    e.stopPropagation();
+  
+    const alreadyExists = selectedProfile?.favourites?.some((fav: any) => fav.id === movie.id);
+    if (alreadyExists) {
+      console.log("🚫 The movie is already in favourites");
+      return;
+    }
+  
     try {
-      const updatedUser = await addMovieToFavourites( user.email, selectedProfile._id, movie );
-      console.log("✅ Movie added to favourites:", updatedUser);
+      const data = await addMovieToFavourites(user.email, selectedProfile, movie);
+      if (data && data.user) {
+        setUser(data.user);
+        const updatedProfile = data.user.profiles.find((p: any) => p._id === selectedProfile._id);
+        if (updatedProfile) setSelectedProfile!(updatedProfile);
+      }
+      console.log("✅ Movie added to favourites:", data);
     } catch (error) {
       console.error("❌ Failed to add movie to favourites:", error);
     }
