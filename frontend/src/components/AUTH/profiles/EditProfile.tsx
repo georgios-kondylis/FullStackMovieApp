@@ -6,7 +6,7 @@ import CustomCheckBox from './profilesUi/customCheckBox/CustomCheckBox';
 import { updateProfileFunk } from '../../../services/apiBackend';
 
 const EditProfile = () => {
-  const { user, setUser, customStyles, selectedProfile } = useGlobalProps();
+  const { user, setUser, customStyles, selectedProfile, setSelectedProfile } = useGlobalProps();
   const navigate = useNavigate();
 
   const initialAvatar = selectedProfile?.profileImage || defaultProfileIcons[0]?.img;
@@ -29,24 +29,35 @@ const EditProfile = () => {
   const handleSaveProfile = async () => {
     if (!profileToEdit.name.trim()) return;
     try {
-      setLoading(true); // Show loader
+      setLoading(true);
       const updatedUser = await updateProfileFunk(
         user.email,
         selectedProfile._id,
         profileToEdit,
         setMessageToUser
       );
+      // Get the updated profile from returned user
+      const updatedProfile = updatedUser.profiles.find(
+        (profile: any) => profile._id === selectedProfile._id
+      );
+      // Set in session storage
       sessionStorage.setItem("user", JSON.stringify(updatedUser));
+      sessionStorage.setItem("selectedProfile", JSON.stringify(updatedProfile));
       setUser(updatedUser);
+  
+      // If you have setSelectedProfile from context, update it too:
+     //  setSelectedProfile(updatedProfile);
+  
       setTimeout(() => {
-        navigate('/profiles');
+        navigate("/profiles");
       }, 1500);
     } catch (err) {
       console.error("Error updating profile:", err);
     } finally {
-      setLoading(false); // Hide loader
+      setLoading(false);
     }
   };
+  
 
   return (
     <section className={`flex justify-center min-h-screen ${customStyles?.mainBgDark} text-white mainPX`}>

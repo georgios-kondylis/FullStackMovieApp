@@ -33,25 +33,25 @@ const Profiles = () => {
         
         <div className='relative flex max-md:flex-col items-center mt-[5%] max-sm:mt-[15%] mb-[50px] gap-[0px] transition1'>
           <div className='absolute left-1/2 -translate-x-1/2 top-[-60px]'>
-            <GreetingTypewriter name={user.firstName || 'Guest'} />
+            <GreetingTypewriter name={user?.firstName || 'Guest'} />
           </div>
         
 
           <h1 className={`text-gradient mx-auto text-[3rem] max-sm:text-[2rem] font-semibold transition1`}>
-           {user.firstName === 'Guest' ? '' : "Who's watching?" } 
+           {user?.firstName === 'Guest' ? '' : "Who's watching?" } 
           </h1>
         </div>
        
-        {user.firstName !== 'Guest' ? 
+        {user?.firstName !== 'Guest' ? 
          <div className={`flex flex-col items-start max-sm:items-center gap-[50px] transition1 overflow-x-auto
-                        ${user.profiles.length > 0 && 'md:ml-[70px]'}`}
+                        ${user?.profiles.length > 0 && 'md:ml-[70px]'}`}
           >
-            {user.profiles.map((profile:any, i:any) => isMobile? 
+            {user?.profiles.map((profile:any, i:any) => isMobile? 
             <MobileProfileCard  key={i} profile={profile}/> 
             :
              <ProfileCard key={i} profile={profile} />
             )}
-            <div className={`${user.profiles.length < 1 && 'mx-auto'}`}>
+            <div className={`${user?.profiles.length < 1 && 'mx-auto'}`}>
              <CreateProfileCard text={'Create a profile'} />
             </div>
           

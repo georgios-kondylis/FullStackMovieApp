@@ -8,7 +8,7 @@ const App = () => {
   const {user, setUser} = useGlobalProps();
 
   useEffect(() => {
-    const isUserEmpty = user.firstName === '';
+    const isUserEmpty = user?.firstName === '';
     const isAuthPage = location.pathname === '/sign-in' || location.pathname === '/sign-up';
   
     if (isUserEmpty && !isAuthPage) {
