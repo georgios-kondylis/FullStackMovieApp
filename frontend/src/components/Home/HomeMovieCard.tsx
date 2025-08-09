@@ -1,12 +1,11 @@
 // HomeMovieCard.tsx
 import type { Movie } from "../../constants/types";
 import { useGlobalProps } from "../../GlobalContext";
-import { addMovieToFavourites } from "../../services/apiBackend";
+import { addMovieToFavourites, removeMovieFromFavourites, } from "../../services/apiBackend";
 
 type Props = {
   movie: Movie;
   handleSelectMovie: (movie: Movie) => void;
-  bookmarked?: boolean;
   dynamicBg?: boolean;
 };
 
@@ -15,6 +14,7 @@ const HomeMovieCard = ({ movie, handleSelectMovie, dynamicBg }: Props) => {
   const { customStyles, isDarkMode, user, selectedProfile, setSelectedProfile, setUser } = useGlobalProps();
 
   const bookmarked = selectedProfile?.favourites?.some((fav: any) => fav.id === movie.id);
+
   const handleAddMovieToFavourites = async (e: React.MouseEvent) => {
     e.stopPropagation();
     if (bookmarked) {
@@ -34,7 +34,24 @@ const HomeMovieCard = ({ movie, handleSelectMovie, dynamicBg }: Props) => {
       console.error("❌ Failed to add movie to favourites:", error);
     }
   };
+
+  const handleRemoveMovieFromFavourites = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      const data = await removeMovieFromFavourites(user.email, selectedProfile, movie);
+      if (data && data.user) {
+        setUser(data.user);
+        const updatedProfile = data.user.profiles.find((p: any) => p._id === selectedProfile._id);
+        if (updatedProfile) setSelectedProfile!(updatedProfile);
+      }
+      console.log("✅ Movie removed from favourites:", data);
+    } catch (error) {
+      console.error("❌ Failed to remove movie to favourites:", error);
+    }
+  };
+
   
+
 
   return (
     <div key={movie.id} onClick={() => {handleSelectMovie(movie);}}
@@ -47,15 +64,15 @@ const HomeMovieCard = ({ movie, handleSelectMovie, dynamicBg }: Props) => {
       />
 
       {/* Bookmark / Add Button */}
-      <div className={`flex w-[55px] h-[55px] border-[5px] rounded-[8px] backdrop-blur-[3px] 
+      <div className={`flex w-[55px] h-[55px] border-[5px] rounded-[8px] backdrop-blur-[3px] group 
         ${dynamicBg && !isDarkMode ? "border-[#ededed]" : "border-[#030A1B]"} 
         items-center justify-center absolute top-[-6px] left-[-5px] text-[25px] text-white group`}
-        onClick={handleAddMovieToFavourites}
+        onClick={ bookmarked? handleRemoveMovieFromFavourites :  handleAddMovieToFavourites}
       >
         {bookmarked ? (
-          <i className="text-[#008cff] fa-solid fa-bookmark text-xl" />
+          <i className="fa-solid fa-bookmark | text-[#00ffee] text-xl group-hover:scale-[1.1] transition1" />
         ) : (
-          <p className="group-hover:scale-[1.3] group-hover:text-[#008cff] transition1">+</p>
+          <i className="fa-regular fa-bookmark | text-[#00ccff] text-xl group-hover:scale-[1.1] transition1" />
         )}
       </div>
     </div>

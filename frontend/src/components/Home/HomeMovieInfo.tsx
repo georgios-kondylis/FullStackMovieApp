@@ -12,6 +12,7 @@ const HomeMovieInfo = ({ currentMovie }: Props) => {
   const { customStyles, isDarkMode } = useGlobalProps();
   const [showTrailerModal, setShowTrailerModal] = useState(false);
 
+
   return (
     <div className={`flex flex-col gap-4 ${customStyles?.basicDynamicTxt}`}>
        {showTrailerModal && (

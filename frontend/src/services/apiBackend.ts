@@ -163,7 +163,7 @@ export const updateProfileFunk = async ( email:string, profileId:string, profile
     throw error;
   }
 };
-
+// ----------  Add  ---------- //
 export const addMovieToFavourites = async (email: string, selectedProfile: any, movie: any) => {
   try {
     const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/edit-profile`,
@@ -180,12 +180,91 @@ export const addMovieToFavourites = async (email: string, selectedProfile: any, 
 
     if (!res.ok) {
       const errData = await res.json();
-      throw new Error(errData.message || "Failed to update profile");
+      throw new Error(errData.message || "Failed to add movie to favourites");
     }
 
     return await res.json();
   } catch (error) {
     console.error("❌ Error updating profile:", error);
+    throw error;
+  }
+};
+export const addMovieToLiked = async (email: string, selectedProfile: any, movie: any) => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/edit-profile`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          profileId: selectedProfile._id,
+          likedMovie: movie
+        }),
+      }
+    );
+
+    if (!res.ok) {
+      const errData = await res.json();
+      throw new Error(errData.message || "Failed to add movie to like movies");
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("❌ Error updating profile:", error);
+    throw error;
+  }
+};
+export const addMovieToDisliked = async (email: string, selectedProfile: any, movie: any) => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/edit-profile`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          profileId: selectedProfile._id,
+          dislikedMovie: movie
+        }),
+      }
+    );
+
+    if (!res.ok) {
+      const errData = await res.json();
+      throw new Error(errData.message || "Failed to add movie to favourites");
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("❌ Error updating profile:", error);
+    throw error;
+  }
+};
+
+// ----------  Remove  ---------- //
+export const removeMovieFromFavourites = async (email: string, selectedProfile: any, movie: any) => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/un-favourite`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          profileId: selectedProfile._id,
+          movie,
+        }),
+      }
+    );
+
+    if (!res.ok) {
+      const errData = await res.json();
+      throw new Error(
+        errData.message || "Failed to remove movie from favourites"
+      );
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("❌ Error removing movie from favourites:", error);
     throw error;
   }
 };

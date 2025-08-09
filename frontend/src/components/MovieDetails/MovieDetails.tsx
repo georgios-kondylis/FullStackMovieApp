@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useLocation, } from 'react-router-dom'
 import { fetchMovieDetails, fetchSeriesDetails } from '../../services/apiTMDB'
 import { useGlobalProps, scrollToTop, useFetch, StarRating, TrailerIframed, GoBackBtn, CastAndCrew } from "../exports";
+import { addMovieToLiked, addMovieToDisliked, addMovieToFavourites, removeMovieFromFavourites } from "../../services/apiBackend";
 
 import type {
   MovieDetails as MovieDetailsType,
@@ -17,13 +18,9 @@ const MovieDetails = () => {
   
   const [showTrailerModal, setShowTrailerModal] = useState(false);
 
-  // Temporary States until i create a DB
-  const [liked, setLiked] = useState(false);
-  const [disliked, setDisliked] = useState(false);
-  const [bookmarked, setBookmarked] = useState(false);
   // -------------------------------------------- //
 
-  const { customStyles, setProfileIsOpen } = useGlobalProps()
+  const { customStyles, setProfileIsOpen, user, setUser, selectedProfile, setSelectedProfile } = useGlobalProps()
   const { id } = useParams()
   const location = useLocation()
 
@@ -41,6 +38,78 @@ const MovieDetails = () => {
     return <p className="text-white p-4">Loading...</p>
 
   const imgBgUrl = `https://image.tmdb.org/t/p/original${currentMovie.backdrop_path}`
+
+
+  //------------------- Handlrs ------------------- //
+
+
+
+  const bookmarked = selectedProfile?.favourites?.some((fav: any) => fav.id === currentMovie.id);
+  const liked = selectedProfile?.likedMovies?.some((fav: any) => fav.id === currentMovie.id);
+  const disliked = selectedProfile?.dislikedMovies?.some((fav: any) => fav.id === currentMovie.id);
+
+    //------------------- Like / Dislike Handlers ------------------- //
+
+  const handleLikeMovie = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      const data = await addMovieToLiked(user.email, selectedProfile, currentMovie);
+      if (data && data.user) {
+        setUser(data.user);
+        const updatedProfile = data.user.profiles.find((p: any) => p._id === selectedProfile._id);
+        if (updatedProfile) setSelectedProfile!(updatedProfile);
+      }
+      console.log("opperation successfully executed ✅:", data);
+    } catch (error) {
+      console.error("❌ Failed to like Movie:", error);
+    }
+  };
+  const handleDislikeLikeMovie = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+      
+    try {
+      const data = await addMovieToDisliked(user.email, selectedProfile, currentMovie);
+      if (data && data.user) {
+        setUser(data.user);
+        const updatedProfile = data.user.profiles.find((p: any) => p._id === selectedProfile._id);
+        if (updatedProfile) setSelectedProfile!(updatedProfile);
+      }
+      console.log("opperation successfully executed ✅:", data);
+    } catch (error) {
+      console.error("❌ Failed to dislike Movie:", error);
+    }
+  };
+
+  //------------------- Fav / UnFav Handlers ------------------- //
+
+  const handleAddMovieToFavourites = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      const data = await addMovieToFavourites(user.email, selectedProfile, currentMovie);
+      if (data && data.user) {
+        setUser(data.user);
+        const updatedProfile = data.user.profiles.find((p: any) => p._id === selectedProfile._id);
+        if (updatedProfile) setSelectedProfile!(updatedProfile);
+      }
+      console.log("✅ Movie added to favourites:", data);
+    } catch (error) {
+      console.error("❌ Failed to add movie to favourites:", error);
+    }
+  };
+  const handleRemoveMovieFromFavourites = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      const data = await removeMovieFromFavourites(user.email, selectedProfile, currentMovie);
+      if (data && data.user) {
+        setUser(data.user);
+        const updatedProfile = data.user.profiles.find((p: any) => p._id === selectedProfile._id);
+        if (updatedProfile) setSelectedProfile!(updatedProfile);
+      }
+      console.log("✅ Movie removed from favourites:", data);
+    } catch (error) {
+      console.error("❌ Failed to remove movie to favourites:", error);
+    }
+  };
 
   return (
     <section className={`w-full flex justify-center relative min-h-[100vh] overflow-hidden ${customStyles?.mainBg}`} onClick={() => setProfileIsOpen!(false)}>
@@ -89,17 +158,17 @@ const MovieDetails = () => {
               </div>
               <div id='INTERACTIONS' className='flex gap-3 items-center text-[#ffffffb0]'>
                 <div className={`w-[35px] h-[35px] flex items-center justify-center rounded-full cursor-pointer transition1 border p-2 ${customStyles?.mainBgDark} hover:text-[#ffffff]`}
-                    onClick={() => setLiked((prev) => !prev)}>
+                    onClick={isMovie ? handleLikeMovie : () => ''}>
                   <i className={`${liked ? 'fa-solid' : 'fa-regular'} fa-thumbs-up`} />
                 </div>
 
                 <div className={`w-[35px] h-[35px] flex items-center justify-center rounded-full cursor-pointer transition1 border p-2 ${customStyles?.mainBgDark} hover:text-[#ffffff]`}
-                    onClick={() => setDisliked((prev) => !prev)}>
+                    onClick={isMovie? handleDislikeLikeMovie : () => ''}>
                   <i className={`${disliked ? 'fa-solid' : 'fa-regular'} fa-thumbs-down`} />
                 </div>
 
                 <div className={`w-[35px] h-[35px] flex items-center justify-center rounded-full cursor-pointer transition1 border p-2 ${customStyles?.mainBgDark} hover:text-[#ffffff]`}
-                    onClick={() => setBookmarked((prev) => !prev)}>
+                     onClick={ isMovie && !bookmarked ?  handleAddMovieToFavourites : handleRemoveMovieFromFavourites }>
                   <i className={`${bookmarked ? 'fa-solid' : 'fa-regular'} fa-bookmark`} />
                 </div>
               </div>

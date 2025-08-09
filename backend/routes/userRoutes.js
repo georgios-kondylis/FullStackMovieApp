@@ -150,74 +150,90 @@ router.put('/edit-profile', async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ message: 'User not found' });
 
-    // 2. Find profile inside user's profiles array
+    // 2. Find profile
     const profile = user.profiles.id(profileId);
     if (!profile) return res.status(404).json({ message: 'Profile not found' });
 
-    // 3. Update basic fields if provided
+    // 3. Update basic fields
     if (name !== undefined) profile.name = name;
     if (profileImage !== undefined) profile.profileImage = profileImage;
     if (typeof forKids === 'boolean') profile.forKids = forKids;
 
-    // 4. Incrementally add single movies if provided (avoid duplicates)
+    // 4. Incrementally add/remove movies
     if (movie && !profile.favourites.some(m => m.id === movie.id)) {
       profile.favourites.push(movie);
     }
-    if (likedMovie && !profile.likedMovies.some(m => m.id === likedMovie.id)) {
-      profile.likedMovies.push(likedMovie);
-    }
-    if (dislikedMovie && !profile.dislikedMovies.some(m => m.id === dislikedMovie.id)) {
-      profile.dislikedMovies.push(dislikedMovie);
-    }
 
-    // 5. Save updated user
+    if (likedMovie) {
+      // If movie already liked → remove it (toggle off)
+      if (profile.likedMovies.some(m => m.id === likedMovie.id)) {
+        profile.likedMovies = profile.likedMovies.filter(m => m.id !== likedMovie.id);
+      } else {
+        // Remove from dislikedMovies if it's there
+        profile.dislikedMovies = profile.dislikedMovies.filter(m => m.id !== likedMovie.id);
+        // Add to likedMovies
+        profile.likedMovies.push(likedMovie);
+      }
+    }
+    
+
+    if (dislikedMovie) {
+      // If movie already disliked → remove it (toggle off)
+      if (profile.dislikedMovies.some(m => m.id === dislikedMovie.id)) {
+        profile.dislikedMovies = profile.dislikedMovies.filter(m => m.id !== dislikedMovie.id);
+      } else {
+        // Remove from likedMovies if it's there
+        profile.likedMovies = profile.likedMovies.filter(m => m.id !== dislikedMovie.id);
+        // Add to dislikedMovies
+        profile.dislikedMovies.push(dislikedMovie);
+      }
+    }
+    
+
+    // 5. Save
     await user.save();
 
     return res.status(200).json({
       message: 'Profile updated successfully',
       user,
     });
+
   } catch (error) {
     console.error("Error updating profile:", error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
 
+// --------------- Remove Movie From Favourites --------------- //
+router.put('/un-favourite', async (req, res) => {
+  try {
+    const { email, profileId, movie } = req.body;
 
-// router.put('/edit-profile', async (req, res) => {
-//   try {
-//     const { email, profileId, name, profileImage, forKids, likedMovies, dislikedMovies, favourites } = req.body;
+    // 1. Find user
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: 'User not found' });
 
-//     // 1. Find user
-//     const user = await User.findOne({ email });
-//     if (!user) return res.status(404).json({ message: 'User not found' });
+    // 2. Find profile inside user's profiles array
+    const profile = user.profiles.id(profileId);
+    if (!profile) return res.status(404).json({ message: 'Profile not found' });
 
-//     // 2. Find profile inside user's profiles array
-//     const profile = user.profiles.id(profileId);
-//     if (!profile) return res.status(404).json({ message: 'Profile not found' });
+    // 3. If the movie exists, remove it
+    if (movie) {
+      profile.favourites = profile.favourites.filter(m => m.id !== movie.id);
+    }
 
-//     // 3. Update basic fields
-//     if (name !== undefined) profile.name = name;
-//     if (profileImage !== undefined) profile.profileImage = profileImage;
-//     if (typeof forKids === 'boolean') profile.forKids = forKids;
+    // 4. Save updated user
+    await user.save();
 
-//     // 4. Update arrays (if provided)
-//     if (Array.isArray(likedMovies)) profile.likedMovies = likedMovies;
-//     if (Array.isArray(dislikedMovies)) profile.dislikedMovies = dislikedMovies;
-//     if (Array.isArray(favourites)) profile.favourites = favourites;
-
-//     // 5. Save updated user
-//     await user.save();
-
-//     return res.status(200).json({
-//       message: 'Profile updated successfully',
-//       user,
-//     });
-//   } catch (error) {
-//     console.error("Error updating profile:", error);
-//     res.status(500).json({ message: 'Server error', error: error.message });
-//   }
-// });
+    return res.status(200).json({
+      message: 'Movie removed from favourites successfully',
+      user,
+    });
+  } catch (error) {
+    console.error("Error removing movie from favourites:", error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
 
 
 
