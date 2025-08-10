@@ -1,17 +1,54 @@
 import React from "react";
 import type { Serie } from "../../constants/types";
 import { useGlobalProps } from "../../GlobalContext";
+import { addMovieToFavourites, removeMovieFromFavourites } from "../../services/apiBackend";
 
 type Props = {
   series: Serie;
   setSelectedSeries?: React.Dispatch<React.SetStateAction<Serie | null>>;
-  bookmarked?: boolean;
   dynamicBg?: boolean;
   handleSelectSeries?: any
 };
 
-const SeriesCard = ({series, setSelectedSeries, handleSelectSeries, bookmarked = false, dynamicBg,}: Props) => {
-  const { customStyles, isDarkMode } = useGlobalProps();
+const SeriesCard = ({series, setSelectedSeries, handleSelectSeries, dynamicBg,}: Props) => {
+  const { customStyles, isDarkMode, selectedProfile, setSelectedProfile, user, setUser } = useGlobalProps();
+
+  const bookmarked = selectedProfile?.favourites?.some((fav: any) => fav.id === series.id);
+
+  const handleAddMovieToFavourites = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (bookmarked) {
+      console.log("🚫 The movie is already in favourites");
+      return;
+    }
+  
+    try {
+      const data = await addMovieToFavourites(user.email, selectedProfile, series);
+      if (data && data.user) {
+        setUser(data.user);
+        const updatedProfile = data.user.profiles.find((p: any) => p._id === selectedProfile._id);
+        if (updatedProfile) setSelectedProfile!(updatedProfile);
+      }
+      console.log("✅ Movie added to favourites:", data);
+    } catch (error) {
+      console.error("❌ Failed to add movie to favourites:", error);
+    }
+  };
+
+  const handleRemoveMovieFromFavourites = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      const data = await removeMovieFromFavourites(user.email, selectedProfile, series);
+      if (data && data.user) {
+        setUser(data.user);
+        const updatedProfile = data.user.profiles.find((p: any) => p._id === selectedProfile._id);
+        if (updatedProfile) setSelectedProfile!(updatedProfile);
+      }
+      console.log("✅ Movie removed from favourites:", data);
+    } catch (error) {
+      console.error("❌ Failed to remove movie to favourites:", error);
+    }
+  };
 
   return (
     <div key={series.id}
@@ -28,11 +65,12 @@ const SeriesCard = ({series, setSelectedSeries, handleSelectSeries, bookmarked =
       <div className={`flex w-[55px] h-[55px] border-[5px] rounded-[8px] backdrop-blur-[3px] 
         ${dynamicBg && !isDarkMode ? "border-[#ededed]" : "border-[#030A1B]"} 
         items-center justify-center absolute top-[-6px] left-[-5px] text-[25px] text-white group`}
+        onClick={ bookmarked? handleRemoveMovieFromFavourites :  handleAddMovieToFavourites}
       >
         {bookmarked ? (
-          <i className="text-[#008cff] fa-solid fa-bookmark text-xl" />
+          <i className="fa-solid fa-bookmark | text-[#00ffee] text-xl group-hover:scale-[1.1] transition1" />
         ) : (
-          <p className="group-hover:scale-[1.3] group-hover:text-[#008cff] transition1">+</p>
+          <i className="fa-regular fa-bookmark | text-[#00ccff] text-xl group-hover:scale-[1.1] transition1" />
         )}
       </div>
     </div>

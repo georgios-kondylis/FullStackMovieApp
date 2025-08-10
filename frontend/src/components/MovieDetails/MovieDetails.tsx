@@ -158,17 +158,17 @@ const MovieDetails = () => {
               </div>
               <div id='INTERACTIONS' className='flex gap-3 items-center text-[#ffffffb0]'>
                 <div className={`w-[35px] h-[35px] flex items-center justify-center rounded-full cursor-pointer transition1 border p-2 ${customStyles?.mainBgDark} hover:text-[#ffffff]`}
-                    onClick={isMovie ? handleLikeMovie : () => ''}>
+                    onClick={ handleLikeMovie }>
                   <i className={`${liked ? 'fa-solid' : 'fa-regular'} fa-thumbs-up`} />
                 </div>
 
                 <div className={`w-[35px] h-[35px] flex items-center justify-center rounded-full cursor-pointer transition1 border p-2 ${customStyles?.mainBgDark} hover:text-[#ffffff]`}
-                    onClick={isMovie? handleDislikeLikeMovie : () => ''}>
+                    onClick={ handleDislikeLikeMovie }>
                   <i className={`${disliked ? 'fa-solid' : 'fa-regular'} fa-thumbs-down`} />
                 </div>
 
                 <div className={`w-[35px] h-[35px] flex items-center justify-center rounded-full cursor-pointer transition1 border p-2 ${customStyles?.mainBgDark} hover:text-[#ffffff]`}
-                     onClick={ isMovie && !bookmarked ?  handleAddMovieToFavourites : handleRemoveMovieFromFavourites }>
+                     onClick={ !bookmarked ?  handleAddMovieToFavourites : handleRemoveMovieFromFavourites }>
                   <i className={`${bookmarked ? 'fa-solid' : 'fa-regular'} fa-bookmark`} />
                 </div>
               </div>
@@ -189,7 +189,7 @@ const MovieDetails = () => {
                 <button onClick={() => setShowTrailerModal(true)}
                   className={`flex gap-2 items-center px-[18px] py-[10px] text-white rounded-[5px] ${customStyles?.btnColor} transition1 cursor-pointer text-nowrap font-semibold`}
                 >
-                  <i className="fa-solid fa-play text-white"></i>
+                  <i className="fa-solid fa-play text-white"/>
                   <p>Watch Trailer</p>
                 </button>
               ) : (
