@@ -151,9 +151,10 @@ const MovieDetails = () => {
               </div>
               <div id='RATING' className='w-fit flex gap-2 rounded-[5px] txtFadedGray'>
                 <StarRating rating={currentMovie.vote_average / 2} />
-                <span className="text-[15px] text-[#e1e1e1cd] text-nowrap">
-                  {(currentMovie.vote_average / 2).toFixed(1)} / 5 &nbsp; ({" "}
-                  {currentMovie.vote_count.toLocaleString()} votes )
+                <span className="text-[15px] text-[#e1e1e1cd] flex items-center gap-3">
+                  {(currentMovie.vote_average / 2).toFixed(1)} / 5  
+                  <img src="/icons/imdb.png" alt="" />
+                  ({currentMovie.vote_count.toLocaleString()} votes )
                 </span>
               </div>
               <div id='INTERACTIONS' className='flex gap-3 items-center text-[#ffffffb0]'>

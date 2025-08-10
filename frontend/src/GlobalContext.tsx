@@ -16,6 +16,8 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const [profileIsOpen, setProfileIsOpen] = useState(false);
   const toggleProfileIsOpen = () => setProfileIsOpen((prev) => !prev);
 
+  const [showForKidsToggleAnimation, setShowForKidsToggleAnimation] = useState(false);
+
   const [query, setQuery] = useState("");
 
   const [user, setUser] = useState({
@@ -86,6 +88,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         selectedProfile, setSelectedProfile,
         handleSignOut, handleChangeUser,
         profileIsOpen, setProfileIsOpen, toggleProfileIsOpen,
+        showForKidsToggleAnimation, setShowForKidsToggleAnimation,
       }}
     >
       {children}

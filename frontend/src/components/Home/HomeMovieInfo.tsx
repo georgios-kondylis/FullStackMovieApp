@@ -27,9 +27,10 @@ const HomeMovieInfo = ({ currentMovie }: Props) => {
 
       <div className="flex w-fit p-2 gap-2 text-[20px] rounded-[10px] bg-[#80808043] backdrop-blur-[3px]">
         <StarRating rating={currentMovie.vote_average / 2} />
-        <span className="text-[15px] text-[#e1e1e1cd]">
-          {(currentMovie.vote_average / 2).toFixed(1)} / 5 &nbsp; ({" "}
-          {currentMovie.vote_count.toLocaleString()} votes )
+        <span className="text-[15px] text-[#e1e1e1cd] flex items-center gap-3">
+          {(currentMovie.vote_average / 2).toFixed(1)} / 5  
+          <img src="/icons/imdb.png" alt="" />
+          ({currentMovie.vote_count.toLocaleString()} votes )
         </span>
       </div>
  

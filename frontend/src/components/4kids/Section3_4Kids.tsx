@@ -2,9 +2,18 @@ import React from 'react';
 import { useGlobalProps } from '../../GlobalContext';
 import KidsSectionBg from '../ui/KidsSectionBg';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Section3_4Kids = () => {
-    const {customStyles, setProfileIsOpen} = useGlobalProps();
+  const {customStyles, setProfileIsOpen, setShowForKidsToggleAnimation} = useGlobalProps();
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    setShowForKidsToggleAnimation!(true);
+    navigate('/profiles/editProfile')
+
+  }
+
   return (
     <section id="Section3_4Kids" className={`relative w-full flex justify-center mainPX`}  onClick={() => setProfileIsOpen!(false)}>
         <KidsSectionBg />
@@ -20,12 +29,12 @@ const Section3_4Kids = () => {
             </p>
         </div>
 
-        <Link to="/4kids" className={`absolute flex items-center ${customStyles?.Bg_Txt} text-[30px] px-[12px] py-[6px] rounded-[7px] bottom-[100px] font-semibold transition1 hover:scale-[1.05]`}>
+        <button onClick={handleClick} className={`absolute flex items-center ${customStyles?.Bg_Txt} text-[30px] px-[12px] py-[6px] rounded-[7px] bottom-[100px] font-semibold transition1 hover:scale-[1.05] cursor-pointer`}>
             <p className="txtKids">Explore</p>
             <div className={`px-[14px] py-[2px] rounded-[5px]`}>
             <img src="/icons/logoKids.png" className=" w-[100px]" alt="" />
             </div>
-        </Link>
+        </button>
         </main>
     </section>
   )

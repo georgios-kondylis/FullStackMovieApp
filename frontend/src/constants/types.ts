@@ -16,6 +16,8 @@ export type GlobalContextType = {
   setSelectedProfile?: (profile: any) => void;
   handleSignOut?: () => void;
   handleChangeUser?: () => void;
+  showForKidsToggleAnimation?: boolean;
+  setShowForKidsToggleAnimation?:  React.Dispatch<React.SetStateAction<boolean>>;
 
   customStyles?: {
     mainBgDark: string;

@@ -6,7 +6,7 @@ import CustomCheckBox from './profilesUi/customCheckBox/CustomCheckBox';
 import { updateProfileFunk } from '../../../services/apiBackend';
 
 const EditProfile = () => {
-  const { user, setUser, customStyles, selectedProfile, setSelectedProfile } = useGlobalProps();
+  const { user, setUser, customStyles, selectedProfile, showForKidsToggleAnimation } = useGlobalProps();
   const navigate = useNavigate();
 
   const initialAvatar = selectedProfile?.profileImage || defaultProfileIcons[0]?.img;
@@ -54,6 +54,31 @@ const EditProfile = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (showForKidsToggleAnimation) {
+      const initialForKids = profileToEdit.forKids; // remember starting state
+      let interval;
+      let timeout;
+  
+      // Start toggling every 500ms
+      interval = setInterval(() => {
+        setProfileToEdit(prev => ({ ...prev, forKids: !prev.forKids }));
+      }, 400);
+  
+      // Stop after 2 seconds and restore initial state
+      timeout = setTimeout(() => {
+        clearInterval(interval);
+        setProfileToEdit(prev => ({ ...prev, forKids: initialForKids }));
+      }, 1800);
+  
+      return () => {
+        clearInterval(interval);
+        clearTimeout(timeout);
+      };
+    }
+  }, [showForKidsToggleAnimation]);
+  
   
 
   return (
@@ -138,3 +163,4 @@ const EditProfile = () => {
 };
 
 export default EditProfile;
+

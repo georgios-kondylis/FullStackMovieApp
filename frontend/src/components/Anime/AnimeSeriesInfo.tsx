@@ -29,9 +29,10 @@ const AnimeSeriesInfo = ({ currentSeries }: Props) => {
       {/* Rating */}
       <div className="flex w-fit p-2 gap-2 text-[20px] rounded-[10px] bg-[#80808043] backdrop-blur-[3px]">
         <StarRating rating={currentSeries.vote_average / 2} />
-        <span className="text-[15px] text-[#e1e1e1cd]">
-          {(currentSeries.vote_average / 2).toFixed(1)} / 5 &nbsp; (
-          {currentSeries.vote_count.toLocaleString()} votes )
+        <span className="text-[15px] text-[#e1e1e1cd] flex items-center gap-3">
+          {(currentSeries.vote_average / 2).toFixed(1)} / 5  
+          <img src="/icons/imdb.png" alt="" />
+          ({currentSeries.vote_count.toLocaleString()} votes )
         </span>
       </div>
 
