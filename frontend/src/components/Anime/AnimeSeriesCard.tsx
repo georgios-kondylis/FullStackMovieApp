@@ -56,7 +56,9 @@ const handleRemoveMovieFromFavourites = async (e: React.MouseEvent) => {
                  md:min-w-[200px] md:w-[200px] md:h-[300px]
                  hover:scale-[1.03] hover:shadow-2xl hover:translate-y-[-5px]"
     >
-      <img src={`https://image.tmdb.org/t/p/w500${series.poster_path}`}
+      <img src={ series.poster_path
+            ? `https://image.tmdb.org/t/p/w500${series.poster_path}`
+            : '/imgs/noImage.png'}
         alt={series.name}
         className="w-full h-full object-cover brightness-75 hover:brightness-100"
       />

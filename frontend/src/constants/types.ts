@@ -3,19 +3,25 @@ export type GlobalContextType = {
   toggleDarkMode?: () => void;
 
   isMobileMenuOpen?: boolean;
+  setIsMobileMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
   toggleMobileMenu?: () => void;
+
   profileIsOpen?: boolean;
   setProfileIsOpen?:  React.Dispatch<React.SetStateAction<boolean>>;
   toggleProfileIsOpen?: () => void;
   
   query: string;
   setQuery?: React.Dispatch<React.SetStateAction<string>>;
+
   user: any, 
   setUser:any,
+
   selectedProfile?: any;
   setSelectedProfile?: (profile: any) => void;
+
   handleSignOut?: () => void;
   handleChangeUser?: () => void;
+  
   showForKidsToggleAnimation?: boolean;
   setShowForKidsToggleAnimation?:  React.Dispatch<React.SetStateAction<boolean>>;
 

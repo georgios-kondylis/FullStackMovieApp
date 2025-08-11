@@ -10,8 +10,8 @@ type Props = {
   handleSelectSeries?: any
 };
 
-const SeriesCard = ({series, setSelectedSeries, handleSelectSeries, dynamicBg,}: Props) => {
-  const { customStyles, isDarkMode, selectedProfile, setSelectedProfile, user, setUser } = useGlobalProps();
+const SeriesCard = ({series, handleSelectSeries, dynamicBg,}: Props) => {
+  const { isDarkMode, selectedProfile, setSelectedProfile, user, setUser } = useGlobalProps();
 
   const bookmarked = selectedProfile?.favourites?.some((fav: any) => fav.id === series.id);
 
@@ -57,7 +57,9 @@ const SeriesCard = ({series, setSelectedSeries, handleSelectSeries, dynamicBg,}:
                  md:min-w-[200px] md:w-[200px] md:h-[300px]
                  hover:scale-[1.03] hover:shadow-2xl hover:translate-y-[-5px]"
     >
-      <img src={`https://image.tmdb.org/t/p/w500${series.poster_path}`}
+      <img  src={ series.poster_path
+            ? `https://image.tmdb.org/t/p/w500${series.poster_path}`
+            : '/imgs/noImage.png'}
         alt={series.name}
         className="w-full h-full object-cover brightness-75 hover:brightness-100"
       />

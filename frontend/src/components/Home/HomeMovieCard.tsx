@@ -51,15 +51,15 @@ const HomeMovieCard = ({ movie, handleSelectMovie, dynamicBg }: Props) => {
   };
 
   
-
-
   return (
     <div key={movie.id} onClick={() => {handleSelectMovie(movie); console.log(movie)}}
       className="relative min-w-[150px] w-[140px] h-[230px] cursor-pointer rounded-lg overflow-hidden transition1
                  md:min-w-[200px] md:w-[200px] md:h-[300px]
                  hover:scale-[1.03] hover:shadow-2xl hover:translate-y-[-5px]"
     >
-      <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} 
+      <img src={ movie.poster_path
+            ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+            : '/imgs/noImage.png'}
            className="w-full h-full object-cover brightness-75 hover:brightness-100"
       />
 

@@ -81,7 +81,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     <GlobalContext.Provider
       value={{
         isDarkMode, toggleDarkMode,
-        isMobileMenuOpen, toggleMobileMenu,
+        isMobileMenuOpen, setIsMobileMenuOpen, toggleMobileMenu,
         query, setQuery,
         customStyles,
         user, setUser,

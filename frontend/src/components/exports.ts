@@ -35,6 +35,7 @@ import BgTopSection from "./Home/BgTopSection";
 import ProfileDropdown from "./Navbar/ProfileDropdown";
 import ViewProfile from "./AUTH/profiles/ViewProfile";
 import EditProfile from "./AUTH/profiles/EditProfile";
+import MobileMenu from "./Navbar/MobileMenu";
 
 
 
@@ -79,4 +80,5 @@ export {
   ProfileDropdown,
   ViewProfile,
   EditProfile,
+  MobileMenu,
 }

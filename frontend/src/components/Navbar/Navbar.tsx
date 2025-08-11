@@ -4,14 +4,21 @@ import { useMediaQuery } from "react-responsive";
 
 import { NavLink } from "react-router-dom";
 import { navLinks } from "../../constants";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { ProfileDropdown } from "../exports";
+import { ProfileDropdown, MobileMenu } from "../exports";
 
 const Navbar = () => {
-  const location = useLocation();
   const isMobile = useMediaQuery({ maxWidth: 767 });
-  const {customStyles, query, setQuery, profileIsOpen, setProfileIsOpen ,toggleProfileIsOpen, selectedProfile} = useGlobalProps();
+ 
+  const {customStyles, query, setQuery, profileIsOpen,
+         setProfileIsOpen ,toggleProfileIsOpen, selectedProfile,
+        isMobileMenuOpen, setIsMobileMenuOpen} = useGlobalProps();
+
+  useEffect(() => {
+  !isMobile && setIsMobileMenuOpen(false);
+  }, [isMobile, setIsMobileMenuOpen]);
+
 
   // SEARCH
   const [isHoveringSearch, setIsHoveringSearch] = useState(false);
@@ -31,7 +38,7 @@ const Navbar = () => {
   
 
   return (
-    <nav className={`fixed z-50 w-full flex items-center justify-center `} onClick={() => setProfileIsOpen!(false)}>
+    <nav className={`fixed z-50 w-full flex items-center justify-center`} onClick={() => setProfileIsOpen!(false)}>
       <div className="w-full flex justify-between items-center px-4 my-3 py-1 mainMX MAX_W 
               border border-[#71717183] rounded-xl backdrop-blur-[8px] bg-[#00000030] navShadowBlack"
       >
@@ -71,6 +78,7 @@ const Navbar = () => {
 
         
         <div id="icons" className={`flex items-center`}>
+          {/* MAGNIFYING GLASS */}
          <div className="relative pl-[17px] pr-1 py-[5px] cursor-pointer txtShadowBlack"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -89,17 +97,26 @@ const Navbar = () => {
                           ${customStyles?.Bg_Txt}`}
             />
           </div>
-          
+
+           {/* USER ICON */}
           {selectedProfile?.forKids
           ? <img src="/icons/user4kids.png" className="w-[25px] cursor-pointer hover:scale-[1.1] transition1" alt="" onClick={(e) =>{ e.stopPropagation(); toggleProfileIsOpen!()}} /> 
-          : <i className={`fa-solid fa-user ${customStyles?.mainTxtHover} navIcon txtShadowBlack`} onClick={(e) =>{ e.stopPropagation(); toggleProfileIsOpen!()}} /> }
+          : <i className={`fa-solid fa-user ${customStyles?.mainTxtHover} navIcon txtShadowBlack`} onClick={(e) =>{ e.stopPropagation(); toggleProfileIsOpen!()}} /> 
+          }
+
+          {isMobile &&
+           <i onClick={() => setIsMobileMenuOpen(prev => !prev)} className="fa-solid fa-bars |
+               p-1 text-[18px] text-white cursor-pointer"/>
+           }
           
           {profileIsOpen &&
           <ProfileDropdown setProfileIsOpen={setProfileIsOpen}/>}
+          
         </div>
 
       </div>
-    </nav>
+       <MobileMenu/>
+    </nav> 
   );
 };
 
