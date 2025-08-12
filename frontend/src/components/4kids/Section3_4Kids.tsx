@@ -11,7 +11,7 @@ const Section3_4Kids = () => {
   const handleClick = () => {
     setShowForKidsToggleAnimation!(true);
     navigate('/profiles/editProfile')
-
+    setTimeout(() => setShowForKidsToggleAnimation!(false), 5000)
   }
 
   return (
