@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useLocation, } from 'react-router-dom'
 import { fetchMovieDetails, fetchSeriesDetails } from '../../services/apiTMDB'
-import { useGlobalProps, scrollToTop, useFetch, StarRating, TrailerIframed, GoBackBtn, CastAndCrew } from "../exports";
+import { useGlobalProps, scrollToTop, useFetch, StarRating, TrailerIframed, GoBackBtn, CastAndCrew, NotAvailableMessageToUser } from "../exports";
 import { addMovieToLiked, addMovieToDisliked, addMovieToFavourites, removeMovieFromFavourites } from "../../services/apiBackend";
 
 import type {
@@ -20,7 +20,7 @@ const MovieDetails = () => {
 
   // -------------------------------------------- //
 
-  const { customStyles, setProfileIsOpen, user, setUser, selectedProfile, setSelectedProfile } = useGlobalProps()
+  const { customStyles, setProfileIsOpen, user, setUser, selectedProfile, setSelectedProfile, setNotAvailbaleMessage, notAvailbaleMessage } = useGlobalProps()
   const { id } = useParams()
   const location = useLocation()
 
@@ -32,17 +32,12 @@ const MovieDetails = () => {
     ? () => fetchMovieDetails(id!)
     : () => fetchSeriesDetails(id!) // used for both series & anime
 
-    const { data: currentMovie, loading } = useFetch<WithCredits>(fetcher, true);
+  const { data: currentMovie, loading } = useFetch<WithCredits>(fetcher, true);
 
   if (loading || !currentMovie)
     return <p className="text-white p-4">Loading...</p>
 
   const imgBgUrl = `https://image.tmdb.org/t/p/original${currentMovie.backdrop_path}`
-
-
-  //------------------- Handlrs ------------------- //
-
-
 
   const bookmarked = selectedProfile?.favourites?.some((fav: any) => fav.id === currentMovie.id);
   const liked = selectedProfile?.likedMovies?.some((fav: any) => fav.id === currentMovie.id);
@@ -111,6 +106,11 @@ const MovieDetails = () => {
     }
   };
 
+  const handleClickWatchMovie = () => {
+    setNotAvailbaleMessage!('This project is currently under development therefore full movies are not yet available. Feel free to browse, watch trailers, bookmark, like, and dislike movies as a movie library.')
+    setTimeout(() => {setNotAvailbaleMessage!('')}, 8000)
+  }
+
   return (
     <section className={`w-full flex justify-center relative min-h-[100vh] overflow-hidden ${customStyles?.mainBg}`} onClick={() => setProfileIsOpen!(false)}>
       {/* Background image */}
@@ -176,8 +176,9 @@ const MovieDetails = () => {
             </div>
 
             <div id='BUTTONS' className=' flex gap-4 h-fit w-fit flex-nowrap'>
-              <button className={`relative ${customStyles?.mainBgDark} min-w-fit overflow-hidden group rounded-[5px] px-[18px] py-[10px] flex items-center gap-3 text-white border border-[#ffffff22] hover:border-white font-semibold transition2 cursor-pointer text-nowrap
-              max-md:px-[14px] max-md:py-[7px] max-md:text-[14px]`}>
+              <button id='WATCH_MOVIE_BUTTON' className={`relative ${customStyles?.mainBgDark} min-w-fit overflow-hidden group rounded-[5px] px-[18px] py-[10px] flex items-center gap-3 text-white border border-[#ffffff22] hover:border-white font-semibold transition2 cursor-pointer text-nowrap
+                      max-md:px-[14px] max-md:py-[7px] max-md:text-[14px]`}
+                      onClick={handleClickWatchMovie}>
                 <img src={isMovie? "/icons/playMovie.png" : '/icons/episodesIcon.png'} className='w-[30px]  max-md:w-[26px] z-10' alt="Play Icon" />
                 <p className='z-10 transition1 group-hover:text-black'>
                   {isMovie? ' Watch full movie' : 'View Episodes' }
@@ -250,6 +251,8 @@ const MovieDetails = () => {
         </div>
 
       </main>
+
+      {notAvailbaleMessage !== '' && <NotAvailableMessageToUser />}
     </section>
   )
 }

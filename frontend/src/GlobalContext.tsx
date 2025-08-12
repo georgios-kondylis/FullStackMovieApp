@@ -17,6 +17,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const toggleProfileIsOpen = () => setProfileIsOpen((prev) => !prev);
 
   const [showForKidsToggleAnimation, setShowForKidsToggleAnimation] = useState(false);
+  const [notAvailbaleMessage, setNotAvailbaleMessage] = useState('')
 
   const [query, setQuery] = useState("");
 
@@ -89,6 +90,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         handleSignOut, handleChangeUser,
         profileIsOpen, setProfileIsOpen, toggleProfileIsOpen,
         showForKidsToggleAnimation, setShowForKidsToggleAnimation,
+        notAvailbaleMessage, setNotAvailbaleMessage,
       }}
     >
       {children}

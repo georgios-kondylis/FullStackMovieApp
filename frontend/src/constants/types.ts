@@ -24,6 +24,9 @@ export type GlobalContextType = {
   
   showForKidsToggleAnimation?: boolean;
   setShowForKidsToggleAnimation?:  React.Dispatch<React.SetStateAction<boolean>>;
+  
+  notAvailbaleMessage?: string;
+  setNotAvailbaleMessage?: React.Dispatch<React.SetStateAction<string>>;
 
   customStyles?: {
     mainBgDark: string;

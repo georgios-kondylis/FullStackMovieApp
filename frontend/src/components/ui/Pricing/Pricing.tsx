@@ -2,16 +2,22 @@ import React, { useState } from 'react'
 import { useGlobalProps } from '../../../GlobalContext'
 import { useMediaQuery } from 'react-responsive';
 import DynamicTicket from './DynamicTicket';
+import NotAvailableMessageToUser from '../NotAvailableMessageToUser';
 
 const Pricing = () => {
-  const {customStyles, setProfileIsOpen} = useGlobalProps();
+  const {customStyles, setProfileIsOpen, notAvailbaleMessage, setNotAvailbaleMessage} = useGlobalProps();
   const isMobile = useMediaQuery({ maxWidth: 767 });
+
+  const handleClickPurchase = () => {
+    setNotAvailbaleMessage!('This project is under development. Memberships and payments are not available at this time.')
+    setTimeout(() => {setNotAvailbaleMessage!('')}, 5000)
+  }
 
   return (
     <section id='pricing' className={`${customStyles?.mainBg} mainPX flex justify-center`}  onClick={() => setProfileIsOpen!(false)}>
       <main className={`MAX_W flex w-full justify-center items-center py-[60px]`}>
 
-        <DynamicTicket price='159.99' months='3' title='Basic'/>
+        <DynamicTicket price='159.99' months='3' title='Basic' handleClickPurchase={handleClickPurchase}/>
 
         <div id='BLUE_TICKET' className='relative'>
           <img src="/imgs/blueTicket.png" className={`object-contain w-full`} alt="" />
@@ -41,7 +47,7 @@ const Pricing = () => {
             </p>
 
             <button id='PURCHASE' className={`relative ${customStyles?.mainBgDark} min-w-fit overflow-hidden group rounded-full px-[18px] py-[10px] flex items-center gap-3 max-md:gap-2 text-white border border-[#ffffff22] hover:border-white font-semibold transition2 cursor-pointer text-nowrap mx-auto
-              max-md:px-[14px] max-md:py-[7px] max-md:text-[10px] max-sm:text-[8px]`}>
+              max-md:px-[14px] max-md:py-[7px] max-md:text-[10px] max-sm:text-[8px]`} onClick={handleClickPurchase}>
                 <i className="z-10 fa-solid fa-credit-card transition1 group-hover:text-black" />
                 
                 <p className='z-10 transition1 group-hover:text-black'>
@@ -54,9 +60,10 @@ const Pricing = () => {
 
         </div>
 
-        <DynamicTicket price='699.99' months='12' title='Premium'/>
+        <DynamicTicket price='699.99' months='12' title='Premium' handleClickPurchase={handleClickPurchase}/>
        
       </main>    
+      {notAvailbaleMessage !== '' && <NotAvailableMessageToUser />}
     </section>
   )
 }

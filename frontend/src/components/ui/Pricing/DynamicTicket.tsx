@@ -5,9 +5,10 @@ type Props = {
   months: string, 
   price: string,
   title: string,
+  handleClickPurchase: any,
 }
 
-const DynamicTicket = ({months, price, title} : Props) => {
+const DynamicTicket = ({months, price, title, handleClickPurchase} : Props) => {
 
   const {customStyles, isDarkMode} = useGlobalProps();
   const isMobile = useMediaQuery({ maxWidth: 767 });
@@ -35,7 +36,7 @@ const DynamicTicket = ({months, price, title} : Props) => {
       </p>
 
       <button id='PURCHASE' className={`relative ${customStyles?.mainBgDark} min-w-fit overflow-hidden group rounded-full px-[18px] py-[10px] flex items-center gap-3 max-md:gap-2 text-white border ${isDarkMode? 'border-[#ffffff22]' : 'border-white'}  hover:border-white font-semibold transition2 cursor-pointer text-nowrap mx-auto
-        max-md:px-[12px] max-md:py-[5px] max-md:text-[10px] max-sm:text-[6px]`}>
+        max-md:px-[12px] max-md:py-[5px] max-md:text-[10px] max-sm:text-[6px]`} onClick={handleClickPurchase}>
           <i className="z-10 fa-solid fa-credit-card transition1 group-hover:text-black" />
           
           <p className='z-10 transition1 group-hover:text-black'>

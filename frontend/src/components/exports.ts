@@ -36,8 +36,7 @@ import ProfileDropdown from "./Navbar/ProfileDropdown";
 import ViewProfile from "./AUTH/profiles/ViewProfile";
 import EditProfile from "./AUTH/profiles/EditProfile";
 import MobileMenu from "./Navbar/MobileMenu";
-
-
+import NotAvailableMessageToUser from "./ui/NotAvailableMessageToUser";
 
 
 
@@ -81,4 +80,5 @@ export {
   ViewProfile,
   EditProfile,
   MobileMenu,
+  NotAvailableMessageToUser,
 }
