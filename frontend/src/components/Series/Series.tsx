@@ -14,7 +14,7 @@ const Series = () => {
   const [local_loading, setLocal_loading] = useState(true); // i did it loccaly so that the bg behaves smoothly
   useEffect(() => {if (popularSeries?.length > 0) setLocal_loading(false) }, [popularSeries]);
 
-  const filteredForKidsCategories = !selectedProfile.forKids
+  const filteredForKidsCategories = !selectedProfile?.forKids
   ? seriesCategories 
   : seriesCategories.filter((categ) => !forKidsExcludedCategories.includes(categ.name.toLowerCase()));
   
@@ -31,7 +31,7 @@ const Series = () => {
 
   // First 10 series from popularSeries, used for fallback and cycling display
   const firstTen = popularSeries?.slice(0, 10) || [];
-  const youSeriesOrSquidGame = selectedProfile.forKids? fallbackSeriesScoobyDoo : isMobile? fallbackSeriesSquidGame : fallbackSeriesYou 
+  const youSeriesOrSquidGame = selectedProfile?.forKids? fallbackSeriesScoobyDoo : isMobile? fallbackSeriesSquidGame : fallbackSeriesYou 
   const fallbackSeries = youSeriesOrSquidGame || firstTen[fallbackIndex];
   //const fallbackSeries = firstTen[fallbackIndex];
   const currentSeries = selectedSeries || fallbackSeries;

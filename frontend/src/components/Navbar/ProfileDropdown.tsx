@@ -10,13 +10,13 @@ const ProfileDropdown = ({setProfileIsOpen} : any) => {
   return (
     <div className="absolute top-[60px] max-md:top-[45px] right-0 bg-[#000000bb] backdrop-blur-[8px] p-3 rounded-[10px] text-white border border-[#80808056] z-50">
       <div className="flex items-center gap-2 border-b border-[#80808056] pb-3">
-        <img src={selectedProfile?.profileImage}
+        <img src={user && selectedProfile ? selectedProfile?.profileImage : '/profileAvatars/guestAvatar.png'}
           className="w-[50px] h-[50px] rounded-full"
           alt="Profile"
         />
 
         <div className="flex flex-col gap-0">
-          <p className="text-[18px] font-bold">{selectedProfile?.name}</p>
+          <p className="text-[18px] font-bold">{user && selectedProfile? selectedProfile?.name : 'Guest'}</p>
           <p className="text-[12px]">{user?.email}</p>
         </div>
       </div>

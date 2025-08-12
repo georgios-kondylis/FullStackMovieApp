@@ -31,13 +31,13 @@ const ViewProfile = () => {
           {/* Profile card */}
           <div className="w-full text-center mt-[30px]">
             {/* Avatar */}
-            <img src={selectedProfile?.profileImage} alt="Profile"
+            <img src={user && selectedProfile ? selectedProfile?.profileImage : '/profileAvatars/guestAvatar.png'} alt="Profile"
               className="w-32 h-32 rounded-full object-cover mx-auto shadow-md"
             />
 
             {/* Name & Email */}
             <div>
-              <h1 className="text-3xl font-bold mt-4">{selectedProfile?.name}</h1>
+              <h1 className="text-3xl font-bold mt-4">{user && selectedProfile? selectedProfile?.name : 'Guest'}</h1>
               <p className="text-gray-400 text-sm">{user?.email}</p>
             </div>
 
@@ -53,12 +53,12 @@ const ViewProfile = () => {
                           <i className={`fa-solid fa-bookmark`} />
                           <div className='flex items-center gap-3'>
                             <span className="font-semibold"> Favourites: </span>
-                            {selectedProfile.favourites.length < 1 && <span>0</span> }
+                            {selectedProfile?.favourites?.length < 1 && <span>0</span> }
                           </div>
                         </p>
                       </div>
                       <div className='flex items-center overflow-x-auto py-[10px]'>
-                        {selectedProfile.favourites.length > 0 &&
+                        {selectedProfile?.favourites?.length > 0 &&
                           selectedProfile?.favourites.map((movie: any, i:any) => 
                             <FavouriteCard key={i} movie={movie}/>
                         )}
@@ -71,13 +71,13 @@ const ViewProfile = () => {
                           <i className={`fa-solid fa-thumbs-up`} />
                           <div className='flex items-center gap-3'>
                             <span className="font-semibold"> Liked : </span>
-                            {selectedProfile.likedMovies.length < 1 && <span>0</span> }
+                            {selectedProfile?.likedMovies?.length < 1 && <span>0</span> }
                           </div>
                         </p>
                       </div>
                       <div className='flex items-center overflow-x-auto py-[10px]'>
-                        {selectedProfile.likedMovies.length > 0 &&
-                          selectedProfile?.likedMovies.map((movie: any, i:any) => 
+                        {selectedProfile?.likedMovies?.length > 0 &&
+                          selectedProfile?.likedMovies?.map((movie: any, i:any) => 
                             <FavouriteCard key={i} movie={movie}/>
                         )}
                       </div>
@@ -89,15 +89,15 @@ const ViewProfile = () => {
                           <i className={`fa-solid fa-thumbs-down`} />
                           <div className='flex items-center gap-3'>
                             <span className="font-semibold"> Disliked : </span>
-                            {selectedProfile.dislikedMovies.length < 1 && <span>0</span> }
+                            {selectedProfile?.dislikedMovies?.length < 1 && <span>0</span> }
                           </div>
                         
                         </p>
                       </div>
                       <div className='flex items-center overflow-x-auto py-[10px]'>
                         
-                        {selectedProfile.dislikedMovies.length > 0 &&
-                          selectedProfile?.dislikedMovies.map((movie: any, i:any) => 
+                        {selectedProfile?.dislikedMovies?.length > 0 &&
+                          selectedProfile?.dislikedMovies?.map((movie: any, i:any) => 
                             <FavouriteCard key={i} movie={movie}/>)}
                       </div>
                     </div>

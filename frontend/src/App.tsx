@@ -1,11 +1,11 @@
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
-import { Home, Series, Loader, MovieDetails, Navbar, Anime, SignUp, SignIn, Profiles, useGlobalProps, CreateProfile, ViewProfile, EditProfile } from './components/exports'
+import { Home, Series, Loader, MovieDetails, Navbar, Anime, SignUp, SignIn, Profiles, useGlobalProps, CreateProfile, ViewProfile, EditProfile, NotAvailableMessageToUser } from './components/exports'
 import { useEffect } from 'react'
 
 const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const {user, setUser} = useGlobalProps();
+  const {user, setUser, notAvailbaleMessage} = useGlobalProps();
 
   useEffect(() => {
     const isUserEmpty = user?.firstName === '';
@@ -22,6 +22,7 @@ const App = () => {
      
       {['/profiles', '/sign-in', '/sign-up', '/profiles/createProfile', '/profiles/editProfile', '/viewProfile'].includes(location.pathname) ? '' : <Navbar />}
       {/* <Loader /> HERE AND IN THE SIGN IN IS NEEDED */}
+      {notAvailbaleMessage !== '' && <NotAvailableMessageToUser />}
     
       <Routes>
         <Route path="/sign-in" element={<SignIn setUser={setUser} user={user} />} />

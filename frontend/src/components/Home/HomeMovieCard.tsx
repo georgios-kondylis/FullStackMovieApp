@@ -11,11 +11,16 @@ type Props = {
 
 const HomeMovieCard = ({ movie, handleSelectMovie, dynamicBg }: Props) => {
   
-  const { customStyles, isDarkMode, user, selectedProfile, setSelectedProfile, setUser } = useGlobalProps();
+  const { customStyles, isDarkMode, user, selectedProfile, setSelectedProfile, setUser, setNotAvailbaleMessage, notAvailbaleMessage } = useGlobalProps();
 
   const bookmarked = selectedProfile?.favourites?.some((fav: any) => fav.id === movie.id);
 
   const handleAddMovieToFavourites = async (e: React.MouseEvent) => {
+    if (!user || !selectedProfile) {
+      setNotAvailbaleMessage!('Guest users cannot interact with features like favorites, likes, or dislikes. Please log in with a valid profile to access these functions.')
+      setTimeout(() => setNotAvailbaleMessage!(''), 8000)
+      return
+    }
     e.stopPropagation();
     if (bookmarked) {
       console.log("🚫 The movie is already in favourites");

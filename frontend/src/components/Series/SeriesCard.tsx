@@ -11,11 +11,16 @@ type Props = {
 };
 
 const SeriesCard = ({series, handleSelectSeries, dynamicBg,}: Props) => {
-  const { isDarkMode, selectedProfile, setSelectedProfile, user, setUser } = useGlobalProps();
+  const { isDarkMode, selectedProfile, setSelectedProfile, user, setUser, setNotAvailbaleMessage } = useGlobalProps();
 
   const bookmarked = selectedProfile?.favourites?.some((fav: any) => fav.id === series.id);
 
   const handleAddMovieToFavourites = async (e: React.MouseEvent) => {
+    if (!user || !selectedProfile) {
+      setNotAvailbaleMessage!('Guest users cannot interact with features like favorites, likes, or dislikes. Please log in with a valid profile to access these functions.')
+      setTimeout(() => setNotAvailbaleMessage!(''), 8000)
+      return
+    }
     e.stopPropagation();
     if (bookmarked) {
       console.log("🚫 The movie is already in favourites");
@@ -36,6 +41,11 @@ const SeriesCard = ({series, handleSelectSeries, dynamicBg,}: Props) => {
   };
 
   const handleRemoveMovieFromFavourites = async (e: React.MouseEvent) => {
+    if (!user || !selectedProfile) {
+      setNotAvailbaleMessage!('Guest users cannot interact with features like favorites, likes, or dislikes. Please log in with a valid profile to access these functions.')
+      setTimeout(() => setNotAvailbaleMessage!(''), 8000)
+      return
+    }
     e.stopPropagation();
     try {
       const data = await removeMovieFromFavourites(user.email, selectedProfile, series);

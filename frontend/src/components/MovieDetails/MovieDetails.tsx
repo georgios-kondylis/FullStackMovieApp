@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useLocation, } from 'react-router-dom'
 import { fetchMovieDetails, fetchSeriesDetails } from '../../services/apiTMDB'
-import { useGlobalProps, scrollToTop, useFetch, StarRating, TrailerIframed, GoBackBtn, CastAndCrew, NotAvailableMessageToUser } from "../exports";
+import { useGlobalProps, scrollToTop, useFetch, StarRating, TrailerIframed, GoBackBtn, CastAndCrew, } from "../exports";
 import { addMovieToLiked, addMovieToDisliked, addMovieToFavourites, removeMovieFromFavourites } from "../../services/apiBackend";
 
 import type {
@@ -20,7 +20,7 @@ const MovieDetails = () => {
 
   // -------------------------------------------- //
 
-  const { customStyles, setProfileIsOpen, user, setUser, selectedProfile, setSelectedProfile, setNotAvailbaleMessage, notAvailbaleMessage } = useGlobalProps()
+  const { customStyles, setProfileIsOpen, user, setUser, selectedProfile, setSelectedProfile, setNotAvailbaleMessage, notAvailbaleMessage, } = useGlobalProps()
   const { id } = useParams()
   const location = useLocation()
 
@@ -46,6 +46,11 @@ const MovieDetails = () => {
     //------------------- Like / Dislike Handlers ------------------- //
 
   const handleLikeMovie = async (e: React.MouseEvent) => {
+    if (!user || !selectedProfile) {
+      setNotAvailbaleMessage!('Guest users cannot interact with features like favorites, likes, or dislikes. Please log in with a valid profile to access these functions.')
+      setTimeout(() => setNotAvailbaleMessage!(''), 8000)
+      return
+    }
     e.stopPropagation();
     try {
       const data = await addMovieToLiked(user.email, selectedProfile, currentMovie);
@@ -60,8 +65,12 @@ const MovieDetails = () => {
     }
   };
   const handleDislikeLikeMovie = async (e: React.MouseEvent) => {
+    if (!user || !selectedProfile) {
+      setNotAvailbaleMessage!('Guest users cannot interact with features like favorites, likes, or dislikes. Please log in with a valid profile to access these functions.')
+      setTimeout(() => setNotAvailbaleMessage!(''), 8000)
+      return
+    }
     e.stopPropagation();
-      
     try {
       const data = await addMovieToDisliked(user.email, selectedProfile, currentMovie);
       if (data && data.user) {
@@ -78,6 +87,11 @@ const MovieDetails = () => {
   //------------------- Fav / UnFav Handlers ------------------- //
 
   const handleAddMovieToFavourites = async (e: React.MouseEvent) => {
+    if (!user || !selectedProfile) {
+      setNotAvailbaleMessage!('Guest users cannot interact with features like favorites, likes, or dislikes. Please log in with a valid profile to access these functions.')
+      setTimeout(() => setNotAvailbaleMessage!(''), 8000)
+      return
+    }
     e.stopPropagation();
     try {
       const data = await addMovieToFavourites(user.email, selectedProfile, currentMovie);
@@ -92,6 +106,11 @@ const MovieDetails = () => {
     }
   };
   const handleRemoveMovieFromFavourites = async (e: React.MouseEvent) => {
+    if (!user || !selectedProfile) {
+      setNotAvailbaleMessage!('Guest users cannot interact with features like favorites, likes, or dislikes. Please log in with a valid profile to access these functions.')
+      setTimeout(() => setNotAvailbaleMessage!(''), 8000)
+      return
+    }
     e.stopPropagation();
     try {
       const data = await removeMovieFromFavourites(user.email, selectedProfile, currentMovie);
@@ -251,8 +270,6 @@ const MovieDetails = () => {
         </div>
 
       </main>
-
-      {notAvailbaleMessage !== '' && <NotAvailableMessageToUser />}
     </section>
   )
 }
