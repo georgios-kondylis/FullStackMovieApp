@@ -29,7 +29,7 @@ const Loader = () => {
       }
     )
     .to(logoRef.current, {
-      delay: 0.6, // shorter wait before exit
+      delay: 0.3, // shorter wait before exit
       duration: 0.6,
       opacity: 0,
       scale: 0.8,
