@@ -38,23 +38,6 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     ],
     createdAt: ''
   });
-  const handleSignOut = () => {
-    sessionStorage.clear(); 
-    localStorage.clear();
-    navigate('/sign-in');
-  }
-  const handleChangeUser = () => {
-    sessionStorage.removeItem('selectedProfile');
-    localStorage.removeItem('selectedProfile');
-    navigate('/profiles');
-  }
-  
- 
-  useEffect(() => {  // ✅ AUTO SIGN-IN with localStorage fallback
-    const storedUser = localStorage.getItem('user') || sessionStorage.getItem('user');
-    if (storedUser) setUser(JSON.parse(storedUser));
-  }, []);
-  
   const [selectedProfile, setSelectedProfile] = useState(() => {// ✅ SELECTED PROFILE from localStorage or sessionStorage
     const stored = localStorage.getItem('selectedProfile') || sessionStorage.getItem('selectedProfile');
     return stored ? JSON.parse(stored) : null;
@@ -65,6 +48,23 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     sessionStorage.setItem('selectedProfile', JSON.stringify(selectedProfile));
   }, [selectedProfile]);
   
+  const handleSignOut = () => {
+    sessionStorage.clear(); 
+    localStorage.clear();
+    setSelectedProfile(null);
+    navigate('/sign-in');
+  }
+  const handleChangeUser = () => {
+    sessionStorage.removeItem('selectedProfile');
+    localStorage.removeItem('selectedProfile');
+    navigate('/profiles');
+  }
+  useEffect(() => {  // ✅ AUTO SIGN-IN with localStorage fallback
+    const storedUser = localStorage.getItem('user') || sessionStorage.getItem('user');
+    if (storedUser) setUser(JSON.parse(storedUser));
+  }, []);
+  
+
   
   // ------------ CUSTOM STYLES ------------
   const customStyles = {

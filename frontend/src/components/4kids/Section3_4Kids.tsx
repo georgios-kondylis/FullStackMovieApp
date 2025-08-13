@@ -5,14 +5,25 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const Section3_4Kids = () => {
-  const {customStyles, setProfileIsOpen, setShowForKidsToggleAnimation} = useGlobalProps();
+  const {customStyles, setProfileIsOpen, setShowForKidsToggleAnimation, user, selectedProfile, notAvailbaleMessage, setNotAvailbaleMessage} = useGlobalProps();
   const navigate = useNavigate();
-
   const handleClick = () => {
-    setShowForKidsToggleAnimation!(true);
-    navigate('/profiles/editProfile')
-    setTimeout(() => setShowForKidsToggleAnimation!(false), 5000)
-  }
+    const isRealAccount = user && user !== 'guest';
+    const isRealProfile = selectedProfile && selectedProfile !== 'guest';
+  
+    if (isRealAccount && isRealProfile) {
+      setShowForKidsToggleAnimation!(true);
+      navigate('/profiles/editProfile');
+      setTimeout(() => setShowForKidsToggleAnimation!(false), 5000);
+      return;
+    }
+  
+    setNotAvailbaleMessage!(
+      "While logged in as a guest, you cannot test the 'For Kids' filter because no actual account or profile exists."
+    );
+    setTimeout(() => setNotAvailbaleMessage!(''), 7000);
+  };
+  
 
   return (
     <section id="Section3_4Kids" className={`relative w-full flex justify-center mainPX`}  onClick={() => setProfileIsOpen!(false)}>

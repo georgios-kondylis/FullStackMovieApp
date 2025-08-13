@@ -15,8 +15,8 @@ const MobileMenu = () => {
       >
 
         <div className="flex flex-col items-end gap-2 w-full text-white pb-[20px] ">
-          <img src={selectedProfile?.profileImage} className="rounded-full w-[70px] h-[70px] object-cover flex-shrink-0" alt="" />
-          <p className="text-[14px]  text-wrap truncate">{selectedProfile?.name}</p>
+          <img src={selectedProfile? selectedProfile?.profileImage : '/profileAvatars/guestAvatar.png'} className="rounded-full w-[70px] h-[70px] object-cover flex-shrink-0" alt="" />
+          <p className="text-[14px] text-wrap truncate">{selectedProfile? selectedProfile?.name : 'Guest'}</p>
         </div>
 
         <span id="FADED-BORDER" className="block h-[1px] w-full bg-gradient-to-l from-[#656565f1] from-[30%] via-[#6666667a] via-[50%] to-transparent to-[100%]"/>
