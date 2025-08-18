@@ -37,6 +37,8 @@ import ViewProfile from "./AUTH/profiles/ViewProfile";
 import EditProfile from "./AUTH/profiles/EditProfile";
 import MobileMenu from "./Navbar/MobileMenu";
 import NotAvailableMessageToUser from "./ui/NotAvailableMessageToUser";
+import ChatWithRoboBudd from "./Navbar/ChatWithRoboBudd";
+
 
 
 
@@ -81,4 +83,5 @@ export {
   EditProfile,
   MobileMenu,
   NotAvailableMessageToUser,
+  ChatWithRoboBudd,
 }

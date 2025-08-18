@@ -52,4 +52,29 @@ html, body {
 .bg-animate-left {
   animation: slideLeftVerySlow 20s ease-in-out infinite alternate;
 }
+/* CHAT LOADING ANIMATION*/
+.dot {
+  width: 8px;
+  height: 8px;
+  background-color: #181818;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+@keyframes bounce {
+  0%, 20%, 100% { transform: scale(0); }
+  10% { transform: scale(1); }
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite ease-in-out;
+}
+
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animation-delay-400 {
+  animation-delay: 0.4s;
+}
 

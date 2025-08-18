@@ -6,14 +6,15 @@ import { NavLink } from "react-router-dom";
 import { navLinks } from "../../constants";
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { ProfileDropdown, MobileMenu } from "../exports";
+import { ProfileDropdown, MobileMenu, ChatWithRoboBudd } from "../exports";
 
 const Navbar = () => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const [roboBuddyIsOpen, setRoboBuddyIsOpen] = useState(false);
  
   const {customStyles, query, setQuery, profileIsOpen,
          setProfileIsOpen ,toggleProfileIsOpen, selectedProfile,
-        isMobileMenuOpen, setIsMobileMenuOpen} = useGlobalProps();
+        isMobileMenuOpen, setIsMobileMenuOpen, user,} = useGlobalProps();
 
   useEffect(() => {
   !isMobile && setIsMobileMenuOpen(false);
@@ -58,7 +59,7 @@ const Navbar = () => {
             link.title !== 'Pricing' ? (
               <NavLink  key={i} to={link.href}
                 className={({ isActive }) => `${customStyles?.mainTxtHover} ${isActive ? 'text-white' : ''} txtShadowBlack text-shadow-2xs relative` }
-              >
+                onClick={() => setRoboBuddyIsOpen(false)}>
                 {({ isActive }) => (
                   <>
                     {link.title}
@@ -100,18 +101,28 @@ const Navbar = () => {
 
            {/* USER ICON */}
           {selectedProfile?.forKids
-          ? <img src="/icons/user4kids.png" className="w-[25px] cursor-pointer hover:scale-[1.1] transition1" alt="" onClick={(e) =>{ e.stopPropagation(); toggleProfileIsOpen!()}} /> 
-          : <i className={`fa-solid fa-user ${customStyles?.mainTxtHover} navIcon txtShadowBlack`} onClick={(e) =>{ e.stopPropagation(); toggleProfileIsOpen!()}} /> 
+            ? <img src="/icons/user4kids.png" className="w-[25px] cursor-pointer hover:scale-[1.1] transition1" alt="" onClick={(e) =>{ e.stopPropagation(); toggleProfileIsOpen!()}} /> 
+            : <i className={`fa-solid fa-user ${customStyles?.mainTxtHover} navIcon txtShadowBlack`} onClick={(e) =>{ e.stopPropagation(); toggleProfileIsOpen!()}} /> 
           }
 
-          {isMobile &&
-           <i onClick={() => setIsMobileMenuOpen(prev => !prev)} className="fa-solid fa-bars |
-               p-1 text-[18px] text-white cursor-pointer"/>
-           }
-          
+         
+
+          <div className="relative">
+            <img src="/robo-buddy/robot-icon.png" className="w-[20px] mx-[2px] mt-[1px] hover:scale-[1.1] transition1 cursor-pointer" alt="" 
+              onClick={() => setRoboBuddyIsOpen(prev => !prev)}
+            />
+
+            {roboBuddyIsOpen && 
+             <ChatWithRoboBudd setRoboBuddyIsOpen={setRoboBuddyIsOpen}/>
+            }
+          </div>
+        
+          {isMobile && 
+          <i onClick={() => setIsMobileMenuOpen(prev => !prev)}
+           className={`fa-solid fa-bars | p-1 text-[18px] pl-2 ${customStyles?.mainTxtHover} cursor-pointer`}/> 
+          }
           {profileIsOpen &&
           <ProfileDropdown setProfileIsOpen={setProfileIsOpen}/>}
-          
         </div>
 
       </div>

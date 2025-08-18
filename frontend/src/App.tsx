@@ -19,9 +19,8 @@ const App = () => {
 
   return (
     <>
-     
       {['/profiles', '/sign-in', '/sign-up', '/profiles/createProfile', '/profiles/editProfile', '/viewProfile'].includes(location.pathname) ? '' : <Navbar />}
-      <Loader /> {/* HERE AND IN THE SIGN IN IS NEEDED */}
+     {/* <Loader /> */} {/* HERE AND IN THE SIGN IN IS NEEDED */}
       {notAvailbaleMessage !== '' && <NotAvailableMessageToUser />}
     
       <Routes>
