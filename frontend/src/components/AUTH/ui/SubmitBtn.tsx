@@ -11,7 +11,7 @@ const SubmitBtn = ({isLoading, text, loadingText}: Props) => {
   const {customStyles} = useGlobalProps();
   return (
     <button type="submit"  disabled={isLoading}
-      className={`${customStyles?.btnColor} text-white font-semibold rounded p-3 transition-all duration-300 flex justify-center items-center gap-2 
+      className={`${customStyles?.btnColor} w-full text-white font-semibold rounded p-3 transition-all duration-300 flex justify-center items-center gap-2 text-nowrap
         ${isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:opacity-90'}`}
     >
       {isLoading && (

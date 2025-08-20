@@ -10,6 +10,7 @@ const SignUp = ({ setUser, user }: any) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [messageToUser, setMessageToUser] = useState('');
   const [isLoading, setIsLoading] = useState(false); // while signing up
+  const [continueIsHovered, setContinueIsHovered] = useState(false);
 
   useEffect(() => { // setMessageToUser to '' so it dissapears gain
     if (messageToUser !== "") {
@@ -95,14 +96,22 @@ const SignUp = ({ setUser, user }: any) => {
               />
             </div>
 
-            <SubmitBtn isLoading={isLoading} text='Sign Up' loadingText='Signing Up...' />
-          </form>
+             {/* SUBMIT */}
+             <div className="flex gap-3 w-full">
+                {/* Sign In button */}
+                <div className={`transition2 ${continueIsHovered ? "flex-[0.2]" : "flex-[0.8]"}`}>
+                  <SubmitBtn isLoading={isLoading} text='Sign Up' loadingText='Signing Up...' />
+                </div>
 
-          <button onClick={handleContinueAsGuest}
-            className="mt-4 text-sm text-gray-300 underline hover:text-white transition1 cursor-pointer"
-          >
-            Continue as Guest
-          </button>
+                {/* Continue as Guest button */}
+                <button disabled={isLoading} onMouseEnter={() => setContinueIsHovered(true)} onMouseLeave={() => setContinueIsHovered(false)} onClick={handleContinueAsGuest}
+                  className={` ${customStyles?.btnColor} transition2 text-white font-semibold rounded p-3 flex justify-center items-center gap-2 ${isLoading ? "opacity-70 cursor-not-allowed" : "hover:opacity-90"} text-nowrap
+                    ${continueIsHovered ? "flex-[0.8] pl-0" : "flex-[0.2] pl-0.5"}`}
+                >
+                  <span className={`transition2 ${continueIsHovered ? "opacity-100" : "opacity-0 text-[0.1px]"}`}>Continue as</span> Guest
+                </button>
+              </div>
+          </form>
 
           <p className="text-sm text-gray-400 mt-6 text-center">
             Already have an account?

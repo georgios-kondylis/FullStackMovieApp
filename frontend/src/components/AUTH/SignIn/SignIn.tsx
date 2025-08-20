@@ -14,6 +14,7 @@ const SignIn = ({ setUser }: any) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const selectedProfile = JSON.parse(sessionStorage.getItem('selectedProfile') || 'null');
   const [rememberMe, setRememberMe] = useState(false);
+  const [continueIsHovered, setContinueIsHovered] = useState(false);
 
 
 
@@ -94,18 +95,38 @@ useEffect(() => {
             </div>
 
             {/* SUBMIT */}
-            <SubmitBtn isLoading={isLoading} text="Sign In" loadingText="Signing In..." />
+            <div className="flex gap-3 w-full">
+              {/* Sign In button */}
+              <div className={`transition2 
+                  ${continueIsHovered ? "flex-[0.2]" : "flex-[0.8]"}`}
+              >
+                <SubmitBtn isLoading={isLoading} text="Sign In" loadingText="Signing In..." />
+              </div>
+
+              {/* Continue as Guest button */}
+              <button disabled={isLoading} onMouseEnter={() => setContinueIsHovered(true)} onMouseLeave={() => setContinueIsHovered(false)} onClick={handleContinueAsGuest}
+                className={` ${customStyles?.btnColor} transition2 text-white font-semibold rounded p-3 flex justify-center items-center gap-2 ${isLoading ? "opacity-70 cursor-not-allowed" : "hover:opacity-90"} text-nowrap
+                  ${continueIsHovered ? "flex-[0.8] pl-0" : "flex-[0.2] pl-0.5"}`}
+              >
+                 <span className={`transition2 ${continueIsHovered ? "opacity-100" : "opacity-0 text-[0.1px]"}`}>Continue as</span> Guest
+              </button>
+            </div>
+
           </form>
 
           {/* GUEST LOGIN */}
-          <div className='flex items-center justify-between mt-4'>
-            <button onClick={handleContinueAsGuest}
-              className="text-sm text-gray-300 underline hover:text-white transition1 cursor-pointer"
+          <div className='flex items-center justify-between mt-6'>
+           
+             <p className="text-sm text-gray-400 text-center">
+            New to Cinemoon?
+            <span className="text-white underline cursor-pointer ml-[7px]"
+              onClick={() => navigate('/sign-up')}
             >
-              Continue as Guest
-            </button>
+              Create an account
+            </span>
+          </p>
 
-            <label className="text-sm text-gray-300 flex items-center gap-2 cursor-pointer">
+            <label className="text-sm text-gray-300 flex items-center gap-1 cursor-pointer">
               <input type="checkbox" checked={rememberMe}
                 onChange={() => setRememberMe(prev => !prev)}
                 className="accent-[#c92443] w-4 h-4 cursor-pointer"
@@ -113,17 +134,6 @@ useEffect(() => {
               Remember Me
             </label>
           </div>
-        
-
-          {/* SIGN-UP REDIRECT */}
-          <p className="text-sm text-gray-400 mt-6 text-center">
-            New to Cinemoon?
-            <span className="text-white underline cursor-pointer ml-[10px]"
-              onClick={() => navigate('/sign-up')}
-            >
-              Create an account
-            </span>
-          </p>
 
           {/* ERROR MESSAGE */}
           <MessageToUser message={messageToUser} />
@@ -134,3 +144,11 @@ useEffect(() => {
 };
 
 export default SignIn;
+
+
+{/* THIS IS THE OLD BUTTON */}
+ {/* <button onClick={handleContinueAsGuest}    
+    className="text-sm text-gray-300 underline hover:text-white transition1 cursor-pointer"
+  >
+    Continue as Guest
+  </button> */}
