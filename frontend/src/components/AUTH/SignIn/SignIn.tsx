@@ -1,6 +1,6 @@
 // SignIn.tsx
 import React, { useState, useEffect } from 'react';
-import { useGlobalProps, MoviesBg, Logo, MessageToUser, SubmitBtn, Loader } from '../../exports';
+import { useGlobalProps, MoviesBg, Logo, MessageToUser, SubmitBtn, Loader, Footer } from '../../exports';
 import { handleGuestLogin, handleSignIn } from '../../../services/apiBackend';
 import { useNavigate } from 'react-router-dom';
 
@@ -137,6 +137,29 @@ useEffect(() => {
 
           {/* ERROR MESSAGE */}
           <MessageToUser message={messageToUser} />
+        </div>
+
+         {/* Copyright & Socials */}
+         <div className="absolute bottom-0 left-0 flex items-center justify-between w-full mt-[40px] 
+                         max-sm:flex-col-reverse max-sm: pb-5">
+          <p className={`text-sm ${ 'text-white/60'}`}>
+            &copy; {new Date().getFullYear()} Georgios Kondylis. All rights reserved.
+          </p>
+
+          <div id="socialMedia" className="flex text-[24px] text-white">
+            <a href="https://www.linkedin.com/in/georgios-kondylis-7b680a1a7/" className="p-2 cursor-pointer hover:text-[#0077b5] transition-colors" target="_blank" rel="noopener noreferrer">
+              <i className="fab fa-linkedin" />
+            </a>
+            <a href="https://github.com/georgios-kondylis" className="p-2 cursor-pointer hover:text-gray-400 transition-colors" target="_blank" rel="noopener noreferrer">
+              <i className="fab fa-github" />
+            </a>
+            <a href="https://www.instagram.com/georgios.kondylis/" className="p-2 cursor-pointer hover:text-pink-500 transition-colors" target="_blank" rel="noopener noreferrer">
+              <i className="fab fa-instagram" />
+            </a>
+            <a href="https://www.facebook.com/Georgios1995Kondylis/" className="p-2 cursor-pointer hover:text-[#1877f2] transition-colors" target="_blank" rel="noopener noreferrer">
+              <i className="fab fa-facebook" />
+            </a>
+          </div>
         </div>
       </main>
     </section>

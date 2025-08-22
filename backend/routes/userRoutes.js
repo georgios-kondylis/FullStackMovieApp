@@ -3,18 +3,18 @@ import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from "../mongoDB/userSchema.js";
+import nodemailer from "nodemailer";
 
 const router = express.Router();
 
 // --------------- SIGN-UP --------------- //
-router.post('/sign-up', async (req, res) => {
+router.post("/sign-up", async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
-    
-    if (existingUser) { return res.status(409).json({ message: 'User already exists' }); }
+    if (existingUser) { return res.status(409).json({ message: "User already exists" });}
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -27,10 +27,43 @@ router.post('/sign-up', async (req, res) => {
 
     await newUser.save();
 
-    res.status(201).json({ message: 'User created successfully', user: newUser });
+    // -------- SEND WELCOME EMAIL -------- //
+    const transporter = nodemailer.createTransport({
+      service: "gmail", // or use your SMTP provider
+      auth: {
+        user: process.env.EMAIL_USER, // your email
+        pass: process.env.EMAIL_PASS, // google app password
+      },
+    });
+
+    const mailOptions = {
+      from: `"CineMoon" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: "🎬 Welcome to CineMoon Streaming App",
+      html: `
+        <h2>Hi ${firstName}, welcome to CineMoon!</h2>
+        <p>I'm <strong>Georgios Kondylis</strong> and I just want you to know this is a showcase project.</p>
+        <p>That means:</p>
+        <ul>
+          <li>Only trailers are available 🎥</li>
+          <li>No payments are available 🚫</li>
+          <li>No full movies for the moment 🍿</li>
+        </ul>
+        <p>Thanks for signing up, and enjoy exploring CineMoon!</p>
+        <br/>
+        <p>– The CineMoon Team</p>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.status(201).json({
+      message: "User created successfully. Welcome email sent.",
+      user: newUser,
+    });
   } catch (error) {
-    console.error('Error creating user:', error);
-    res.status(500).json({ message: 'Server error' });
+    console.error("Error creating user:", error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

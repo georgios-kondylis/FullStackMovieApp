@@ -35,22 +35,23 @@ const Footer = () => {
         </div>
 
         {/* Copyright & Socials */}
-        <div className="flex items-center justify-between w-full mt-[40px]">
+        <div className="flex items-center justify-between w-full mt-[40px] 
+                        max-sm:flex-col-reverse max-sm: pb-5">
           <p className={`text-sm ${isDarkMode ? 'text-white/60' : 'text-black/60'}`}>
             &copy; {new Date().getFullYear()} Georgios Kondylis. All rights reserved.
           </p>
 
           <div id="socialMedia" className="flex text-[24px]">
-            <a href="https://linkedin.com" className="p-2 cursor-pointer hover:text-[#0077b5] transition-colors" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/in/georgios-kondylis-7b680a1a7/" className="p-2 cursor-pointer hover:text-[#0077b5] transition-colors" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-linkedin" />
             </a>
-            <a href="https://github.com" className="p-2 cursor-pointer hover:text-gray-400 transition-colors" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/georgios-kondylis" className="p-2 cursor-pointer hover:text-gray-400 transition-colors" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-github" />
             </a>
-            <a href="https://instagram.com" className="p-2 cursor-pointer hover:text-pink-500 transition-colors" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/georgios.kondylis/" className="p-2 cursor-pointer hover:text-pink-500 transition-colors" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-instagram" />
             </a>
-            <a href="https://facebook.com" className="p-2 cursor-pointer hover:text-[#1877f2] transition-colors" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.facebook.com/Georgios1995Kondylis/" className="p-2 cursor-pointer hover:text-[#1877f2] transition-colors" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-facebook" />
             </a>
           </div>
