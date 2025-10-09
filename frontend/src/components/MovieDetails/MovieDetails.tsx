@@ -20,7 +20,14 @@ const MovieDetails = () => {
 
   // -------------------------------------------- //
 
-  const { customStyles, setProfileIsOpen, user, setUser, selectedProfile, setSelectedProfile, setNotAvailbaleMessage, notAvailbaleMessage, } = useGlobalProps()
+  const { customStyles,
+      setProfileIsOpen,
+      user, setUser,
+      selectedProfile, setSelectedProfile,
+      setNotAvailbaleMessage,
+      notAvailbaleMessage, 
+      whenClickedOnWatchMovie, 
+      setWhenClickedOnWatchMovie } = useGlobalProps()
   const { id } = useParams()
   const location = useLocation()
 
@@ -127,7 +134,8 @@ const MovieDetails = () => {
 
   const handleClickWatchMovie = () => {
     setNotAvailbaleMessage!('This project is currently under development therefore full movies are not yet available. Feel free to browse, watch trailers, bookmark, like, and dislike movies as a movie library.')
-    setTimeout(() => {setNotAvailbaleMessage!('')}, 8000)
+    setWhenClickedOnWatchMovie!(true);
+    setTimeout(() => {setNotAvailbaleMessage!(''); setWhenClickedOnWatchMovie!(false)}, 8000)
   }
 
   return (

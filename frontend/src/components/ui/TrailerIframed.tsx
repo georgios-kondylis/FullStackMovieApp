@@ -2,7 +2,7 @@
 
 const TrailerIframed = ({currentMovie, setShowTrailerModal}: any) => {
 
-  console.log(currentMovie.trailerKey)
+//  console.log(currentMovie.trailerKey)
   return (
     <div className="fixed inset-0 z-[999] bg-black/80 flex items-center justify-center px-4">
       <div className="relative bg-black rounded-lg overflow-hidden w-full max-w-[1100px] aspect-video shadow-xl">

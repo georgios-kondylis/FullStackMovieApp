@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const {user, setUser, notAvailbaleMessage} = useGlobalProps();
+  const {user, setUser, notAvailbaleMessage, whenClickedOnPurchase, setWhenClickedOnPurchase, whenClickedOnWatchMovie, setWhenClickedOnWatchMovie} = useGlobalProps();
 
   useEffect(() => {
     const isUserEmpty = user?.firstName === '';
@@ -20,8 +20,12 @@ const App = () => {
   return (
     <>
       {['/profiles', '/sign-in', '/sign-up', '/profiles/createProfile', '/profiles/editProfile', '/viewProfile'].includes(location.pathname) ? '' : <Navbar />}
-     {/* <Loader /> */} {/* HERE AND IN THE SIGN IN IS NEEDED */}
-      {notAvailbaleMessage !== '' && <NotAvailableMessageToUser />}
+      <Loader />   {/* HERE AND IN THE SIGN IN IS NEEDED */}
+      {notAvailbaleMessage !== '' && 
+      <NotAvailableMessageToUser
+        whenClickedOnWatchMovie={whenClickedOnWatchMovie}
+        setWhenClickedOnWatchMovie={setWhenClickedOnWatchMovie}
+       />}
     
       <Routes>
         <Route path="/sign-in" element={<SignIn setUser={setUser} user={user} />} />

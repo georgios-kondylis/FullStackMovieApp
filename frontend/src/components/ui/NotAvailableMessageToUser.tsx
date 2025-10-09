@@ -1,8 +1,15 @@
 import React from 'react'
 import { useGlobalProps } from '../exports'
 
-const NotAvailableMessageToUser = () => {
-  const {notAvailbaleMessage, setNotAvailbaleMessage, customStyles, handleSignOut} = useGlobalProps()
+type Props = {
+  whenClickedOnPurchase?: boolean,
+  setWhenClickedOnPurchase?: (value: boolean) => void,
+  whenClickedOnWatchMovie?: boolean,
+  setWhenClickedOnWatchMovie?: (value: boolean) => void,
+}
+
+const NotAvailableMessageToUser = ({whenClickedOnPurchase, setWhenClickedOnPurchase, whenClickedOnWatchMovie, setWhenClickedOnWatchMovie}: Props) => {
+  const {notAvailbaleMessage, setNotAvailbaleMessage, customStyles, handleSignOut, } = useGlobalProps()
 
 
   return (
@@ -16,8 +23,13 @@ const NotAvailableMessageToUser = () => {
         <p className='text-center mt-[20px]'>{notAvailbaleMessage}</p>
 
         <button type="submit" className={`${customStyles?.btnColor} text-white font-semibold rounded p-2 mt-[30px] transition1 flex justify-center items-center gap-2 
-                               w-full hover:opacity-90`} onClick={handleSignOut}>
-          Sign In
+                w-full hover:opacity-90`}
+                onClick={whenClickedOnPurchase 
+                ? () => {setNotAvailbaleMessage!(''); setWhenClickedOnPurchase!(false)} :  whenClickedOnWatchMovie
+                ? () => {setNotAvailbaleMessage!(''); setWhenClickedOnWatchMovie!(false)} : handleSignOut}
+        >
+
+          {whenClickedOnPurchase ? 'Got it!' : whenClickedOnWatchMovie ? 'Got it!' : 'Sign In'}
         </button>
       </div>
     </div>

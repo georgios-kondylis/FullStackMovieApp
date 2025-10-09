@@ -5,12 +5,14 @@ import DynamicTicket from './DynamicTicket';
 import NotAvailableMessageToUser from '../NotAvailableMessageToUser';
 
 const Pricing = () => {
-  const {customStyles, setProfileIsOpen, notAvailbaleMessage, setNotAvailbaleMessage} = useGlobalProps();
+  const {customStyles, setProfileIsOpen, notAvailbaleMessage, setNotAvailbaleMessage, whenClickedOnPurchase, setWhenClickedOnPurchase} = useGlobalProps();
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  
 
   const handleClickPurchase = () => {
     setNotAvailbaleMessage!('This project is under development. Memberships and payments are not available at this time.')
-    setTimeout(() => {setNotAvailbaleMessage!('')}, 5000)
+    setWhenClickedOnPurchase!(true);
+    setTimeout(() => {setNotAvailbaleMessage!(''); setWhenClickedOnPurchase!(false)}, 5000)
   }
 
   return (
@@ -63,7 +65,7 @@ const Pricing = () => {
         <DynamicTicket price='699.99' months='12' title='Premium' handleClickPurchase={handleClickPurchase}/>
        
       </main>    
-      {notAvailbaleMessage !== '' && <NotAvailableMessageToUser />}
+      {notAvailbaleMessage !== '' && <NotAvailableMessageToUser whenClickedOnPurchase={whenClickedOnPurchase} setWhenClickedOnPurchase={setWhenClickedOnPurchase} />}
     </section>
   )
 }

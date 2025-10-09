@@ -28,6 +28,12 @@ export type GlobalContextType = {
   notAvailbaleMessage?: string;
   setNotAvailbaleMessage?: React.Dispatch<React.SetStateAction<string>>;
 
+  whenClickedOnPurchase?: boolean;
+  setWhenClickedOnPurchase?: React.Dispatch<React.SetStateAction<boolean>>;
+
+  whenClickedOnWatchMovie?: boolean;
+  setWhenClickedOnWatchMovie?: React.Dispatch<React.SetStateAction<boolean>>;
+
   customStyles?: {
     mainBgDark: string;
     mainBg: string;

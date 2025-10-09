@@ -17,7 +17,10 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const toggleProfileIsOpen = () => setProfileIsOpen((prev) => !prev);
 
   const [showForKidsToggleAnimation, setShowForKidsToggleAnimation] = useState(false);
+  
   const [notAvailbaleMessage, setNotAvailbaleMessage] = useState('')
+  const [whenClickedOnPurchase, setWhenClickedOnPurchase] = useState(false);
+  const [whenClickedOnWatchMovie, setWhenClickedOnWatchMovie] = useState(false);
 
   const [query, setQuery] = useState("");
 
@@ -53,6 +56,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     localStorage.clear();
     setSelectedProfile(null);
     navigate('/sign-in');
+    setNotAvailbaleMessage('');
   }
   const handleChangeUser = () => {
     sessionStorage.removeItem('selectedProfile');
@@ -91,6 +95,8 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         profileIsOpen, setProfileIsOpen, toggleProfileIsOpen,
         showForKidsToggleAnimation, setShowForKidsToggleAnimation,
         notAvailbaleMessage, setNotAvailbaleMessage,
+        whenClickedOnPurchase, setWhenClickedOnPurchase,
+        whenClickedOnWatchMovie, setWhenClickedOnWatchMovie,
       }}
     >
       {children}
