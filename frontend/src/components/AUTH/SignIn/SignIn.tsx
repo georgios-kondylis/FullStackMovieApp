@@ -65,7 +65,7 @@ useEffect(() => {
 
   return (
     <section className="z-[9999] fixed inset-0 w-full min-h-screen mainPX flex justify-center">
-      <Loader />   {/*  HERE AND IN THE APP IS NEEDED */}
+    <Loader />   {/*  HERE AND IN THE APP IS NEEDED */}
       <MoviesBg />
 
       <main className="MAX_W relative z-10">
@@ -115,8 +115,8 @@ useEffect(() => {
           </form>
 
           {/* GUEST LOGIN */}
-          <div className='flex items-center justify-between mt-6'>
-           
+          <div className='flex items-center justify-between mt-6
+                          max-sm:flex-col max-sm:gap-2'>
              <p className="text-sm text-gray-400 text-center">
             New to Cinemoon?
             <span className="text-white underline cursor-pointer ml-[7px]"
